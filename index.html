@@ -725,12 +725,12 @@
           </div>
 
           <div class="field-group">
-            <div class="field-q">Country / Time Zone <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">Country / Time Zone</div>
             <input class="custom-input" id="f_country" type="text" placeholder="e.g. United States / CST" />
           </div>
 
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-q">Current Role <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">Current Role</div>
             <input class="custom-input" id="f_role" type="text" placeholder="e.g. ML Engineer, Software Engineer, Student…" />
           </div>
         </div>
@@ -801,7 +801,7 @@
           <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 3 — Project Experience</div>
 
           <div class="field-group">
-            <div class="field-q">Describe 1–3 serious technical projects you have built. <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">Describe 1–3 serious technical projects you have built.</div>
             <div style="font-size:13px;color:var(--gray);margin-bottom:12px;font-weight:300;">Include links if possible.</div>
             <textarea class="custom-textarea" id="f_projects" placeholder="Project 1: …&#10;Project 2: …&#10;Project 3: …" rows="6"></textarea>
           </div>
@@ -851,17 +851,17 @@
           </div>
 
           <div class="field-group">
-            <div class="field-q">Why are you interested in testing the Helper Function Recommendation System? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div>
             <textarea class="custom-textarea" id="f_why_interested" placeholder="Tell us why this system interests you…" rows="4"></textarea>
           </div>
 
           <div class="field-group">
-            <div class="field-q">How would you evaluate whether a helper function recommendation system is accurate or useful? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">How would you evaluate whether a helper function recommendation system is accurate or useful?</div>
             <textarea class="custom-textarea" id="f_evaluate" placeholder="Describe your evaluation approach…" rows="4"></textarea>
           </div>
 
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-q">What metrics would you use to judge recommendation quality? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">What metrics would you use to judge recommendation quality?</div>
             <textarea class="custom-textarea" id="f_metrics" placeholder="e.g. precision, recall, relevance scoring…" rows="4"></textarea>
           </div>
         </div>
@@ -912,7 +912,7 @@
           </div>
 
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-q">Your response <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">Your response</div>
             <div style="font-size:13px;color:var(--gray);margin-bottom:12px;font-weight:300;">Short essay required — minimum 100 characters.</div>
             <textarea class="custom-textarea" id="f_scenario" placeholder="Describe your approach to the scenario above…" rows="8"></textarea>
           </div>
@@ -923,17 +923,17 @@
           <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 7 — Contribution Quality Filter</div>
 
           <div class="field-group">
-            <div class="field-q">What makes a reusable helper function high quality? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">What makes a reusable helper function high quality?</div>
             <textarea class="custom-textarea" id="f_quality" placeholder="Describe the qualities of a great helper function…" rows="4"></textarea>
           </div>
 
           <div class="field-group">
-            <div class="field-q">How would you prevent low-quality or duplicate helper functions in a public library? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">How would you prevent low-quality or duplicate helper functions in a public library?</div>
             <textarea class="custom-textarea" id="f_prevent_dup" placeholder="Describe moderation or quality control strategies…" rows="4"></textarea>
           </div>
 
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-q">What would make you stop using a developer tool like this? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="field-q">What would make you stop using a developer tool like this?</div>
             <textarea class="custom-textarea" id="f_stop_using" placeholder="Be honest — what deal-breakers would you have?" rows="4"></textarea>
           </div>
         </div>
@@ -947,7 +947,7 @@
         </div>
 
         <div class="error-msg" id="errorMsg" style="margin-top:20px;"></div>
-        <div class="submit-note" style="text-align:center;margin-top:14px;">Clicking submit will open your email client pre-filled and addressed to info@aimlse.org</div>
+        <div class="submit-note" style="text-align:center;margin-top:14px;">Clicking submit will open your email client pre-filled and addressed to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="127b7c747d52737b7f7e61773c7d6075">[email&#160;protected]</a></div>
 
         <!-- Success -->
         <div class="success-view" id="successView">
@@ -964,7 +964,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Page navigation ─────────────────────────────────
   function goToBeta() {
     document.getElementById('page-landing').classList.remove('active');
@@ -1073,8 +1073,6 @@
       if (!v('f_name')) return fail('Please enter your full name.');
       if (!v('f_email') || !v('f_email').includes('@')) return fail('Please enter a valid email address.');
       if (!sel['age']) return fail('Please select your age group.');
-      if (!v('f_country')) return fail('Please enter your country / time zone.');
-      if (!v('f_role')) return fail('Please enter your current role.');
     }
     if (n === 2) {
       if (!sel['yearsExp']) return fail('Please select your years of experience.');
@@ -1084,30 +1082,18 @@
       if (!sel['frameworks'] || sel['frameworks'].length === 0) return fail('Please select at least one framework.');
     }
     if (n === 3) {
-      if (!v('f_projects')) return fail('Please describe at least one project.');
       if (!sel['helperFns']) return fail('Please answer the helper functions question.');
       if (!sel['openSource']) return fail('Please answer the open-source question.');
     }
     if (n === 4) {
       if (!sel['confirmUnderstand']) return fail('Please confirm you understand the beta scope.');
       if (sel['confirmUnderstand'] === 'No') return fail('You must confirm understanding of the beta scope to proceed.');
-      if (v('f_why_interested').length < 20) return fail('Please explain why you are interested (more detail needed).');
-      if (v('f_evaluate').length < 20) return fail('Please describe how you would evaluate the system.');
-      if (v('f_metrics').length < 10) return fail('Please describe metrics you would use.');
     }
     if (n === 5) {
       if (!sel['commit5x']) return fail('Please answer the usage commitment question.');
       if (!sel['commitFeedback']) return fail('Please answer the feedback report question.');
       if (!sel['commitUpload']) return fail('Please answer the helper function upload question.');
       if (!sel['commitLibrary']) return fail('Please answer the library testing question.');
-    }
-    if (n === 6) {
-      if (v('f_scenario').length < 100) return fail('Please provide a more detailed scenario response (minimum 100 characters).');
-    }
-    if (n === 7) {
-      if (v('f_quality').length < 20) return fail('Please answer the helper function quality question.');
-      if (v('f_prevent_dup').length < 20) return fail('Please answer the duplicate prevention question.');
-      if (v('f_stop_using').length < 20) return fail('Please answer the deal-breaker question.');
     }
     return true;
   }
@@ -1193,14 +1179,4 @@
     if (nav) nav.style.display = 'none';
     document.getElementById('errorMsg').style.display = 'none';
     const noteEl = document.querySelector('.submit-note');
-    if (noteEl) noteEl.style.display = 'none';
-    const sv = document.getElementById('successView');
-    sv.style.display = 'block';
-    sv.style.animation = 'fadeIn .8s ease forwards';
-  }
-
-  // Initialise
-  showSection(1);
-</script>
-</body>
-</html>
+    if (noteEl) noteEl.sty
