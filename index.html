@@ -410,6 +410,8 @@
       .rewards-grid { grid-template-columns: 1fr; }
       .reward-top,.reward-full { grid-column: auto; }
     }
+    .form-section { display: none; }
+    .form-section.active { display: block; }
   </style>
 </head>
 <body>
@@ -663,107 +665,291 @@
       <h1 class="beta-title">Apply to Beta Test<br><em>the ACI</em></h1>
       <p class="beta-desc">
         We're hand-selecting 150 professional developers and ML engineers to shape the future of AIMLSE.
-        Tell us about yourself — we'll reach out if you're a match.
+        Complete all sections — we'll review every application carefully.
       </p>
       <div class="req-pills">
-        <div class="req-pill"><span class="req-pill-dot">◆</span> PyTorch experience required</div>
+        <div class="req-pill"><span class="req-pill-dot">◆</span> PyTorch experience preferred</div>
         <div class="req-pill"><span class="req-pill-dot">◆</span> Intermediate or advanced level</div>
+        <div class="req-pill"><span class="req-pill-dot">◆</span> 7 sections · ~10 min</div>
+      </div>
+
+      <!-- Progress bar -->
+      <div style="margin-bottom:40px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--gold);font-weight:600;" id="sectionLabel">Section 1 of 7</span>
+          <span style="font-size:12px;color:var(--gray);" id="progressPct">0%</span>
+        </div>
+        <div style="height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;">
+          <div id="progressBar" style="height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold));border-radius:2px;width:0%;transition:width .5s ease;"></div>
+        </div>
       </div>
 
       <div class="survey-card" id="surveyCard">
 
-        <div class="progress-dots">
-          <div class="pdot active" id="dot-0"></div>
-          <div class="pdot" id="dot-1"></div>
-          <div class="pdot" id="dot-2"></div>
-          <div class="pdot" id="dot-3"></div>
-          <div class="pdot" id="dot-4"></div>
-          <div class="pdot" id="dot-5"></div>
-        </div>
+        <!-- ─── SECTION 1: Applicant Info ─── -->
+        <div class="form-section active" id="sec-1">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 1 — Applicant Information</div>
 
-        <div class="field-group">
-          <span class="field-label">01 — Identity</span>
-          <div class="field-q">What's your name and email address?</div>
-          <div class="input-row">
-            <input class="custom-input" id="inputName" type="text" placeholder="Full name" />
-            <input class="custom-input" id="inputEmail" type="email" placeholder="you@example.com" />
+          <div class="field-group">
+            <div class="field-q">Full Name <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <input class="custom-input" id="f_name" type="text" placeholder="Your full name" />
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Email Address <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <input class="custom-input" id="f_email" type="email" placeholder="you@example.com" />
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Age Group <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="age">
+              <div class="opt" data-value="Under 12">Under 12</div>
+              <div class="opt" data-value="13–15">13 – 15</div>
+              <div class="opt" data-value="16–18">16 – 18</div>
+              <div class="opt" data-value="19–24">19 – 24</div>
+              <div class="opt" data-value="25–34">25 – 34</div>
+              <div class="opt" data-value="35–44">35 – 44</div>
+              <div class="opt" data-value="45–54">45 – 54</div>
+              <div class="opt" data-value="55+">55 +</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">GitHub Profile URL</div>
+            <input class="custom-input" id="f_github" type="url" placeholder="https://github.com/username" />
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">LinkedIn Profile URL</div>
+            <input class="custom-input" id="f_linkedin" type="url" placeholder="https://linkedin.com/in/username" />
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Country / Time Zone <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <input class="custom-input" id="f_country" type="text" placeholder="e.g. United States / CST" />
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">Current Role <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <input class="custom-input" id="f_role" type="text" placeholder="e.g. ML Engineer, Software Engineer, Student…" />
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="field-group">
-          <span class="field-label">02 — Age Group</span>
-          <div class="field-q">Which age group do you fall into?</div>
-          <div class="option-grid" data-group="age">
-            <div class="opt" data-value="Under 13">Under 13</div>
-            <div class="opt" data-value="13–15">13 – 15</div>
-            <div class="opt" data-value="15–17">15 – 17</div>
-            <div class="opt" data-value="18–24">18 – 24</div>
-            <div class="opt" data-value="25–34">25 – 34</div>
-            <div class="opt" data-value="35–44">35 – 44</div>
-            <div class="opt" data-value="45–54">45 – 54</div>
-            <div class="opt" data-value="55+">55 +</div>
+        <!-- ─── SECTION 2: Technical Background ─── -->
+        <div class="form-section" id="sec-2">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 2 — Technical Background</div>
+
+          <div class="field-group">
+            <div class="field-q">Years of Programming Experience <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="yearsExp">
+              <div class="opt" data-value="0–1 years">0 – 1 years</div>
+              <div class="opt" data-value="1–3 years">1 – 3 years</div>
+              <div class="opt" data-value="3–5 years">3 – 5 years</div>
+              <div class="opt" data-value="5+ years">5 + years</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Primary Programming Languages <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span> <span style="font-size:12px;color:var(--gray);font-weight:300;">Select all that apply</span></div>
+            <div class="option-grid multi" data-group="languages">
+              <div class="opt multi-opt" data-value="Python">Python</div>
+              <div class="opt multi-opt" data-value="JavaScript / TypeScript">JavaScript / TypeScript</div>
+              <div class="opt multi-opt" data-value="C++">C++</div>
+              <div class="opt multi-opt" data-value="Java">Java</div>
+              <div class="opt multi-opt" data-value="Go">Go</div>
+              <div class="opt multi-opt" data-value="Other">Other</div>
+            </div>
+            <input class="custom-input" id="f_lang_other" type="text" placeholder="Other language(s)…" style="margin-top:10px;display:none;" />
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Experience With Machine Learning <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="mlExp">
+              <div class="opt" data-value="Beginner">Beginner</div>
+              <div class="opt" data-value="Intermediate">Intermediate</div>
+              <div class="opt" data-value="Advanced">Advanced</div>
+              <div class="opt" data-value="Production-level">Production-level</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Have you deployed ML models in production before? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="mlProd">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">Frameworks You Have Used <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span> <span style="font-size:12px;color:var(--gray);font-weight:300;">Select all that apply</span></div>
+            <div class="option-grid multi" data-group="frameworks">
+              <div class="opt multi-opt" data-value="PyTorch">PyTorch</div>
+              <div class="opt multi-opt" data-value="TensorFlow">TensorFlow</div>
+              <div class="opt multi-opt" data-value="Scikit-learn">Scikit-learn</div>
+              <div class="opt multi-opt" data-value="FastAPI">FastAPI</div>
+              <div class="opt multi-opt" data-value="Flask">Flask</div>
+              <div class="opt multi-opt" data-value="Docker">Docker</div>
+              <div class="opt multi-opt" data-value="AWS / GCP / Azure">AWS / GCP / Azure</div>
+              <div class="opt multi-opt" data-value="Other">Other</div>
+            </div>
+            <input class="custom-input" id="f_fw_other" type="text" placeholder="Other framework(s)…" style="margin-top:10px;display:none;" />
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="field-group">
-          <span class="field-label">03 — Background</span>
-          <div class="field-q">What best describes where you work or study?</div>
-          <div class="option-grid" data-group="occupation">
-            <div class="opt" data-value="High School Student">High School Student</div>
-            <div class="opt" data-value="University / Graduate Student">University / Graduate Student</div>
-            <div class="opt" data-value="Self-taught / Independent">Self-taught / Independent</div>
-            <div class="opt" data-value="ML / AI Industry">ML / AI Industry</div>
-            <div class="opt" data-value="Software Engineering">Software Engineering</div>
-            <div class="opt" data-value="Research Institution">Research Institution</div>
-            <div class="opt" data-value="Startup Founder">Startup Founder</div>
-            <div class="opt" data-value="Freelancer / Consultant">Freelancer / Consultant</div>
-            <div class="opt" data-value="Other">Other</div>
+        <!-- ─── SECTION 3: Project Experience ─── -->
+        <div class="form-section" id="sec-3">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 3 — Project Experience</div>
+
+          <div class="field-group">
+            <div class="field-q">Describe 1–3 serious technical projects you have built. <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div style="font-size:13px;color:var(--gray);margin-bottom:12px;font-weight:300;">Include links if possible.</div>
+            <textarea class="custom-textarea" id="f_projects" placeholder="Project 1: …&#10;Project 2: …&#10;Project 3: …" rows="6"></textarea>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Have you created reusable helper functions or internal libraries before? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="helperFns">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group" id="helperFnsDesc" style="display:none;">
+            <div class="field-q">If yes, briefly describe what they were used for.</div>
+            <textarea class="custom-textarea" id="f_helper_desc" placeholder="Describe the helper functions or libraries you built…" rows="4"></textarea>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Have you contributed to open-source projects? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="openSource">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group" id="openSourceLinks" style="display:none;margin-bottom:0;">
+            <div class="field-q">If yes, provide links.</div>
+            <textarea class="custom-textarea" id="f_oss_links" placeholder="https://github.com/…" rows="3"></textarea>
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="field-group">
-          <span class="field-label">04 — PyTorch</span>
-          <div class="field-q">How would you rate your PyTorch experience?</div>
-          <div class="option-grid" data-group="pytorch">
-            <div class="opt" data-value="Beginner">Beginner</div>
-            <div class="opt" data-value="Intermediate — comfortable building & training models">Intermediate</div>
-            <div class="opt" data-value="Advanced — custom ops, distributed training, production">Advanced</div>
-            <div class="opt" data-value="No PyTorch experience">No PyTorch experience</div>
+        <!-- ─── SECTION 4: Understanding of Beta ─── -->
+        <div class="form-section" id="sec-4">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 4 — Understanding of AIMLSE Beta</div>
+
+          <div class="eligibility-note" style="margin-bottom:32px;">
+            <strong>Phase 1 Beta includes ONLY:</strong> Helper Function Recommendation Model · Public Project Library · Uploading Helper Functions · Community Tool Discovery.<br>
+            <strong>No AI assistant access. No GPU compute access.</strong>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Confirm that you understand this beta does NOT include AI assistant features. <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="confirmUnderstand">
+              <div class="opt" data-value="Yes">Yes, I understand</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Why are you interested in testing the Helper Function Recommendation System? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_why_interested" placeholder="Tell us why this system interests you…" rows="4"></textarea>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">How would you evaluate whether a helper function recommendation system is accurate or useful? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_evaluate" placeholder="Describe your evaluation approach…" rows="4"></textarea>
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">What metrics would you use to judge recommendation quality? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_metrics" placeholder="e.g. precision, recall, relevance scoring…" rows="4"></textarea>
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="field-group">
-          <span class="field-label">05 — Developer Level</span>
-          <div class="field-q">How do you rate yourself as a developer overall?</div>
-          <div class="option-grid" data-group="devLevel">
-            <div class="opt" data-value="Beginner">Beginner</div>
-            <div class="opt" data-value="Intermediate">Intermediate</div>
-            <div class="opt" data-value="Advanced">Advanced</div>
-            <div class="opt" data-value="Expert / Principal">Expert / Principal</div>
+        <!-- ─── SECTION 5: Testing Commitment ─── -->
+        <div class="form-section" id="sec-5">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 5 — Testing Commitment</div>
+
+          <div class="field-group">
+            <div class="field-q">Can you commit to using the platform at least 5 times per week? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="commit5x">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Are you willing to submit structured weekly feedback reports? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="commitFeedback">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">Are you willing to upload at least one helper function during beta? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="commitUpload">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">Are you willing to test the public library search and discovery system? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div class="option-grid" data-group="commitLibrary">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="field-group">
-          <span class="field-label">06 — Challenge</span>
-          <div class="field-q">What's the hardest ML problem you've solved? Tell us what it was and how you approached it.</div>
-          <textarea class="custom-textarea" id="inputProblem" placeholder="Describe the problem, your approach, and what made it hard…" rows="5"></textarea>
+        <!-- ─── SECTION 6: Technical Scenario ─── -->
+        <div class="form-section" id="sec-6">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 6 — Technical Scenario Evaluation</div>
+
+          <div class="eligibility-note" style="margin-bottom:28px;">
+            <strong>Scenario:</strong> Imagine you are building a machine learning project involving dataset preprocessing, model training, and evaluation. Describe what type of helper functions you would look for, how you would test if recommendations match your needs, how you would detect poor recommendations, and what improvements you would suggest.
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">Your response <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <div style="font-size:13px;color:var(--gray);margin-bottom:12px;font-weight:300;">Short essay required — minimum 100 characters.</div>
+            <textarea class="custom-textarea" id="f_scenario" placeholder="Describe your approach to the scenario above…" rows="8"></textarea>
+          </div>
         </div>
 
-        <div class="eligibility-note">
-          <strong>Eligibility note:</strong> Beta access is limited to developers with intermediate or advanced skill levels and hands-on PyTorch experience. All applications are reviewed — we'll reach out if you're selected.
+        <!-- ─── SECTION 7: Contribution Quality ─── -->
+        <div class="form-section" id="sec-7">
+          <div class="field-label" style="font-size:13px;letter-spacing:2px;margin-bottom:28px;">Section 7 — Contribution Quality Filter</div>
+
+          <div class="field-group">
+            <div class="field-q">What makes a reusable helper function high quality? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_quality" placeholder="Describe the qualities of a great helper function…" rows="4"></textarea>
+          </div>
+
+          <div class="field-group">
+            <div class="field-q">How would you prevent low-quality or duplicate helper functions in a public library? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_prevent_dup" placeholder="Describe moderation or quality control strategies…" rows="4"></textarea>
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-q">What would make you stop using a developer tool like this? <span style="color:rgba(212,175,55,.5);font-size:14px;">*</span></div>
+            <textarea class="custom-textarea" id="f_stop_using" placeholder="Be honest — what deal-breakers would you have?" rows="4"></textarea>
+          </div>
         </div>
 
-        <div class="submit-wrap">
-          <button class="submit-btn" id="submitBtn">Submit Application</button>
-          <div class="submit-note">Your response is sent securely via our applications API</div>
-          <div class="error-msg" id="errorMsg"></div>
+        <!-- Navigation -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:48px;gap:16px;flex-wrap:wrap;">
+          <button class="btn-outline" id="prevBtn" style="padding:14px 36px;display:none;">← Previous</button>
+          <div style="flex:1;"></div>
+          <button class="btn-primary" id="nextBtn" style="padding:14px 44px;">Next Section →</button>
+          <button class="submit-btn" id="submitBtn" style="display:none;">Submit Application</button>
         </div>
 
+        <div class="error-msg" id="errorMsg" style="margin-top:20px;"></div>
+        <div class="submit-note" style="text-align:center;margin-top:14px;">Clicking submit will open your email client pre-filled and addressed to info@aimlse.org</div>
+
+        <!-- Success -->
         <div class="success-view" id="successView">
           <div class="success-icon">✦</div>
           <div class="success-title">Application Received</div>
@@ -778,7 +964,8 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+  // ── Page navigation ─────────────────────────────────
   function goToBeta() {
     document.getElementById('page-landing').classList.remove('active');
     document.getElementById('page-beta').classList.add('active');
@@ -797,89 +984,223 @@
   document.getElementById('ctaApplyBtn').addEventListener('click', goToBeta);
   document.getElementById('learnMoreBtn').addEventListener('click', scrollToACI);
   document.getElementById('backBtn').addEventListener('click', goToLanding);
-  document.getElementById('submitBtn').addEventListener('click', submitApplication);
 
+  // ── Scroll reveal ────────────────────────────────────
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   document.querySelectorAll('.feature-item').forEach(el => io.observe(el));
 
+  // ── Option pill selection (single + multi) ───────────
   const sel = {};
+
   document.querySelectorAll('.option-grid').forEach(grid => {
     const group = grid.dataset.group;
-    sel[group] = null;
+    const isMulti = grid.classList.contains('multi');
+    sel[group] = isMulti ? [] : null;
+
     grid.querySelectorAll('.opt').forEach(pill => {
       pill.addEventListener('click', () => {
-        grid.querySelectorAll('.opt').forEach(p => p.classList.remove('selected'));
-        pill.classList.add('selected');
-        sel[group] = pill.dataset.value;
-        updateDots();
+        if (isMulti) {
+          pill.classList.toggle('selected');
+          const val = pill.dataset.value;
+          if (pill.classList.contains('selected')) {
+            if (!sel[group].includes(val)) sel[group].push(val);
+          } else {
+            sel[group] = sel[group].filter(v => v !== val);
+          }
+          if (group === 'languages') {
+            const el = document.getElementById('f_lang_other');
+            if (el) el.style.display = sel[group].includes('Other') ? 'block' : 'none';
+          }
+          if (group === 'frameworks') {
+            const el = document.getElementById('f_fw_other');
+            if (el) el.style.display = sel[group].includes('Other') ? 'block' : 'none';
+          }
+        } else {
+          grid.querySelectorAll('.opt').forEach(p => p.classList.remove('selected'));
+          pill.classList.add('selected');
+          sel[group] = pill.dataset.value;
+          if (group === 'helperFns') {
+            document.getElementById('helperFnsDesc').style.display =
+              pill.dataset.value === 'Yes' ? 'block' : 'none';
+          }
+          if (group === 'openSource') {
+            document.getElementById('openSourceLinks').style.display =
+              pill.dataset.value === 'Yes' ? 'block' : 'none';
+          }
+        }
+        updateProgress();
       });
     });
   });
 
-  function updateDots() {
-    const checks = [
-      () => document.getElementById('inputName').value.trim() && document.getElementById('inputEmail').value.trim(),
-      () => sel['age'], () => sel['occupation'], () => sel['pytorch'], () => sel['devLevel'],
-      () => document.getElementById('inputProblem').value.trim().length > 20
-    ];
-    let lastDone = -1;
-    checks.forEach((fn, i) => {
-      const d = document.getElementById(`dot-${i}`);
-      if (fn()) { d.classList.add('done'); d.classList.remove('active'); lastDone = i; }
-      else { d.classList.remove('done', 'active'); }
-    });
-    const next = lastDone + 1;
-    if (next < 6) document.getElementById(`dot-${next}`).classList.add('active');
+  // ── Section navigation ───────────────────────────────
+  let currentSection = 1;
+  const totalSections = 7;
+
+  function showSection(n) {
+    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+    const sec = document.getElementById('sec-' + n);
+    if (sec) sec.classList.add('active');
+    document.getElementById('prevBtn').style.display = n > 1 ? 'inline-block' : 'none';
+    document.getElementById('nextBtn').style.display = n < totalSections ? 'inline-block' : 'none';
+    document.getElementById('submitBtn').style.display = n === totalSections ? 'inline-block' : 'none';
+    document.getElementById('sectionLabel').textContent = 'Section ' + n + ' of ' + totalSections;
+    updateProgress();
+    const card = document.getElementById('surveyCard');
+    if (card) window.scrollTo({ top: card.offsetTop - 120, behavior: 'smooth' });
   }
-  ['inputName','inputEmail','inputProblem'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateDots);
+
+  function updateProgress() {
+    const pct = Math.round(((currentSection - 1) / totalSections) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function validateSection(n) {
+    const err = document.getElementById('errorMsg');
+    err.style.display = 'none';
+    const fail = msg => {
+      err.textContent = msg;
+      err.style.display = 'block';
+      err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    };
+    const v = id => document.getElementById(id) ? document.getElementById(id).value.trim() : '';
+
+    if (n === 1) {
+      if (!v('f_name')) return fail('Please enter your full name.');
+      if (!v('f_email') || !v('f_email').includes('@')) return fail('Please enter a valid email address.');
+      if (!sel['age']) return fail('Please select your age group.');
+      if (!v('f_country')) return fail('Please enter your country / time zone.');
+      if (!v('f_role')) return fail('Please enter your current role.');
+    }
+    if (n === 2) {
+      if (!sel['yearsExp']) return fail('Please select your years of experience.');
+      if (!sel['languages'] || sel['languages'].length === 0) return fail('Please select at least one programming language.');
+      if (!sel['mlExp']) return fail('Please select your ML experience level.');
+      if (!sel['mlProd']) return fail('Please answer the production deployment question.');
+      if (!sel['frameworks'] || sel['frameworks'].length === 0) return fail('Please select at least one framework.');
+    }
+    if (n === 3) {
+      if (!v('f_projects')) return fail('Please describe at least one project.');
+      if (!sel['helperFns']) return fail('Please answer the helper functions question.');
+      if (!sel['openSource']) return fail('Please answer the open-source question.');
+    }
+    if (n === 4) {
+      if (!sel['confirmUnderstand']) return fail('Please confirm you understand the beta scope.');
+      if (sel['confirmUnderstand'] === 'No') return fail('You must confirm understanding of the beta scope to proceed.');
+      if (v('f_why_interested').length < 20) return fail('Please explain why you are interested (more detail needed).');
+      if (v('f_evaluate').length < 20) return fail('Please describe how you would evaluate the system.');
+      if (v('f_metrics').length < 10) return fail('Please describe metrics you would use.');
+    }
+    if (n === 5) {
+      if (!sel['commit5x']) return fail('Please answer the usage commitment question.');
+      if (!sel['commitFeedback']) return fail('Please answer the feedback report question.');
+      if (!sel['commitUpload']) return fail('Please answer the helper function upload question.');
+      if (!sel['commitLibrary']) return fail('Please answer the library testing question.');
+    }
+    if (n === 6) {
+      if (v('f_scenario').length < 100) return fail('Please provide a more detailed scenario response (minimum 100 characters).');
+    }
+    if (n === 7) {
+      if (v('f_quality').length < 20) return fail('Please answer the helper function quality question.');
+      if (v('f_prevent_dup').length < 20) return fail('Please answer the duplicate prevention question.');
+      if (v('f_stop_using').length < 20) return fail('Please answer the deal-breaker question.');
+    }
+    return true;
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (!validateSection(currentSection)) return;
+    currentSection++;
+    showSection(currentSection);
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    currentSection--;
+    showSection(currentSection);
   });
 
-  const ENDPOINT = 'https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT';
+  // ── Email submission via mailto ──────────────────────
+  document.getElementById('submitBtn').addEventListener('click', submitApplication);
 
-  async function submitApplication() {
-    const name    = document.getElementById('inputName').value.trim();
-    const email   = document.getElementById('inputEmail').value.trim();
-    const problem = document.getElementById('inputProblem').value.trim();
-    const errEl   = document.getElementById('errorMsg');
-    const fail = msg => { errEl.textContent = msg; errEl.style.display = 'block'; };
-    errEl.style.display = 'none';
-    if (!name || !email)      return fail('Please enter your name and email.');
-    if (!email.includes('@')) return fail('Please enter a valid email address.');
-    if (!sel['age'])          return fail('Please select your age group.');
-    if (!sel['occupation'])   return fail('Please select your background.');
-    if (!sel['pytorch'])      return fail('Please select your PyTorch level.');
-    if (!sel['devLevel'])     return fail('Please select your developer level.');
-    if (problem.length < 20)  return fail("Please describe an ML challenge you've solved.");
-    const eligiblePyTorch = !sel['pytorch'].includes('No PyTorch');
-    const eligibleLevel   = ['Intermediate','Advanced','Expert'].some(l => sel['devLevel'].includes(l));
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true; btn.textContent = 'Sending…';
-    const payload = {
-      _subject: `AIMLSE Beta Application — ${name}`,
-      name, email,
-      age_group: sel['age'], occupation: sel['occupation'],
-      pytorch_level: sel['pytorch'], developer_level: sel['devLevel'],
-      hardest_ml_problem: problem,
-      eligible: (eligiblePyTorch && eligibleLevel) ? 'Yes' : 'No — does not meet criteria',
-      submitted_at: new Date().toISOString()
-    };
-    try {
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
-        document.querySelector('.progress-dots').style.display = 'none';
-        document.querySelectorAll('.field-group, .divider, .eligibility-note, .submit-wrap')
-          .forEach(el => el.style.display = 'none');
-        const sv = document.getElementById('successView');
-        sv.style.display = 'block';
-        sv.style.animation = 'fadeIn .8s ease forwards';
-      } else {
-        const data = await res.json();
-        fail(data?.errors?.[0]?.message || 'Submission failed. Please try again.');
-        btn.disabled = false; btn.t
+  function submitApplication() {
+    if (!validateSection(7)) return;
+
+    const v = id => document.getElementById(id) ? document.getElementById(id).value.trim() : '';
+    const langOther = v('f_lang_other');
+    const fwOther   = v('f_fw_other');
+    const languages  = [...(sel['languages'] || [])];
+    const frameworks = [...(sel['frameworks'] || [])];
+    if (langOther) languages.push(langOther);
+    if (fwOther)   frameworks.push(fwOther);
+
+    const body = [
+      '== SECTION 1: APPLICANT INFORMATION ==',
+      'Full Name: '           + v('f_name'),
+      'Email: '               + v('f_email'),
+      'Age Group: '           + (sel['age'] || ''),
+      'GitHub: '              + (v('f_github') || 'N/A'),
+      'LinkedIn: '            + (v('f_linkedin') || 'N/A'),
+      'Country / Time Zone: ' + v('f_country'),
+      'Current Role: '        + v('f_role'),
+      '',
+      '== SECTION 2: TECHNICAL BACKGROUND ==',
+      'Years of Experience: '       + (sel['yearsExp'] || ''),
+      'Programming Languages: '     + languages.join(', '),
+      'ML Experience: '             + (sel['mlExp'] || ''),
+      'Deployed ML in Production: ' + (sel['mlProd'] || ''),
+      'Frameworks Used: '           + frameworks.join(', '),
+      '',
+      '== SECTION 3: PROJECT EXPERIENCE ==',
+      'Projects: '                    + v('f_projects'),
+      'Created Helper Functions: '    + (sel['helperFns'] || ''),
+      'Helper Function Description: ' + (v('f_helper_desc') || 'N/A'),
+      'Open Source Contributions: '   + (sel['openSource'] || ''),
+      'OSS Links: '                   + (v('f_oss_links') || 'N/A'),
+      '',
+      '== SECTION 4: UNDERSTANDING OF BETA ==',
+      'Confirms Beta Scope: '   + (sel['confirmUnderstand'] || ''),
+      'Why Interested: '        + v('f_why_interested'),
+      'Evaluation Approach: '   + v('f_evaluate'),
+      'Quality Metrics: '       + v('f_metrics'),
+      '',
+      '== SECTION 5: TESTING COMMITMENT ==',
+      'Commits 5x Per Week: '   + (sel['commit5x'] || ''),
+      'Commits Feedback: '      + (sel['commitFeedback'] || ''),
+      'Commits Upload: '        + (sel['commitUpload'] || ''),
+      'Commits Library Test: '  + (sel['commitLibrary'] || ''),
+      '',
+      '== SECTION 6: TECHNICAL SCENARIO ==',
+      v('f_scenario'),
+      '',
+      '== SECTION 7: CONTRIBUTION QUALITY ==',
+      'Helper Quality: '       + v('f_quality'),
+      'Duplicate Prevention: ' + v('f_prevent_dup'),
+      'Deal Breakers: '        + v('f_stop_using'),
+      '',
+      'Submitted: ' + new Date().toLocaleString()
+    ].join('\n');
+
+    const subject = encodeURIComponent('AIMLSE Beta Application — ' + v('f_name'));
+    const bodyEnc = encodeURIComponent(body);
+    window.location.href = 'mailto:info@aimlse.org?subject=' + subject + '&body=' + bodyEnc;
+
+    // Show success immediately after opening mail client
+    document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
+    const nav = document.querySelector('#surveyCard [style*="justify-content:space-between"]');
+    if (nav) nav.style.display = 'none';
+    document.getElementById('errorMsg').style.display = 'none';
+    const noteEl = document.querySelector('.submit-note');
+    if (noteEl) noteEl.style.display = 'none';
+    const sv = document.getElementById('successView');
+    sv.style.display = 'block';
+    sv.style.animation = 'fadeIn .8s ease forwards';
+  }
+
+  // Initialise
+  showSection(1);
+</script>
+</body>
+</html>
