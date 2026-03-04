@@ -964,7 +964,8 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
   // ── Page navigation ─────────────────────────────────
   function goToBeta() {
     document.getElementById('page-landing').classList.remove('active');
@@ -1170,7 +1171,7 @@
       'Commits Library Test: '  + (sel['commitLibrary'] || ''),
       '',
       '== SECTION 6: TECHNICAL SCENARIO ==',
-      v('f_scenario'),
+      v('f_scenario') || 'N/A',
       '',
       '== SECTION 7: CONTRIBUTION QUALITY ==',
       'Helper Quality: '       + v('f_quality'),
@@ -1190,4 +1191,16 @@
     if (nav) nav.style.display = 'none';
     document.getElementById('errorMsg').style.display = 'none';
     const noteEl = document.querySelector('.submit-note');
-    if (noteEl) noteEl.sty
+    if (noteEl) noteEl.style.display = 'none';
+    const sv = document.getElementById('successView');
+    sv.style.display = 'block';
+    sv.style.animation = 'fadeIn .8s ease forwards';
+  }
+
+  // Initialise
+  showSection(1);
+
+}); // end DOMContentLoaded
+</script>
+</body>
+</html>
