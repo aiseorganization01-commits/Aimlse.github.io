@@ -926,17 +926,18 @@
 
   <footer>
     <div class="foot-title">"Learn. Build. Deploy."</div>
-    <a href="mailto:info@aimlse.org" class="foot-email">info@aimlse.org</a>
+    <a href="/cdn-cgi/l/email-protection#5b32353d341b3a323637283e7534293c" class="foot-email"><span class="__cf_email__" data-cfemail="5930373f3619383034352a3c77362b3e">[email&#160;protected]</span></a>
     <div class="foot-copy">© 2026 AIMLSE — ADAPTIVE INTELLIGENCE PLATFORM</div>
   </footer>
 
 </div><!-- /wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════
 const CLIENT_ID   = '69482637741-vb4497nleppf0viar8kc6jpcalvie5h3.apps.googleusercontent.com';
+const API_KEY     = 'AIzaSyDxHg255MoCWlMNxbX6XL-wGlzfrlyMos0';
 const SHEET_ID    = '1JUKQ6UQk3nLirLIbqprwXcE-g5vr0j7276L4gIhJL5Q';
 const SHEET_RANGE = 'Sheet1!A:N';   // 14 columns
 const LAUNCH      = new Date('2026-04-11T22:00:00Z'); // 4 PM CST
@@ -1058,7 +1059,7 @@ async function doSubmit(){
 
   try {
     const res=await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_RANGE)}:append?valueInputOption=USER_ENTERED`,
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_RANGE)}:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
       {
         method:'POST',
         headers:{
@@ -1102,12 +1103,4 @@ function animC(){ctx.clearRect(0,0,canvas.width,canvas.height);if(spawnT<170){co
 
 function triggerLaunch(){
   spawnT=0;parts=[];animC();
-  setTimeout(()=>document.getElementById('unlock').classList.add('show'),900);
-  setTimeout(()=>window.location.href='lp.html',3200);
-}
-
-// ── DEV: uncomment to test ──
-// setTimeout(()=>{ if(!launched){launched=true;triggerLaunch();} },2000);
-</script>
-</body>
-</html>
+  setTimeout(()=>document.getElementById('u
