@@ -573,23 +573,40 @@ document.addEventListener('DOMContentLoaded', function() {
       commit:     sel['commit'] || '-'
     });
 
-    var data = JSON.parse(payload);
-    data._t = Date.now(); // cache-buster — forces a fresh request every time
-    var params = Object.keys(data).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
-    }).join('&');
+    // Use hidden iframe + form — bypasses CORS and Apps Script caching completely
+    var iframeName = 'hidden_iframe_' + Date.now();
+    var iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-    fetch(APPS_SCRIPT_URL + '?' + params, {
-      method: 'GET',
-      mode:   'no-cors',
-      cache:  'no-store'
-    })
-    .then(function() { showSuccess(); })
-    .catch(function(err) {
-      console.error(err);
-      setStatus('Network error. Please email info@aimlse.org if this persists.', 'err');
-      enableBtn();
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = APPS_SCRIPT_URL;
+    form.target = iframeName;
+    form.style.display = 'none';
+
+    var data = JSON.parse(payload);
+    Object.keys(data).forEach(function(k) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = k;
+      input.value = data[k];
+      form.appendChild(input);
     });
+
+    document.body.appendChild(form);
+
+    iframe.onload = function() {
+      showSuccess();
+      // Clean up
+      setTimeout(function() {
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+      }, 1000);
+    };
+
+    form.submit();
   });
 
 });
