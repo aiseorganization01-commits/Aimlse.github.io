@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Google Identity Services loaded synchronously to ensure it's ready -->
+  <script src="https://accounts.google.com/gsi/client" defer></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -160,7 +161,6 @@
     .countdown {
       display: flex; align-items: flex-start;
       gap: clamp(10px, 2.5vw, 28px); margin-bottom: 44px;
-      opacity: 1 !important; visibility: visible !important;
     }
     .cd-unit { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
@@ -184,13 +184,11 @@
       background: rgba(0,0,0,.5); pointer-events: none;
     }
 
-    /* CRITICAL: plain white text — no gradient clip that can silently disappear */
     .cd-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 7vw, 64px); font-weight: 500;
       color: #e8c96a;
       line-height: 1; position: relative; z-index: 1; display: block;
-      opacity: 1 !important; visibility: visible !important;
       transition: transform .12s ease;
     }
     .cd-num.tick { transform: translateY(-5px) scale(.92); opacity: .3; }
@@ -492,7 +490,14 @@
     .status-msg.err { color:rgba(255,120,120,.7); }
     .submit-note { font-family:'DM Mono',monospace; font-size:10px; color:rgba(255,255,255,.16); letter-spacing:.5px; text-align:center; }
 
-    .success { display:none; text-align:center; padding:56px 20px; }
+    /* success screen */
+    .form-body { transition: opacity .4s ease; }
+    .form-body.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; }
+
+    .success {
+      display: none; text-align: center; padding: 56px 20px;
+    }
+    .success.show { display: block; }
     .success-ring {
       width:78px; height:78px; margin:0 auto 24px; border-radius:50%;
       background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.04));
@@ -554,7 +559,7 @@
     .reveal.d1{transition-delay:.08s} .reveal.d2{transition-delay:.17s}
     .reveal.d3{transition-delay:.26s} .reveal.d4{transition-delay:.35s}
 
-    /* hero fade-in (separate from reveal) */
+    /* hero fade-in */
     .h-fade { animation: hFade .9s ease both; }
     .h-fade.d0 { animation-delay:.05s }
     .h-fade.d1 { animation-delay:.18s }
@@ -615,8 +620,7 @@
 
     <p class="hero-sub h-fade d4">Beta testers get full access the moment the clock hits zero. 150 spots. No extensions.</p>
 
-    <!-- COUNTDOWN — no opacity:0, no animation delay, renders immediately -->
-    <div class="countdown">
+    <div class="countdown h-fade d5">
       <div class="cd-unit">
         <div class="cd-box"><span class="cd-num" id="cd-d">--</span></div>
         <span class="cd-label">Days</span>
@@ -638,7 +642,7 @@
       </div>
     </div>
 
-    <div class="spots-pill">
+    <div class="spots-pill h-fade d5">
       <div class="live-dot"></div>
       <div class="spots-text">Applications <b>OPEN</b> &nbsp;·&nbsp; <b>150</b> spots available</div>
     </div>
@@ -759,84 +763,91 @@
 
       <div class="survey reveal" id="surveyCard">
 
-        <div class="google-notice">
-          <svg class="g-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-          <p><b>Google sign-in required to submit.</b> Your response is saved securely to our review sheet. We only request your email and basic profile.</p>
-        </div>
-
-        <span class="sec-label-form">Section 1 — About You</span>
-        <div class="field"><div class="field-q">Full Name</div><input class="inp" id="f_name" type="text" placeholder="Your full name"></div>
-        <div class="field"><div class="field-q">Email Address</div><input class="inp" id="f_email" type="email" placeholder="you@example.com"></div>
-        <div class="field"><div class="field-q">Current Role</div><input class="inp" id="f_role" type="text" placeholder="e.g. ML Engineer, Software Engineer, Student…"></div>
-        <div class="field"><div class="field-q">GitHub or LinkedIn</div><input class="inp" id="f_links" type="text" placeholder="https://github.com/username  or  LinkedIn URL"></div>
-
-        <div class="form-rule"></div>
-        <span class="sec-label-form">Section 2 — Technical Background</span>
-        <div class="field">
-          <div class="field-q">Years of Programming Experience</div>
-          <div class="opts" data-group="yrs">
-            <div class="opt" data-value="0–1 yrs">0 – 1 yrs</div>
-            <div class="opt" data-value="1–3 yrs">1 – 3 yrs</div>
-            <div class="opt" data-value="3–5 yrs">3 – 5 yrs</div>
-            <div class="opt" data-value="5+ yrs">5 + yrs</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-q">ML Experience Level</div>
-          <div class="opts" data-group="ml">
-            <div class="opt" data-value="Beginner">Beginner</div>
-            <div class="opt" data-value="Intermediate">Intermediate</div>
-            <div class="opt" data-value="Advanced">Advanced</div>
-            <div class="opt" data-value="Production-level">Production-level</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-q">Frameworks Used <span style="font-size:12px;color:rgba(255,255,255,.28);font-weight:300;">Select all that apply</span></div>
-          <div class="opts multi" data-group="fw">
-            <div class="opt" data-value="PyTorch">PyTorch</div>
-            <div class="opt" data-value="TensorFlow">TensorFlow</div>
-            <div class="opt" data-value="Scikit-learn">Scikit-learn</div>
-            <div class="opt" data-value="FastAPI">FastAPI</div>
-            <div class="opt" data-value="Docker">Docker</div>
-            <div class="opt" data-value="AWS/GCP/Azure">AWS / GCP / Azure</div>
-          </div>
-        </div>
-
-        <div class="form-rule"></div>
-        <span class="sec-label-form">Section 3 — Project Experience</span>
-        <div class="field"><div class="field-q">Describe a project you've built</div><textarea class="ta" id="f_proj" rows="5" placeholder="Tell us about a technical project — include a link if you have one."></textarea></div>
-        <div class="field">
-          <div class="field-q">Have you built reusable helper functions or internal libraries?</div>
-          <div class="opts" data-group="helpers">
-            <div class="opt" data-value="Yes">Yes</div>
-            <div class="opt" data-value="No">No</div>
-          </div>
-        </div>
-
-        <div class="form-rule"></div>
-        <span class="sec-label-form">Section 4 — Beta Fit</span>
-        <div class="field"><div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div><textarea class="ta" id="f_why" rows="4" placeholder="Tell us what draws you to this…"></textarea></div>
-        <div class="field" style="margin-bottom:0;">
-          <div class="field-q">Can you commit to testing the platform at least a few times per week?</div>
-          <div class="opts" data-group="commit">
-            <div class="opt" data-value="Yes">Yes</div>
-            <div class="opt" data-value="Maybe">Maybe</div>
-            <div class="opt" data-value="No">No</div>
-          </div>
-        </div>
-
-        <div class="submit-area">
-          <button class="submit-btn" id="submitBtn">Submit Application</button>
-          <div class="status-msg" id="statusMsg"></div>
-          <div class="submit-note">Sign in with Google · Responses saved to our review sheet</div>
-        </div>
-
+        <!-- SUCCESS STATE -->
         <div class="success" id="successView">
           <div class="success-ring">✦</div>
           <div class="success-title">Application Received</div>
           <div class="success-msg">Thank you for applying. Our team reviews every submission personally — if selected, we'll reach out to your email address.</div>
         </div>
-      </div>
+
+        <!-- FORM BODY — hidden on success -->
+        <div class="form-body" id="formBody">
+
+          <div class="google-notice">
+            <svg class="g-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            <p><b>Google sign-in required to submit.</b> Your response is saved securely to our review sheet. We only request your email and basic profile.</p>
+          </div>
+
+          <span class="sec-label-form">Section 1 — About You</span>
+          <div class="field"><div class="field-q">Full Name</div><input class="inp" id="f_name" type="text" placeholder="Your full name" autocomplete="name"></div>
+          <div class="field"><div class="field-q">Email Address</div><input class="inp" id="f_email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+          <div class="field"><div class="field-q">Current Role</div><input class="inp" id="f_role" type="text" placeholder="e.g. ML Engineer, Software Engineer, Student…"></div>
+          <div class="field"><div class="field-q">GitHub or LinkedIn</div><input class="inp" id="f_links" type="text" placeholder="https://github.com/username  or  LinkedIn URL"></div>
+
+          <div class="form-rule"></div>
+          <span class="sec-label-form">Section 2 — Technical Background</span>
+          <div class="field">
+            <div class="field-q">Years of Programming Experience</div>
+            <div class="opts" data-group="yrs">
+              <div class="opt" data-value="0–1 yrs">0 – 1 yrs</div>
+              <div class="opt" data-value="1–3 yrs">1 – 3 yrs</div>
+              <div class="opt" data-value="3–5 yrs">3 – 5 yrs</div>
+              <div class="opt" data-value="5+ yrs">5 + yrs</div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-q">ML Experience Level</div>
+            <div class="opts" data-group="ml">
+              <div class="opt" data-value="Beginner">Beginner</div>
+              <div class="opt" data-value="Intermediate">Intermediate</div>
+              <div class="opt" data-value="Advanced">Advanced</div>
+              <div class="opt" data-value="Production-level">Production-level</div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-q">Frameworks Used <span style="font-size:12px;color:rgba(255,255,255,.28);font-weight:300;">Select all that apply</span></div>
+            <div class="opts multi" data-group="fw">
+              <div class="opt" data-value="PyTorch">PyTorch</div>
+              <div class="opt" data-value="TensorFlow">TensorFlow</div>
+              <div class="opt" data-value="Scikit-learn">Scikit-learn</div>
+              <div class="opt" data-value="FastAPI">FastAPI</div>
+              <div class="opt" data-value="Docker">Docker</div>
+              <div class="opt" data-value="AWS/GCP/Azure">AWS / GCP / Azure</div>
+            </div>
+          </div>
+
+          <div class="form-rule"></div>
+          <span class="sec-label-form">Section 3 — Project Experience</span>
+          <div class="field"><div class="field-q">Describe a project you've built</div><textarea class="ta" id="f_proj" rows="5" placeholder="Tell us about a technical project — include a link if you have one."></textarea></div>
+          <div class="field">
+            <div class="field-q">Have you built reusable helper functions or internal libraries?</div>
+            <div class="opts" data-group="helpers">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="form-rule"></div>
+          <span class="sec-label-form">Section 4 — Beta Fit</span>
+          <div class="field"><div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div><textarea class="ta" id="f_why" rows="4" placeholder="Tell us what draws you to this…"></textarea></div>
+          <div class="field" style="margin-bottom:0;">
+            <div class="field-q">Can you commit to testing the platform at least a few times per week?</div>
+            <div class="opts" data-group="commit">
+              <div class="opt" data-value="Yes">Yes</div>
+              <div class="opt" data-value="Maybe">Maybe</div>
+              <div class="opt" data-value="No">No</div>
+            </div>
+          </div>
+
+          <div class="submit-area">
+            <button class="submit-btn" id="submitBtn">Submit Application</button>
+            <div class="status-msg" id="statusMsg"></div>
+            <div class="submit-note">Sign in with Google · Responses saved to our review sheet</div>
+          </div>
+
+        </div><!-- /form-body -->
+
+      </div><!-- /survey -->
     </div>
   </section>
 
@@ -852,12 +863,12 @@
 // ═══════════════════════════════════════════════
 //  CONFIG
 // ═══════════════════════════════════════════════
-const CLIENT_ID = '69482637741-vb4497nleppf0viar8kc6jpcalvie5h3.apps.googleusercontent.com';
-const API_KEY   = 'AIzaSyDxHg255MoCWlMNxbX6XL-wGlzfrlyMos0';
-const SHEET_ID  = '1JUKQ6UQk3nLirLIbqprwXcE-g5vr0j7276L4gIhJL5Q';
-const RANGE     = 'Sheet1!A:L';
-// April 11 2026, 4:00 PM CST = UTC-6 = 22:00 UTC
-const LAUNCH    = new Date('2026-04-11T22:00:00Z');
+var CLIENT_ID = '69482637741-vb4497nleppf0viar8kc6jpcalvie5h3.apps.googleusercontent.com';
+var API_KEY   = 'AIzaSyDxHg255MoCWlMNxbX6XL-wGlzfrlyMos0';
+var SHEET_ID  = '1JUKQ6UQk3nLirLIbqprwXcE-g5vr0j7276L4gIhJL5Q';
+var RANGE     = 'Sheet1!A:L';
+// April 11 2026, 4:00 PM CST (UTC-5 during CDT) = 21:00 UTC
+var LAUNCH    = new Date('2026-04-11T21:00:00Z');
 
 // ═══════════════════════════════════════════════
 //  COUNTDOWN
@@ -883,10 +894,21 @@ function cdTick() {
     return;
   }
   var ts = Math.floor(diff / 1000);
-  dEl.textContent = cdPad(Math.floor(ts / 86400));
-  hEl.textContent = cdPad(Math.floor((ts % 86400) / 3600));
-  mEl.textContent = cdPad(Math.floor((ts % 3600) / 60));
-  sEl.textContent = cdPad(ts % 60);
+  var newD = cdPad(Math.floor(ts / 86400));
+  var newH = cdPad(Math.floor((ts % 86400) / 3600));
+  var newM = cdPad(Math.floor((ts % 3600) / 60));
+  var newS = cdPad(ts % 60);
+
+  // Only animate the seconds digit on change to avoid flicker
+  if (sEl.textContent !== newS) {
+    sEl.classList.add('tick');
+    setTimeout(function() { sEl.classList.remove('tick'); }, 130);
+  }
+
+  dEl.textContent = newD;
+  hEl.textContent = newH;
+  mEl.textContent = newM;
+  sEl.textContent = newS;
 }
 
 // Run immediately + every second
@@ -898,7 +920,6 @@ setInterval(cdTick, 1000);
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
 
-  // Reveal elements as they scroll into view
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
@@ -908,14 +929,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     }, { threshold: 0.04, rootMargin: '0px 0px -30px 0px' });
-
     document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
   } else {
-    // Fallback: show everything immediately
     document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('in'); });
   }
 
-  // Hard safety net: show any unrevealed elements after 2s
+  // Safety net: reveal anything still hidden after 2s
   setTimeout(function() {
     document.querySelectorAll('.reveal:not(.in)').forEach(function(el) { el.classList.add('in'); });
   }, 2000);
@@ -925,19 +944,19 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('[data-group]').forEach(function(grid) {
     var g = grid.dataset.group;
     var multi = grid.classList.contains('multi');
-    sel[g] = multi ? [] : null;
+    sel[g] = multi ? [] : '';
     grid.querySelectorAll('.opt').forEach(function(pill) {
       pill.addEventListener('click', function() {
         if (multi) {
           pill.classList.toggle('on');
           var v = pill.dataset.value;
           if (pill.classList.contains('on')) {
-            if (!sel[g].includes(v)) sel[g].push(v);
+            if (sel[g].indexOf(v) === -1) sel[g].push(v);
           } else {
-            sel[g] = sel[g].filter(function(x){ return x !== v; });
+            sel[g] = sel[g].filter(function(x) { return x !== v; });
           }
         } else {
-          grid.querySelectorAll('.opt').forEach(function(p){ p.classList.remove('on'); });
+          grid.querySelectorAll('.opt').forEach(function(p) { p.classList.remove('on'); });
           pill.classList.add('on');
           sel[g] = pill.dataset.value;
         }
@@ -945,24 +964,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // ─── GOOGLE OAUTH ───
-  var tokenClient = null;
-  var accessToken = null;
-
-  function initGoogle() {
-    if (!window.google || !window.google.accounts) { setTimeout(initGoogle, 400); return; }
-    tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope: 'https://www.googleapis.com/auth/spreadsheets',
-      callback: function(resp) {
-        if (resp.error) { setStatus('Google sign-in failed. Try again.', 'err'); enableBtn(); return; }
-        accessToken = resp.access_token;
-        submitToSheets();
-      }
-    });
-  }
-  initGoogle();
-
+  // ─── HELPERS ───
   function setStatus(msg, type) {
     var s = document.getElementById('statusMsg');
     s.textContent = msg;
@@ -972,66 +974,137 @@ document.addEventListener('DOMContentLoaded', function() {
   function enableBtn()  { document.getElementById('submitBtn').disabled = false; }
   function getVal(id)   { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function showSuccess() {
+    document.getElementById('formBody').style.display = 'none';
+    document.getElementById('successView').classList.add('show');
+    document.getElementById('surveyCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // ─── GOOGLE OAUTH ───
+  var tokenClient  = null;
+  var accessToken  = null;
+  var googleReady  = false;
+
+  function initGoogle() {
+    if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+      googleReady = true;
+      tokenClient = window.google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/spreadsheets',
+        callback: function(resp) {
+          if (resp.error) {
+            setStatus('Google sign-in failed: ' + (resp.error_description || resp.error) + '. Please try again.', 'err');
+            enableBtn();
+            return;
+          }
+          accessToken = resp.access_token;
+          submitToSheets();
+        }
+      });
+    } else {
+      setTimeout(initGoogle, 300);
+    }
+  }
+  initGoogle();
+
+  // ─── SUBMIT HANDLER ───
   document.getElementById('submitBtn').addEventListener('click', function() {
-    if (!getVal('f_name')) { setStatus('Please enter your name.', 'err'); return; }
-    if (!getVal('f_email') || !getVal('f_email').includes('@')) { setStatus('Please enter a valid email.', 'err'); return; }
+    // Validate required fields
+    if (!getVal('f_name')) {
+      setStatus('Please enter your full name.', 'err');
+      document.getElementById('f_name').focus();
+      return;
+    }
+    if (!getVal('f_email') || !isValidEmail(getVal('f_email'))) {
+      setStatus('Please enter a valid email address.', 'err');
+      document.getElementById('f_email').focus();
+      return;
+    }
+    if (!getVal('f_role')) {
+      setStatus('Please enter your current role.', 'err');
+      document.getElementById('f_role').focus();
+      return;
+    }
+    if (!sel['yrs']) {
+      setStatus('Please select your years of experience.', 'err');
+      return;
+    }
+    if (!sel['ml']) {
+      setStatus('Please select your ML experience level.', 'err');
+      return;
+    }
+
     disableBtn();
     setStatus('Opening Google sign-in…');
-    if (accessToken) { submitToSheets(); return; }
-    if (tokenClient) { tokenClient.requestAccessToken({ prompt: 'consent' }); }
-    else { setStatus('Google not loaded yet. Please try again.', 'err'); enableBtn(); }
+
+    if (accessToken) {
+      submitToSheets();
+      return;
+    }
+
+    if (!googleReady || !tokenClient) {
+      setStatus('Google sign-in is still loading. Please wait a moment and try again.', 'err');
+      enableBtn();
+      return;
+    }
+
+    tokenClient.requestAccessToken({ prompt: 'consent' });
   });
 
+  // ─── SHEETS SUBMISSION ───
   async function submitToSheets() {
     setStatus('Saving your application…');
+
     var row = [
-      new Date().toLocaleString(),
+      new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
       getVal('f_name'),
       getVal('f_email'),
       getVal('f_role'),
-      getVal('f_links'),
-      sel['yrs'] || '',
-      sel['ml'] || '',
-      (sel['fw'] || []).join(', '),
-      getVal('f_proj'),
-      sel['helpers'] || '',
-      getVal('f_why'),
-      sel['commit'] || ''
+      getVal('f_links') || '—',
+      sel['yrs']  || '—',
+      sel['ml']   || '—',
+      (sel['fw'] && sel['fw'].length) ? sel['fw'].join(', ') : '—',
+      getVal('f_proj') || '—',
+      sel['helpers'] || '—',
+      getVal('f_why')  || '—',
+      sel['commit'] || '—'
     ];
 
     try {
-      var res = await fetch(
-        'https://sheets.googleapis.com/v4/spreadsheets/' + SHEET_ID +
-        '/values/' + encodeURIComponent(RANGE) +
-        ':append?valueInputOption=USER_ENTERED&key=' + API_KEY,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + accessToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ values: [row] })
-        }
-      );
+      var url = 'https://sheets.googleapis.com/v4/spreadsheets/'
+        + SHEET_ID
+        + '/values/'
+        + encodeURIComponent(RANGE)
+        + ':append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&key='
+        + API_KEY;
+
+      var res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ values: [row] })
+      });
+
       if (!res.ok) {
-        var err = await res.json();
-        throw new Error(err.error ? err.error.message : 'Sheets API error');
+        var errData = await res.json().catch(function() { return {}; });
+        var msg = (errData.error && errData.error.message) ? errData.error.message : ('HTTP ' + res.status);
+        throw new Error(msg);
       }
+
+      // Success
       showSuccess();
+
     } catch(e) {
-      console.error(e);
-      setStatus('Error: ' + e.message + '. Email us at info@aimlse.org', 'err');
+      console.error('Sheets error:', e);
+      // Token may have expired — clear it so user can re-authenticate
+      accessToken = null;
+      setStatus('Submission error: ' + e.message + '. Please email info@aimlse.org if this persists.', 'err');
       enableBtn();
     }
-  }
-
-  function showSuccess() {
-    var card = document.getElementById('surveyCard');
-    card.querySelectorAll('.field, .sec-label-form, .form-rule, .google-notice, .submit-area').forEach(function(el){
-      el.style.display = 'none';
-    });
-    var sv = document.getElementById('successView');
-    sv.style.display = 'block';
   }
 
 }); // end DOMContentLoaded
@@ -1041,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ═══════════════════════════════════════════════
 var confettiParts = [], spawnT = 0;
 var canvas = document.getElementById('confetti');
-var ctx = canvas.getContext('2d');
+var ctx    = canvas.getContext('2d');
 
 function rsz() { canvas.width = innerWidth; canvas.height = innerHeight; }
 rsz(); window.addEventListener('resize', rsz);
@@ -1061,25 +1134,33 @@ function mkP() {
 
 function drawP(p) {
   ctx.save(); ctx.globalAlpha = p.alpha; ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color;
-  if (p.shape === 'circle') { ctx.beginPath(); ctx.arc(0,0,p.w/2,0,Math.PI*2); ctx.fill(); }
-  else if (p.shape === 'ribbon') { ctx.beginPath(); ctx.moveTo(-p.w/2,-p.h/2); ctx.lineTo(p.w/2,-p.h/4); ctx.lineTo(p.w/2,p.h/2); ctx.lineTo(-p.w/2,p.h/4); ctx.closePath(); ctx.fill(); }
-  else { ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); }
+  if (p.shape === 'circle')       { ctx.beginPath(); ctx.arc(0,0,p.w/2,0,Math.PI*2); ctx.fill(); }
+  else if (p.shape === 'ribbon')  { ctx.beginPath(); ctx.moveTo(-p.w/2,-p.h/2); ctx.lineTo(p.w/2,-p.h/4); ctx.lineTo(p.w/2,p.h/2); ctx.lineTo(-p.w/2,p.h/4); ctx.closePath(); ctx.fill(); }
+  else                            { ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); }
   ctx.restore();
 }
 
 function animConfetti() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (spawnT < 170) { var n = spawnT < 75 ? 22 : 7; for (var i=0;i<n;i++) confettiParts.push(mkP()); spawnT++; }
-  confettiParts.forEach(function(p) { p.x+=p.vx; p.y+=p.vy; p.vy+=.058; p.vx*=.997; p.rot+=p.vr; if(p.y>canvas.height*.68)p.alpha-=.02; drawP(p); });
-  confettiParts = confettiParts.filter(function(p){ return p.alpha > 0; });
+  if (spawnT < 170) {
+    var n = spawnT < 75 ? 22 : 7;
+    for (var i = 0; i < n; i++) confettiParts.push(mkP());
+    spawnT++;
+  }
+  confettiParts.forEach(function(p) {
+    p.x += p.vx; p.y += p.vy; p.vy += .058; p.vx *= .997; p.rot += p.vr;
+    if (p.y > canvas.height * .68) p.alpha -= .02;
+    drawP(p);
+  });
+  confettiParts = confettiParts.filter(function(p) { return p.alpha > 0; });
   if (confettiParts.length || spawnT < 170) requestAnimationFrame(animConfetti);
-  else ctx.clearRect(0,0,canvas.width,canvas.height);
+  else ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function triggerLaunch() {
   spawnT = 0; confettiParts = []; animConfetti();
-  setTimeout(function(){ document.getElementById('unlock').classList.add('show'); }, 900);
-  setTimeout(function(){ window.location.href = 'lp.html'; }, 3200);
+  setTimeout(function() { document.getElementById('unlock').classList.add('show'); }, 900);
+  setTimeout(function() { window.location.href = 'lp.html'; }, 3200);
 }
 
 // ── DEV TEST: uncomment to test launch immediately ──
