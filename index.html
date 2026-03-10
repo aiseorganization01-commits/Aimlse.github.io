@@ -97,13 +97,13 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;z-index:200;display:flex;ali
 .flat-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:15px;}
 .tags{display:flex;flex-wrap:wrap;gap:8px;}
 .tag{font-size:12px;color:rgba(255,255,255,.38);padding:7px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-md);display:flex;align-items:center;gap:7px;}
-.tag::before{content:'';font-size:6px;color:var(--g);}
+.tag::before{content:'*';font-size:8px;color:var(--g);}
 .tag.off{border-color:rgba(220,60,60,.22);}
 .tag.off::before{color:rgba(220,100,100,.6);}
 .rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:500px){.rewards{grid-template-columns:1fr;}}
 .reward{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:var(--r-md);padding:14px 15px;font-size:12px;color:rgba(255,255,255,.46);line-height:1.55;display:flex;align-items:flex-start;gap:8px;}
-.reward::before{content:'*';font-size:9px;color:var(--g);flex-shrink:0;margin-top:2px;}
+.reward::before{content:'+';font-size:11px;color:var(--g);flex-shrink:0;margin-top:1px;}
 .reward.span2{grid-column:1/-1;}
 .reward.gold{background:linear-gradient(135deg,rgba(201,168,76,.11),rgba(201,168,76,.04));border-color:rgba(201,168,76,.28);}
 .reward b{color:var(--g1);font-weight:500;}
@@ -120,7 +120,7 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;z-index:200;display:flex;ali
 .apply-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.4);max-width:460px;line-height:1.85;margin-bottom:22px;}
 .apply-pills{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:42px;}
 .apply-pill{font-size:12px;color:rgba(255,255,255,.5);padding:7px 15px;border:1px solid rgba(201,168,76,.16);border-radius:40px;background:rgba(201,168,76,.04);display:flex;align-items:center;gap:7px;}
-.apply-pill::before{content:'';font-size:5px;color:var(--g);}
+.apply-pill::before{content:'*';font-size:8px;color:var(--g);}
 .survey{background:rgba(255,255,255,.025);border:1px solid rgba(201,168,76,.12);border-radius:var(--r-xl);padding:56px 50px;position:relative;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.04);}
 .survey::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(201,168,76,.45) 35%,rgba(232,201,106,.7) 50%,rgba(201,168,76,.45) 65%,transparent 100%);}
 .survey::after{content:'';position:absolute;bottom:-120px;right:-120px;width:280px;height:280px;background:radial-gradient(circle,rgba(201,168,76,.04) 0%,transparent 70%);pointer-events:none;}
@@ -171,16 +171,17 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 .reveal.in{opacity:1;transform:translateY(0);}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.17s}.reveal.d3{transition-delay:.26s}.reveal.d4{transition-delay:.35s}
 .h-fade{animation:hFade .9s ease both;}
-.h-fade.d0{animation-delay:.05s}.h-fade.d1{animation-delay:.18s}.h-fade.d2{animation-delay:.32s}
-.h-fade.d3{animation-delay:.46s}.h-fade.d4{animation-delay:.60s}.h-fade.d6{animation-delay:.88s}
+.h-fade.d0{animation-delay:.05s}.h-fade.d1{animation-delay:.18s}.h-fade.d2{animation-delay:.32s}.h-fade.d3{animation-delay:.46s}.h-fade.d4{animation-delay:.60s}.h-fade.d6{animation-delay:.88s}
 @keyframes hFade{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
+
 <div id="amb"></div>
 <div id="grain"></div>
 <div class="top-stripe"></div>
 <canvas id="confetti"></canvas>
+
 <div id="unlock">
   <div class="unlock-glow"></div>
   <div class="unlock-label">April 11 - 4:00 PM CST</div>
@@ -188,6 +189,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
   <div class="unlock-sub">Welcome to the future of AI development.</div>
   <a href="lp.html" class="enter-btn">Enter AIMLSE</a>
 </div>
+
 <nav>
   <div class="nav-logo">AIMLSE</div>
   <div class="nav-right">
@@ -195,7 +197,9 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
     <button class="nav-cta" onclick="document.getElementById('apply-section').scrollIntoView({behavior:'smooth'})">Apply Now</button>
   </div>
 </nav>
+
 <div class="wrap">
+
   <section id="hero">
     <div class="mystery-logo h-fade d0">
       <div class="mystery-box">
@@ -226,10 +230,10 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
       <div class="spots-text">Applications <b>OPEN</b> - <b>150</b> spots available</div>
     </div>
     <div class="scroll-hint h-fade d6" onclick="document.getElementById('aci-section').scrollIntoView({behavior:'smooth'})">
-      <span>Explore</span>
-      <div class="scroll-bar"></div>
+      <span>Explore</span><div class="scroll-bar"></div>
     </div>
   </section>
+
   <section id="aci-section" class="section">
     <div class="section-inner">
       <div class="sec-eye reveal">Adaptive Coding Interface</div>
@@ -244,6 +248,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
       <p class="aci-caption reveal">"Code that adapts as you create."</p>
     </div>
   </section>
+
   <section id="beta-section" class="section" style="padding-top:0;">
     <div class="section-inner">
       <div class="sec-eye reveal">Professional Beta - Phase 1</div>
@@ -261,10 +266,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
       <div class="flat-card reveal">
         <div class="flat-title">Not Included in Phase 1</div>
         <div class="tags">
-          <div class="tag off">Claude / Gemini / ChatGPT API</div>
-          <div class="tag off">GPU Tokens</div>
-          <div class="tag off">Advanced AI Assistant</div>
-          <div class="tag off">App Store Publishing</div>
+          <div class="tag off">Claude / Gemini / ChatGPT API</div><div class="tag off">GPU Tokens</div><div class="tag off">Advanced AI Assistant</div><div class="tag off">App Store Publishing</div>
         </div>
       </div>
       <div class="flat-card reveal">
@@ -284,6 +286,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
       </div>
     </div>
   </section>
+
   <section id="apply-section" class="section" style="padding-top:0;">
     <div class="section-inner">
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Now Accepting Applications</div>
@@ -294,6 +297,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
         <div class="apply-pill">4 sections - 5 min</div>
         <div class="apply-pill">150 spots open</div>
       </div>
+
       <div class="survey reveal" id="surveyCard">
         <div class="success" id="successView">
           <div class="success-ring">*</div>
@@ -311,9 +315,9 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
           <div class="field">
             <div class="field-q">Years of Programming Experience</div>
             <div class="opts" data-group="yrs">
-              <div class="opt" data-value="0-1 yrs">0-1 yrs</div>
-              <div class="opt" data-value="1-3 yrs">1-3 yrs</div>
-              <div class="opt" data-value="3-5 yrs">3-5 yrs</div>
+              <div class="opt" data-value="0-1 yrs">0 - 1 yrs</div>
+              <div class="opt" data-value="1-3 yrs">1 - 3 yrs</div>
+              <div class="opt" data-value="3-5 yrs">3 - 5 yrs</div>
               <div class="opt" data-value="5+ yrs">5+ yrs</div>
             </div>
           </div>
@@ -334,7 +338,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
               <div class="opt" data-value="Scikit-learn">Scikit-learn</div>
               <div class="opt" data-value="FastAPI">FastAPI</div>
               <div class="opt" data-value="Docker">Docker</div>
-              <div class="opt" data-value="AWS/GCP/Azure">AWS/GCP/Azure</div>
+              <div class="opt" data-value="AWS/GCP/Azure">AWS / GCP / Azure</div>
             </div>
           </div>
           <div class="form-rule"></div>
@@ -349,7 +353,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
           </div>
           <div class="form-rule"></div>
           <span class="sec-label-form">Section 4 - Beta Fit</span>
-          <div class="field"><div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div><textarea class="ta" id="f_why" rows="4" placeholder="Tell us what draws you to this."></textarea></div>
+          <div class="field"><div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div><textarea class="ta" id="f_why" rows="4" placeholder="Tell us what draws you to this"></textarea></div>
           <div class="field" style="margin-bottom:0;">
             <div class="field-q">Can you commit to testing the platform at least a few times per week?</div>
             <div class="opts" data-group="commit">
@@ -367,129 +371,150 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
       </div>
     </div>
   </section>
+
   <footer>
     <div class="foot-title">"Learn. Build. Deploy."</div>
     <a href="mailto:info@aimlse.org" class="foot-email">info@aimlse.org</a>
     <div class="foot-copy">2026 AIMLSE - ADAPTIVE INTELLIGENCE PLATFORM</div>
   </footer>
+
 </div>
+
+<!-- Hidden iframe for form submission -->
+<iframe name="hidden_target" id="hidden_target" style="display:none;"></iframe>
+
 <script>
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJxxqt2LOwLuZxmktgHj7Kg5mcAbZbf_vFP6IWk_uRrAZ_rlsetgD7Tc9mY5KpBxWj/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNxo-th3TS40xpTSuECjcv7liGN2tanJ14gDHw3FsaNgF3MHq2nrv7cRhtHKw76usF/exec';
 
 // COUNTDOWN
 var LAUNCH = new Date('2026-04-11T21:00:00Z');
 var cdLaunched = false;
-function cdPad(n) { return ('0' + Math.max(0, Math.floor(n))).slice(-2); }
-function cdTick() {
+function cdPad(n){return('0'+Math.max(0,Math.floor(n))).slice(-2);}
+function cdTick(){
   var dEl=document.getElementById('cd-d'),hEl=document.getElementById('cd-h'),mEl=document.getElementById('cd-m'),sEl=document.getElementById('cd-s');
-  if (!dEl) return;
-  var diff = LAUNCH.getTime() - Date.now();
-  if (diff <= 0) {
-    dEl.textContent=hEl.textContent=mEl.textContent=sEl.textContent='00';
-    if (!cdLaunched) { cdLaunched=true; triggerLaunch(); }
-    return;
-  }
-  var ts=Math.floor(diff/1000), newS=cdPad(ts%60);
-  if (sEl.textContent!==newS) { sEl.classList.add('tick'); setTimeout(function(){sEl.classList.remove('tick');},130); }
+  if(!dEl)return;
+  var diff=LAUNCH.getTime()-Date.now();
+  if(diff<=0){dEl.textContent=hEl.textContent=mEl.textContent=sEl.textContent='00';if(!cdLaunched){cdLaunched=true;triggerLaunch();}return;}
+  var ts=Math.floor(diff/1000),newS=cdPad(ts%60);
+  if(sEl.textContent!==newS){sEl.classList.add('tick');setTimeout(function(){sEl.classList.remove('tick');},130);}
   dEl.textContent=cdPad(Math.floor(ts/86400));
   hEl.textContent=cdPad(Math.floor((ts%86400)/3600));
   mEl.textContent=cdPad(Math.floor((ts%3600)/60));
   sEl.textContent=newS;
 }
-cdTick();
-setInterval(cdTick, 1000);
+cdTick();setInterval(cdTick,1000);
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded',function(){
+
   // Scroll reveal
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
-    },{threshold:0.04,rootMargin:'0px 0px -30px 0px'});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.04,rootMargin:'0px 0px -30px 0px'});
     document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
-  }
-  setTimeout(function(){
-    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});
-  }, 2000);
+  }else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+  setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});},2000);
 
   // Option pills
-  var sel = {};
-  document.querySelectorAll('[data-group]').forEach(function(grid) {
-    var g=grid.dataset.group, multi=grid.classList.contains('multi');
-    sel[g] = multi ? [] : '';
-    grid.querySelectorAll('.opt').forEach(function(pill) {
-      pill.addEventListener('click', function() {
-        if (multi) {
+  var sel={};
+  document.querySelectorAll('[data-group]').forEach(function(grid){
+    var g=grid.dataset.group,multi=grid.classList.contains('multi');
+    sel[g]=multi?[]:'';
+    grid.querySelectorAll('.opt').forEach(function(pill){
+      pill.addEventListener('click',function(){
+        if(multi){
           pill.classList.toggle('on');
           var v=pill.dataset.value;
-          if (pill.classList.contains('on')) { if(sel[g].indexOf(v)===-1) sel[g].push(v); }
-          else { sel[g]=sel[g].filter(function(x){return x!==v;}); }
-        } else {
+          if(pill.classList.contains('on')){if(sel[g].indexOf(v)===-1)sel[g].push(v);}
+          else{sel[g]=sel[g].filter(function(x){return x!==v;});}
+        }else{
           grid.querySelectorAll('.opt').forEach(function(p){p.classList.remove('on');});
-          pill.classList.add('on');
-          sel[g] = pill.dataset.value;
+          pill.classList.add('on');sel[g]=pill.dataset.value;
         }
       });
     });
   });
 
-  function getVal(id) { var el=document.getElementById(id); return el ? el.value.trim() : ''; }
-  function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-  function setStatus(msg,type) { var s=document.getElementById('statusMsg'); s.textContent=msg; s.className='status-msg'+(type?' '+type:''); }
-  function disableBtn() { document.getElementById('submitBtn').disabled=true; }
-  function enableBtn()  { document.getElementById('submitBtn').disabled=false; }
-  function showSuccess() {
+  function getVal(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+  function isEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+  function setStatus(msg,type){var s=document.getElementById('statusMsg');s.textContent=msg;s.className='status-msg'+(type?' '+type:'');}
+  function disableBtn(){document.getElementById('submitBtn').disabled=true;}
+  function enableBtn(){document.getElementById('submitBtn').disabled=false;}
+  function showSuccess(){
     document.getElementById('formBody').style.display='none';
     document.getElementById('successView').classList.add('show');
     document.getElementById('surveyCard').scrollIntoView({behavior:'smooth',block:'center'});
   }
 
-  document.getElementById('submitBtn').addEventListener('click', function() {
-    if (!getVal('f_name'))           { setStatus('Please enter your full name.','err'); return; }
-    if (!isEmail(getVal('f_email'))) { setStatus('Please enter a valid email address.','err'); return; }
-    if (!getVal('f_role'))           { setStatus('Please enter your current role.','err'); return; }
-    if (!sel['yrs'])                 { setStatus('Please select your years of experience.','err'); return; }
-    if (!sel['ml'])                  { setStatus('Please select your ML experience level.','err'); return; }
-    if (!getVal('f_proj'))           { setStatus('Please describe a project you have built.','err'); return; }
-    if (!getVal('f_why'))            { setStatus('Please answer the beta fit question.','err'); return; }
-    if (!sel['commit'])              { setStatus('Please answer the commitment question.','err'); return; }
+  document.getElementById('submitBtn').addEventListener('click',function(){
+    if(!getVal('f_name')){setStatus('Please enter your full name.','err');return;}
+    if(!isEmail(getVal('f_email'))){setStatus('Please enter a valid email address.','err');return;}
+    if(!getVal('f_role')){setStatus('Please enter your current role.','err');return;}
+    if(!sel['yrs']){setStatus('Please select your years of experience.','err');return;}
+    if(!sel['ml']){setStatus('Please select your ML experience level.','err');return;}
+    if(!getVal('f_proj')){setStatus('Please describe a project you have built.','err');return;}
+    if(!getVal('f_why')){setStatus('Please answer the beta fit question.','err');return;}
+    if(!sel['commit']){setStatus('Please answer the commitment question.','err');return;}
 
     disableBtn();
     setStatus('Submitting your application...');
 
-    // Build URL params with unique timestamp to prevent any caching
-    var params = [
-      'ts=' + Date.now(),
-      'timestamp=' + encodeURIComponent(new Date().toLocaleString()),
-      'name='       + encodeURIComponent(getVal('f_name')),
-      'email='      + encodeURIComponent(getVal('f_email')),
-      'role='       + encodeURIComponent(getVal('f_role')),
-      'links='      + encodeURIComponent(getVal('f_links') || '-'),
-      'yrs='        + encodeURIComponent(sel['yrs'] || '-'),
-      'ml='         + encodeURIComponent(sel['ml'] || '-'),
-      'frameworks=' + encodeURIComponent((sel['fw'] && sel['fw'].length) ? sel['fw'].join(', ') : '-'),
-      'project='    + encodeURIComponent(getVal('f_proj') || '-'),
-      'helpers='    + encodeURIComponent(sel['helpers'] || '-'),
-      'why='        + encodeURIComponent(getVal('f_why') || '-'),
-      'commit='     + encodeURIComponent(sel['commit'] || '-')
-    ].join('&');
+    // Build a real HTML form and submit it into the hidden iframe
+    // This is the most reliable way to POST to Apps Script without CORS issues
+    var existingForm = document.getElementById('scriptForm');
+    if(existingForm) existingForm.parentNode.removeChild(existingForm);
 
-    var img = new Image();
-    img.onload = img.onerror = function() { showSuccess(); };
-    img.src = APPS_SCRIPT_URL + '?' + params;
+    var form = document.createElement('form');
+    form.id = 'scriptForm';
+    form.method = 'POST';
+    form.action = APPS_SCRIPT_URL;
+    form.target = 'hidden_target';
+    form.style.display = 'none';
+
+    var fields = {
+      name:       getVal('f_name'),
+      email:      getVal('f_email'),
+      role:       getVal('f_role'),
+      links:      getVal('f_links')||'-',
+      yrs:        sel['yrs']||'-',
+      ml:         sel['ml']||'-',
+      frameworks: (sel['fw']&&sel['fw'].length)?sel['fw'].join(', '):'-',
+      project:    getVal('f_proj')||'-',
+      helpers:    sel['helpers']||'-',
+      why:        getVal('f_why')||'-',
+      commit:     sel['commit']||'-'
+    };
+
+    Object.keys(fields).forEach(function(k){
+      var inp=document.createElement('input');
+      inp.type='hidden';
+      inp.name=k;
+      inp.value=fields[k];
+      form.appendChild(inp);
+    });
+
+    document.body.appendChild(form);
+
+    // Show success after a short delay — iframe load is not reliable cross-origin
+    setTimeout(function(){
+      showSuccess();
+    }, 1500);
+
+    form.submit();
   });
+
 });
 
 // CONFETTI + LAUNCH
 var confettiParts=[],spawnT=0;
-var canvas=document.getElementById('confetti'),ctx=canvas.getContext('2d');
-function rsz(){canvas.width=innerWidth;canvas.height=innerHeight;} rsz(); window.addEventListener('resize',rsz);
+var canvas=document.getElementById('confetti');
+var ctx=canvas.getContext('2d');
+function rsz(){canvas.width=innerWidth;canvas.height=innerHeight;}
+rsz();window.addEventListener('resize',rsz);
 var PAL=['#c9a84c','#e8c96a','#9e7a22','#f4d03f','#fff8dc','#ffffff','#d4ac0d','#ffeaa0'];
 function mkP(){return{x:Math.random()*canvas.width,y:-20-Math.random()*40,w:Math.random()*10+4,h:Math.random()*14+5,vx:(Math.random()-.5)*3.8,vy:Math.random()*3.4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.15,color:PAL[Math.floor(Math.random()*PAL.length)],alpha:1,shape:['rect','circle','ribbon'][Math.floor(Math.random()*3)]};}
 function drawP(p){ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();}else if(p.shape==='ribbon'){ctx.beginPath();ctx.moveTo(-p.w/2,-p.h/2);ctx.lineTo(p.w/2,-p.h/4);ctx.lineTo(p.w/2,p.h/2);ctx.lineTo(-p.w/2,p.h/4);ctx.closePath();ctx.fill();}else{ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}ctx.restore();}
 function animConfetti(){ctx.clearRect(0,0,canvas.width,canvas.height);if(spawnT<170){var n=spawnT<75?22:7;for(var i=0;i<n;i++)confettiParts.push(mkP());spawnT++;}confettiParts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.058;p.vx*=.997;p.rot+=p.vr;if(p.y>canvas.height*.68)p.alpha-=.02;drawP(p);});confettiParts=confettiParts.filter(function(p){return p.alpha>0;});if(confettiParts.length||spawnT<170)requestAnimationFrame(animConfetti);else ctx.clearRect(0,0,canvas.width,canvas.height);}
 function triggerLaunch(){spawnT=0;confettiParts=[];animConfetti();setTimeout(function(){document.getElementById('unlock').classList.add('show');},900);setTimeout(function(){window.location.href='lp.html';},3200);}
+// setTimeout(function(){triggerLaunch();},2000); // DEV TEST
 </script>
 </body>
 </html>
