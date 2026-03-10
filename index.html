@@ -119,7 +119,7 @@
     .mystery-logo {
       position: relative; display: inline-block;
       margin-bottom: 44px;
-      opacity: 0; animation: rise .9s .1s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .1s cubic-bezier(.22,1,.36,1) both;
     }
     .mystery-box {
       position: relative; overflow: hidden;
@@ -152,7 +152,7 @@
       font-family: 'DM Mono', monospace; font-size: 10px;
       letter-spacing: 4px; text-transform: uppercase;
       color: var(--g); opacity: .8; margin-bottom: 20px;
-      opacity: 0; animation: rise .9s .22s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .22s cubic-bezier(.22,1,.36,1) both;
     }
 
     .hero-title {
@@ -162,13 +162,13 @@
       margin-bottom: 16px;
       background: linear-gradient(170deg, #ffffff 30%, rgba(255,255,255,.42) 100%);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      opacity: 0; animation: rise .9s .34s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .34s cubic-bezier(.22,1,.36,1) both;
     }
 
     .hero-date {
       display: inline-flex; align-items: center; gap: 14px;
       margin-bottom: 18px;
-      opacity: 0; animation: rise .9s .46s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .46s cubic-bezier(.22,1,.36,1) both;
     }
     .hero-date-line { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--g)); }
     .hero-date-line.r { background: linear-gradient(90deg, var(--g), transparent); }
@@ -180,14 +180,14 @@
     .hero-sub {
       font-size: 15px; font-weight: 300; line-height: 1.85;
       color: rgba(255,255,255,.34); max-width: 360px; margin-bottom: 54px;
-      opacity: 0; animation: rise .9s .58s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .58s cubic-bezier(.22,1,.36,1) both;
     }
 
     /* countdown */
     .countdown {
       display: flex; align-items: flex-start; gap: clamp(12px,3vw,32px);
       margin-bottom: 48px;
-      opacity: 0; animation: rise .9s .64s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .64s cubic-bezier(.22,1,.36,1) both;
     }
     .cd-unit { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .cd-box {
@@ -235,7 +235,7 @@
       border: 1px solid rgba(201,168,76,.18);
       background: rgba(201,168,76,.05);
       margin-bottom: 36px;
-      opacity: 0; animation: rise .9s .75s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; animation: rise .9s .75s cubic-bezier(.22,1,.36,1) both;
     }
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 9px #4ade80; animation: livePulse 2s ease-in-out infinite; }
     @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.7)} }
@@ -244,7 +244,7 @@
 
     .scroll-hint {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      cursor: pointer; opacity: 0; animation: rise .9s .88s cubic-bezier(.22,1,.36,1) forwards;
+      cursor: pointer; opacity: 0; animation: rise .9s .88s cubic-bezier(.22,1,.36,1) both;
     }
     .scroll-hint span { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3.5px; text-transform:uppercase; color:rgba(255,255,255,.22); }
     .scroll-bar { width:1px; height:42px; background:linear-gradient(to bottom,rgba(201,168,76,.5),transparent); animation:scrollPulse 2.2s ease-in-out infinite; }
@@ -607,10 +607,10 @@
 
     /* animations */
     @keyframes rise { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-    .reveal { opacity:0; transform:translateY(22px); transition:opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
     .reveal.in { opacity:1; transform:translateY(0); }
-    .reveal.d1{transition-delay:.08s} .reveal.d2{transition-delay:.16s}
-    .reveal.d3{transition-delay:.24s} .reveal.d4{transition-delay:.32s}
+    .reveal.d1{transition-delay:.08s} .reveal.d2{transition-delay:.18s}
+    .reveal.d3{transition-delay:.28s} .reveal.d4{transition-delay:.38s}
   </style>
 </head>
 <body>
@@ -945,35 +945,87 @@ const LAUNCH      = new Date('2026-04-11T22:00:00Z'); // 4 PM CST
 // ════════════════════════════════════
 //  COUNTDOWN
 // ════════════════════════════════════
-const elD=document.getElementById('cd-d'), elH=document.getElementById('cd-h'),
-      elM=document.getElementById('cd-m'), elS=document.getElementById('cd-s');
-const pad = n => String(n).padStart(2,'0');
+const pad = n => String(Math.max(0,n)).padStart(2,'0');
 
-function flip(el,val){
-  const v=pad(val); if(el.textContent===v) return;
+function flip(el, val){
+  if(!el) return;
+  const v = pad(val);
+  if(el.textContent === v) return;
   el.classList.add('tick');
-  setTimeout(()=>{ el.textContent=v; el.classList.remove('tick'); },130);
+  setTimeout(()=>{ el.textContent = v; el.classList.remove('tick'); }, 130);
 }
 
-let launched=false;
-function tick(){
-  const diff=LAUNCH.getTime()-Date.now();
-  if(diff<=0){ flip(elD,0);flip(elH,0);flip(elM,0);flip(elS,0); if(!launched){launched=true;triggerLaunch();} return; }
-  const ts=Math.floor(diff/1000);
-  flip(elD,Math.floor(ts/86400));
-  flip(elH,Math.floor((ts%86400)/3600));
-  flip(elM,Math.floor((ts%3600)/60));
-  flip(elS,ts%60);
+function runClock(){
+  const elD = document.getElementById('cd-d');
+  const elH = document.getElementById('cd-h');
+  const elM = document.getElementById('cd-m');
+  const elS = document.getElementById('cd-s');
+
+  if(!elD || !elH || !elM || !elS){
+    setTimeout(runClock, 200); // DOM not ready yet, retry
+    return;
+  }
+
+  // Set initial values immediately so they never show blank
+  function tick(){
+    const now  = Date.now();
+    const diff = LAUNCH.getTime() - now;
+
+    if(diff <= 0){
+      [elD,elH,elM,elS].forEach(el=>{ el.textContent='00'; });
+      if(!launched){ launched=true; triggerLaunch(); }
+      return;
+    }
+
+    const ts = Math.floor(diff / 1000);
+    flip(elD, Math.floor(ts / 86400));
+    flip(elH, Math.floor((ts % 86400) / 3600));
+    flip(elM, Math.floor((ts % 3600) / 60));
+    flip(elS, ts % 60);
+  }
+
+  tick(); // run immediately
+  setInterval(tick, 1000);
 }
-tick(); setInterval(tick,1000);
+
+let launched = false;
+// Start clock as soon as possible
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', runClock);
+} else {
+  runClock();
+}
 
 // ════════════════════════════════════
 //  SCROLL REVEAL
 // ════════════════════════════════════
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+
+  // If IntersectionObserver supported, use it
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    },{threshold:0.04, rootMargin:'0px 0px -30px 0px'});
+    els.forEach(el => io.observe(el));
+  } else {
+    // No IO support — show everything
+    els.forEach(el => el.classList.add('in'));
+  }
+
+  // Nuclear fallback: force-show anything still hidden after 1.8s
+  setTimeout(()=>{
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+  }, 1800);
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initReveal);
+} else {
+  initReveal();
+}
 
 // ════════════════════════════════════
 //  OPTION PILLS
