@@ -445,13 +445,13 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 
   <footer>
     <div class="foot-title">"Learn. Build. Deploy."</div>
-    <a href="mailto:info@aimlse.org" class="foot-email">info@aimlse.org</a>
+    <a href="/cdn-cgi/l/email-protection#2a43444c456a4b434746594f0445584d" class="foot-email"><span class="__cf_email__" data-cfemail="8ee7e0e8e1ceefe7e3e2fdeba0e1fce9">[email&#160;protected]</span></a>
     <div class="foot-copy">&copy; 2026 AIMLSE &mdash; ADAPTIVE INTELLIGENCE PLATFORM</div>
   </footer>
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── APPS SCRIPT URL ─────────────────────────
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJxxqt2LOwLuZxmktgHj7Kg5mcAbZbf_vFP6IWk_uRrAZ_rlsetgD7Tc9mY5KpBxWj/exec';
 
@@ -574,13 +574,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var data = JSON.parse(payload);
+    data._t = Date.now(); // cache-buster — forces a fresh request every time
     var params = Object.keys(data).map(function(k) {
       return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
 
     fetch(APPS_SCRIPT_URL + '?' + params, {
       method: 'GET',
-      mode:   'no-cors'
+      mode:   'no-cors',
+      cache:  'no-store'
     })
     .then(function() { showSuccess(); })
     .catch(function(err) {
@@ -620,10 +622,4 @@ function animConfetti() {
 }
 function triggerLaunch() {
   spawnT = 0; confettiParts = []; animConfetti();
-  setTimeout(function() { document.getElementById('unlock').classList.add('show'); }, 900);
-  setTimeout(function() { window.location.href = 'lp.html'; }, 3200);
-}
-// setTimeout(function(){ triggerLaunch(); }, 2000); // DEV TEST
-</script>
-</body>
-</html>
+  setTimeout(functio
