@@ -573,11 +573,14 @@ document.addEventListener('DOMContentLoaded', function() {
       commit:     sel['commit'] || '-'
     });
 
-    fetch(APPS_SCRIPT_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body:    payload
+    var data = JSON.parse(payload);
+    var params = Object.keys(data).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+    }).join('&');
+
+    fetch(APPS_SCRIPT_URL + '?' + params, {
+      method: 'GET',
+      mode:   'no-cors'
     })
     .then(function() { showSuccess(); })
     .catch(function(err) {
