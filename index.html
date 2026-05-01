@@ -226,6 +226,19 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;z-index:200;
 
 /* ── APPLICATION ── */
 #apply-section{padding-bottom:150px;}
+
+/* ── GOOGLE FORM WRAPPER ── */
+.gform-wrap{border:1px solid rgba(201,168,76,.18);border-radius:var(--r-xl);overflow:hidden;
+  box-shadow:0 8px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(201,168,76,.08);
+  background:rgba(255,255,255,.015);}
+.gform-top-bar{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;background:rgba(201,168,76,.06);
+  border-bottom:1px solid rgba(201,168,76,.12);}
+.gform-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(201,168,76,.7);}
+.gform-secure{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;
+  color:rgba(255,255,255,.25);display:flex;align-items:center;gap:5px;}
+.gform-wrap iframe{display:block;width:100%;border:none;background:#fff;}
 .apply-badge{display:inline-flex;align-items:center;gap:9px;padding:7px 18px;
   border-radius:40px;border:1px solid rgba(201,168,76,.22);background:rgba(201,168,76,.06);
   font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;
@@ -423,7 +436,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 
     <div class="spots-pill">
       <div class="live-dot"></div>
-      <div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>150</b> spots available</div>
+      <div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>20</b> spots available</div>
     </div>
     <div class="scroll-hint h-fade d6" onclick="document.getElementById('aci-section').scrollIntoView({behavior:'smooth'})">
       <span>Explore</span>
@@ -452,7 +465,7 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
     <div class="section-inner">
       <div class="sec-eye reveal">Professional Beta &middot; Phase 1</div>
       <h2 class="sec-title reveal">What You're Testing</h2>
-      <p class="sec-sub reveal">We're selecting <strong style="color:var(--g1);font-weight:500;">150 developers</strong> and ML engineers to test the AIMLSE ecosystem before public launch.</p>
+      <p class="sec-sub reveal">We're selecting <strong style="color:var(--g1);font-weight:500;">20 developers</strong> and ML engineers to test the AIMLSE ecosystem before public launch.</p>
 
       <div class="demo-card reveal">
         <div>
@@ -519,90 +532,30 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
     <div class="section-inner">
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Now Accepting Applications</div>
       <h2 class="apply-title reveal">Apply to Beta Test<br><em>the ACI</em></h2>
-      <p class="apply-sub reveal">We hand-select 150 developers and ML engineers. Every application is reviewed personally.</p>
+      <p class="apply-sub reveal">We hand-select 20 developers and ML engineers. Every application is reviewed personally.</p>
       <div class="apply-pills reveal">
         <div class="apply-pill">PyTorch experience preferred</div>
-        <div class="apply-pill">4 sections &middot; ~5 min</div>
-        <div class="apply-pill">150 spots open</div>
+        <div class="apply-pill">~5 min</div>
+        <div class="apply-pill"><span id="spot-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;"></span><b id="spots-left" style="color:var(--g1);">20</b> spots remaining</div>
       </div>
 
-      <div class="survey reveal" id="surveyCard">
-
-        <div class="success" id="successView">
-          <div class="success-ring">✦</div>
-          <div class="success-title">Application Received</div>
-          <div class="success-msg">Thank you for applying. Our team reviews every submission personally &mdash; if selected, we'll reach out to your email address.</div>
+      <div class="gform-wrap reveal">
+        <div class="gform-top-bar">
+          <span class="gform-label">Beta Application</span>
+          <span class="gform-secure">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Secured by Google
+          </span>
         </div>
-
-        <div id="formBody">
-          <span class="sec-label-form">Section 1 &mdash; About You</span>
-          <div class="field"><div class="field-q">Full Name</div><input class="inp" id="f_name" type="text" placeholder="Your full name" autocomplete="name"></div>
-          <div class="field"><div class="field-q">Email Address</div><input class="inp" id="f_email" type="email" placeholder="you@example.com" autocomplete="email"></div>
-          <div class="field"><div class="field-q">Current Role</div><input class="inp" id="f_role" type="text" placeholder="e.g. ML Engineer, Software Engineer, Student..."></div>
-          <div class="field"><div class="field-q">GitHub or LinkedIn</div><input class="inp" id="f_links" type="text" placeholder="https://github.com/username  or  LinkedIn URL"></div>
-
-          <div class="form-rule"></div>
-          <span class="sec-label-form">Section 2 &mdash; Technical Background</span>
-          <div class="field">
-            <div class="field-q">Years of Programming Experience</div>
-            <div class="opts" data-group="yrs">
-              <div class="opt" data-value="0-1 yrs">0 &ndash; 1 yrs</div>
-              <div class="opt" data-value="1-3 yrs">1 &ndash; 3 yrs</div>
-              <div class="opt" data-value="3-5 yrs">3 &ndash; 5 yrs</div>
-              <div class="opt" data-value="5+ yrs">5+ yrs</div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="field-q">ML Experience Level</div>
-            <div class="opts" data-group="ml">
-              <div class="opt" data-value="Beginner">Beginner</div>
-              <div class="opt" data-value="Intermediate">Intermediate</div>
-              <div class="opt" data-value="Advanced">Advanced</div>
-              <div class="opt" data-value="Production-level">Production-level</div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="field-q">Frameworks Used <span style="font-size:12px;color:rgba(255,255,255,.28);font-weight:300;">Select all that apply</span></div>
-            <div class="opts multi" data-group="fw">
-              <div class="opt" data-value="PyTorch">PyTorch</div>
-              <div class="opt" data-value="TensorFlow">TensorFlow</div>
-              <div class="opt" data-value="Scikit-learn">Scikit-learn</div>
-              <div class="opt" data-value="FastAPI">FastAPI</div>
-              <div class="opt" data-value="Docker">Docker</div>
-              <div class="opt" data-value="AWS/GCP/Azure">AWS / GCP / Azure</div>
-            </div>
-          </div>
-
-          <div class="form-rule"></div>
-          <span class="sec-label-form">Section 3 &mdash; Project Experience</span>
-          <div class="field"><div class="field-q">Describe a project you've built</div><textarea class="ta" id="f_proj" rows="5" placeholder="Tell us about a technical project — include a link if you have one."></textarea></div>
-          <div class="field">
-            <div class="field-q">Have you built reusable helper functions or internal libraries?</div>
-            <div class="opts" data-group="helpers">
-              <div class="opt" data-value="Yes">Yes</div>
-              <div class="opt" data-value="No">No</div>
-            </div>
-          </div>
-
-          <div class="form-rule"></div>
-          <span class="sec-label-form">Section 4 &mdash; Beta Fit</span>
-          <div class="field"><div class="field-q">Why are you interested in testing the Helper Function Recommendation System?</div><textarea class="ta" id="f_why" rows="4" placeholder="Tell us what draws you to this..."></textarea></div>
-          <div class="field" style="margin-bottom:0;">
-            <div class="field-q">Can you commit to testing the platform at least a few times per week?</div>
-            <div class="opts" data-group="commit">
-              <div class="opt" data-value="Yes">Yes</div>
-              <div class="opt" data-value="Maybe">Maybe</div>
-              <div class="opt" data-value="No">No</div>
-            </div>
-          </div>
-
-          <div class="submit-area">
-            <button class="submit-btn" id="submitBtn">Submit Application</button>
-            <div class="status-msg" id="statusMsg"></div>
-            <div class="submit-note">Responses saved securely &middot; No sign-in required</div>
-          </div>
-        </div>
-
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSezcMBuC7e9qCDTZNRNOEAtJFVuJ78WM4ilTYfepiWscR-s1g/viewform?embedded=true"
+          width="100%"
+          height="3207"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          id="gform-iframe"
+          title="AIMLSE Beta Application">Loading&hellip;</iframe>
       </div>
     </div>
   </section>
@@ -636,32 +589,6 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 </div><!-- .wrap -->
 
 <script>
-// ─────────────────────────────────────────────────────────
-//  GOOGLE FORM CONFIGURATION
-//  To find your entry IDs:
-//  1. Open your form in Chrome
-//  2. Right-click any field → Inspect
-//  3. Look for:  name="entry.XXXXXXXXX"
-//  4. Fill each entry ID below (keep the "entry." prefix)
-// ─────────────────────────────────────────────────────────
-var GFORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSezcMBuC7e9qCDTZNRNOEAtJFVuJ78WM4ilTYfepiWscR-s1g/formResponse';
-
-var ENTRY = {
-  name:       'entry.XXXXXXX',   // Full Name
-  email:      'entry.XXXXXXX',   // Email
-  role:       'entry.XXXXXXX',   // Current Role
-  links:      'entry.XXXXXXX',   // GitHub or LinkedIn
-  yrs:        'entry.XXXXXXX',   // Programming Experience
-  ml:         'entry.XXXXXXX',   // ML Experience Level
-  frameworks: 'entry.XXXXXXX',   // Frameworks Used (checkbox — see note below)
-  project:    'entry.XXXXXXX',   // Describe a project
-  helpers:    'entry.XXXXXXX',   // Built helper functions?
-  why:        'entry.XXXXXXX',   // Why interested?
-  commit:     'entry.XXXXXXX',   // Commit to testing?
-};
-// NOTE: For checkbox fields (Frameworks), Google Forms uses the same
-// entry ID repeated for each selected value. The code handles this below.
-
 // ── COUNTDOWN — June 10 2026 4:00 PM CDT = 21:00 UTC ──
 var LAUNCH = new Date('2026-06-10T21:00:00Z');
 var cdLaunched = false;
@@ -710,102 +637,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function () {
     document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { el.classList.add('in'); });
   }, 2000);
-
-  // Option pills
-  var sel = {};
-  document.querySelectorAll('[data-group]').forEach(function (grid) {
-    var g = grid.dataset.group;
-    var multi = grid.classList.contains('multi');
-    sel[g] = multi ? [] : '';
-    grid.querySelectorAll('.opt').forEach(function (pill) {
-      pill.addEventListener('click', function () {
-        if (multi) {
-          pill.classList.toggle('on');
-          var v = pill.dataset.value;
-          if (pill.classList.contains('on')) {
-            if (sel[g].indexOf(v) === -1) sel[g].push(v);
-          } else {
-            sel[g] = sel[g].filter(function (x) { return x !== v; });
-          }
-        } else {
-          grid.querySelectorAll('.opt').forEach(function (p) { p.classList.remove('on'); });
-          pill.classList.add('on');
-          sel[g] = pill.dataset.value;
-        }
-      });
-    });
-  });
-
-  function getVal(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
-  function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-  function setStatus(msg, type) {
-    var s = document.getElementById('statusMsg');
-    s.textContent = msg;
-    s.className = 'status-msg' + (type ? ' ' + type : '');
-  }
-  function showSuccess() {
-    document.getElementById('formBody').style.display = 'none';
-    document.getElementById('successView').classList.add('show');
-    document.getElementById('surveyCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  document.getElementById('submitBtn').addEventListener('click', function () {
-    // ── Validation ──
-    if (!getVal('f_name'))           { setStatus('Please enter your full name.', 'err'); return; }
-    if (!isEmail(getVal('f_email'))) { setStatus('Please enter a valid email address.', 'err'); return; }
-    if (!getVal('f_role'))           { setStatus('Please enter your current role.', 'err'); return; }
-    if (!sel['yrs'])                 { setStatus('Please select your years of experience.', 'err'); return; }
-    if (!sel['ml'])                  { setStatus('Please select your ML experience level.', 'err'); return; }
-    if (!getVal('f_proj'))           { setStatus("Please describe a project you've built.", 'err'); return; }
-    if (!getVal('f_why'))            { setStatus('Please answer the beta fit question.', 'err'); return; }
-    if (!sel['commit'])              { setStatus('Please answer the commitment question.', 'err'); return; }
-
-    document.getElementById('submitBtn').disabled = true;
-    setStatus('Submitting your application...');
-
-    // ── POST to Google Forms via hidden iframe (no CORS issues) ──
-    var f = document.createElement('form');
-    f.method  = 'POST';
-    f.action  = GFORM_ACTION;
-    f.target  = 'gform_target';
-    f.style.display = 'none';
-
-    function addField(name, value) {
-      var inp = document.createElement('input');
-      inp.type  = 'hidden';
-      inp.name  = name;
-      inp.value = value;
-      f.appendChild(inp);
-    }
-
-    addField(ENTRY.name,    getVal('f_name'));
-    addField(ENTRY.email,   getVal('f_email'));
-    addField(ENTRY.role,    getVal('f_role'));
-    addField(ENTRY.links,   getVal('f_links') || '');
-    addField(ENTRY.yrs,     sel['yrs']  || '');
-    addField(ENTRY.ml,      sel['ml']   || '');
-    addField(ENTRY.project, getVal('f_proj'));
-    addField(ENTRY.helpers, sel['helpers'] || '');
-    addField(ENTRY.why,     getVal('f_why'));
-    addField(ENTRY.commit,  sel['commit'] || '');
-
-    // Checkboxes: Google Forms needs one input per selected value
-    var fws = sel['fw'] || [];
-    if (fws.length === 0) {
-      addField(ENTRY.frameworks, '');
-    } else {
-      fws.forEach(function(fw) { addField(ENTRY.frameworks, fw); });
-    }
-
-    document.body.appendChild(f);
-    f.submit();
-
-    // Show success after 1.5 s — iframe handles the response silently
-    setTimeout(function () {
-      showSuccess();
-      if (f.parentNode) document.body.removeChild(f);
-    }, 1500);
-  });
 
 });
 
