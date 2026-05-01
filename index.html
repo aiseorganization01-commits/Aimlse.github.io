@@ -10,40 +10,19 @@
 
 <!--
 ════════════════════════════════════════════════════════
-  GOOGLE APPS SCRIPT — paste this into script.google.com
-  File → New → Script, replace everything, then:
-  Deploy → New deployment → Web App
-  Execute as: Me | Who has access: Anyone
-  Copy the /exec URL and paste into APPS_SCRIPT_URL below
-════════════════════════════════════════════════════════
+  HOW TO GET YOUR GOOGLE FORM ENTRY IDs (2 min)
+  ────────────────────────────────────────────────────
+  1. Open your Google Form in a browser
+  2. Right-click → View Page Source  (or Ctrl+U)
+  3. Press Ctrl+F and search for "entry."
+  4. You'll see values like entry.123456789
+     Map each one to the fields below in the JS section.
 
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var p = e.parameter;
+  OR: Open the form, right-click any input field,
+  click Inspect, and look for name="entry.XXXXXXX"
 
-  // Write headers if row 1 is empty
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow([
-      'Timestamp','Name','Email','Role','Links',
-      'Years Exp','ML Level','Frameworks','Project',
-      'Built Helpers?','Why Beta?','Commit?'
-    ]);
-  }
-
-  sheet.appendRow([
-    new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'}),
-    p.name || '', p.email || '', p.role || '', p.links || '',
-    p.yrs || '', p.ml || '', p.frameworks || '', p.project || '',
-    p.helpers || '', p.why || '', p.commit || ''
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doGet(e) { return doPost(e); }
-
+  The form POST URL is always:
+  https://docs.google.com/forms/d/e/FORM_ID/formResponse
 ════════════════════════════════════════════════════════
 -->
 
@@ -381,8 +360,8 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 <div class="top-stripe"></div>
 <canvas id="confetti"></canvas>
 
-<!-- Hidden iframe — form POSTs here silently, no CORS issue -->
-<iframe name="hidden_target" style="display:none;" aria-hidden="true"></iframe>
+<!-- Hidden iframe — Google Form response loads here silently -->
+<iframe name="gform_target" style="display:none;" aria-hidden="true"></iframe>
 
 <div id="unlock">
   <div class="unlock-glow"></div>
@@ -658,10 +637,30 @@ footer{position:relative;z-index:2;padding:64px 28px 44px;text-align:center;bord
 
 <script>
 // ─────────────────────────────────────────────────────────
-//  STEP 1: Paste your Google Apps Script /exec URL here
-//  See the comment at the top of this file for the script
+//  GOOGLE FORM CONFIGURATION
+//  To find your entry IDs:
+//  1. Open your form in Chrome
+//  2. Right-click any field → Inspect
+//  3. Look for:  name="entry.XXXXXXXXX"
+//  4. Fill each entry ID below (keep the "entry." prefix)
 // ─────────────────────────────────────────────────────────
-var APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+var GFORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSezcMBuC7e9qCDTZNRNOEAtJFVuJ78WM4ilTYfepiWscR-s1g/formResponse';
+
+var ENTRY = {
+  name:       'entry.XXXXXXX',   // Full Name
+  email:      'entry.XXXXXXX',   // Email
+  role:       'entry.XXXXXXX',   // Current Role
+  links:      'entry.XXXXXXX',   // GitHub or LinkedIn
+  yrs:        'entry.XXXXXXX',   // Programming Experience
+  ml:         'entry.XXXXXXX',   // ML Experience Level
+  frameworks: 'entry.XXXXXXX',   // Frameworks Used (checkbox — see note below)
+  project:    'entry.XXXXXXX',   // Describe a project
+  helpers:    'entry.XXXXXXX',   // Built helper functions?
+  why:        'entry.XXXXXXX',   // Why interested?
+  commit:     'entry.XXXXXXX',   // Commit to testing?
+};
+// NOTE: For checkbox fields (Frameworks), Google Forms uses the same
+// entry ID repeated for each selected value. The code handles this below.
 
 // ── COUNTDOWN — June 10 2026 4:00 PM CDT = 21:00 UTC ──
 var LAUNCH = new Date('2026-06-10T21:00:00Z');
@@ -764,44 +763,48 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('submitBtn').disabled = true;
     setStatus('Submitting your application...');
 
-    // ── Build a real <form> and POST it into the hidden iframe ──
-    // This avoids all CORS issues — the browser handles it natively.
+    // ── POST to Google Forms via hidden iframe (no CORS issues) ──
     var f = document.createElement('form');
     f.method  = 'POST';
-    f.action  = APPS_SCRIPT_URL;
-    f.target  = 'hidden_target';   // points to <iframe name="hidden_target">
+    f.action  = GFORM_ACTION;
+    f.target  = 'gform_target';
     f.style.display = 'none';
 
-    var fields = {
-      name:       getVal('f_name'),
-      email:      getVal('f_email'),
-      role:       getVal('f_role'),
-      links:      getVal('f_links') || '-',
-      yrs:        sel['yrs']  || '-',
-      ml:         sel['ml']   || '-',
-      frameworks: (sel['fw'] && sel['fw'].length) ? sel['fw'].join(', ') : '-',
-      project:    getVal('f_proj'),
-      helpers:    sel['helpers'] || '-',
-      why:        getVal('f_why'),
-      commit:     sel['commit'] || '-'
-    };
-
-    Object.keys(fields).forEach(function (k) {
+    function addField(name, value) {
       var inp = document.createElement('input');
       inp.type  = 'hidden';
-      inp.name  = k;
-      inp.value = fields[k];
+      inp.name  = name;
+      inp.value = value;
       f.appendChild(inp);
-    });
+    }
+
+    addField(ENTRY.name,    getVal('f_name'));
+    addField(ENTRY.email,   getVal('f_email'));
+    addField(ENTRY.role,    getVal('f_role'));
+    addField(ENTRY.links,   getVal('f_links') || '');
+    addField(ENTRY.yrs,     sel['yrs']  || '');
+    addField(ENTRY.ml,      sel['ml']   || '');
+    addField(ENTRY.project, getVal('f_proj'));
+    addField(ENTRY.helpers, sel['helpers'] || '');
+    addField(ENTRY.why,     getVal('f_why'));
+    addField(ENTRY.commit,  sel['commit'] || '');
+
+    // Checkboxes: Google Forms needs one input per selected value
+    var fws = sel['fw'] || [];
+    if (fws.length === 0) {
+      addField(ENTRY.frameworks, '');
+    } else {
+      fws.forEach(function(fw) { addField(ENTRY.frameworks, fw); });
+    }
 
     document.body.appendChild(f);
     f.submit();
 
-    // Show success after 2 s — enough for the iframe to load the response
+    // Show success after 1.5 s — iframe handles the response silently
     setTimeout(function () {
       showSuccess();
       if (f.parentNode) document.body.removeChild(f);
-    }, 2000);
+    }, 1500);
   });
 
 });
