@@ -65,8 +65,6 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
 /* ── HERO ── */
 #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;padding:110px 24px 80px;position:relative;z-index:2;}
-
-/* blurred bg circle behind hero text */
 #hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:700px;height:700px;border-radius:50%;
   background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 70%);
@@ -111,7 +109,6 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
   background:linear-gradient(90deg,transparent,rgba(201,168,76,.6),transparent);}
 .cd-box::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;
   background:rgba(0,0,0,.55);pointer-events:none;}
-/* inner glow dot */
 .cd-box-inner-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);
   width:40px;height:40px;border-radius:50%;
   background:radial-gradient(circle,rgba(201,168,76,.12),transparent);pointer-events:none;}
@@ -181,6 +178,55 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
 .aci-desc{font-size:12px;color:rgba(255,255,255,.3);font-weight:300;line-height:1.65;}
 .aci-caption{text-align:center;font-family:'Cormorant Garamond',serif;font-size:21px;
   font-style:italic;font-weight:300;color:rgba(201,168,76,.45);letter-spacing:.4px;}
+
+/* ── WHY ACI SECTION ── */
+.why-prose{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.95;max-width:760px;margin-bottom:14px;}
+.why-prose strong{color:rgba(255,255,255,.8);font-weight:500;}
+.why-prose em{font-style:italic;color:var(--g1);}
+.why-block{background:rgba(255,255,255,.018);border:1px solid var(--border);border-radius:var(--r-xl);
+  padding:32px 36px;margin-bottom:12px;position:relative;overflow:hidden;
+  box-shadow:0 2px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.03);
+  transition:border-color .32s,transform .32s,box-shadow .32s;}
+.why-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent);}
+.why-block:hover{border-color:var(--border-h);transform:translateY(-4px);
+  box-shadow:0 16px 50px rgba(0,0,0,.35),0 0 28px rgba(201,168,76,.06);}
+.why-block-head{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+.why-block-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;
+  color:var(--g1);line-height:1;text-shadow:0 0 30px rgba(201,168,76,.25);flex-shrink:0;}
+.why-block-titles{}
+.why-block-layer{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
+.why-block-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#fff;}
+.why-block-body{font-size:13px;color:rgba(255,255,255,.36);font-weight:300;line-height:1.9;}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr;}}
+.why-callout{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));
+  border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);
+  padding:32px 36px;margin-top:12px;position:relative;overflow:hidden;}
+.why-callout::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.55),transparent);}
+.why-callout-text{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.4vw,22px);
+  font-weight:400;font-style:italic;color:rgba(255,255,255,.65);line-height:1.6;}
+.why-callout-text strong{font-style:normal;color:var(--g1);font-weight:500;}
+.problem-vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 28px;}
+@media(max-width:620px){.problem-vs{grid-template-columns:1fr;}}
+.pvs-card{border-radius:var(--r-xl);padding:28px 26px;position:relative;overflow:hidden;}
+.pvs-card.bad{background:rgba(220,60,60,.03);border:1px solid rgba(220,60,60,.12);}
+.pvs-card.bad::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(220,60,60,.25),transparent);}
+.pvs-card.good{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);}
+.pvs-card.good::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.45),transparent);}
+.pvs-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;
+  text-transform:uppercase;margin-bottom:14px;}
+.pvs-label.red{color:rgba(220,100,100,.55);}
+.pvs-label.gold{color:rgba(201,168,76,.55);}
+.pvs-item{font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;
+  display:flex;align-items:flex-start;gap:9px;padding:4px 0;}
+.pvs-item::before{font-size:10px;flex-shrink:0;margin-top:2px;}
+.pvs-item.bad::before{content:'✕';color:rgba(220,80,80,.5);}
+.pvs-item.good::before{content:'✓';color:var(--g);}
 
 /* ── BETA INFO ── */
 .demo-card{display:flex;align-items:center;gap:32px;flex-wrap:wrap;
@@ -275,8 +321,6 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
   background:linear-gradient(160deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
   border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);overflow:hidden;
   box-shadow:0 20px 80px rgba(0,0,0,.55),0 0 60px rgba(201,168,76,.06),inset 0 1px 0 rgba(255,255,255,.05);}
-
-/* top bar */
 .sc-topbar{display:flex;align-items:center;justify-content:space-between;
   padding:16px 26px;background:rgba(201,168,76,.055);
   border-bottom:1px solid rgba(201,168,76,.12);}
@@ -286,22 +330,17 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
 .sc-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
   color:rgba(255,255,255,.28);display:flex;align-items:center;gap:6px;}
 .sc-badge svg{opacity:.5;}
-
-/* main content */
 .sc-body{display:grid;grid-template-columns:360px 1fr;min-height:560px;}
 @media(max-width:780px){.sc-body{grid-template-columns:1fr;}}
 .sc-action-embed{padding:0;overflow:hidden;}
-
 .sc-info{padding:48px 44px;border-right:1px solid rgba(201,168,76,.08);
   display:flex;flex-direction:column;justify-content:space-between;gap:32px;
   background:linear-gradient(160deg,rgba(201,168,76,.03),transparent);}
 @media(max-width:780px){.sc-info{border-right:none;border-bottom:1px solid rgba(201,168,76,.08);}}
-
 .sc-headline{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;
   color:#fff;line-height:1.1;margin-bottom:10px;}
 .sc-headline em{font-style:italic;color:var(--g1);}
 .sc-desc{font-size:13px;color:rgba(255,255,255,.34);font-weight:300;line-height:1.85;}
-
 .sc-details{display:flex;flex-direction:column;gap:14px;}
 .sc-detail{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;
   background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);
@@ -310,11 +349,9 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
   background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
   display:flex;align-items:center;justify-content:center;}
 .sc-detail-icon svg{color:var(--g);}
-.sc-detail-text{}
 .sc-detail-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;
   text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
 .sc-detail-val{font-size:13px;color:rgba(255,255,255,.7);font-weight:400;}
-
 .sc-action{padding:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
   background:linear-gradient(160deg,rgba(255,255,255,.015),transparent);}
 .zoom-logo-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:8px;}
@@ -325,7 +362,6 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
   box-shadow:0 4px 20px rgba(45,140,255,.35);}
 .zoom-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#fff;letter-spacing:.5px;}
 .zoom-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.22);}
-
 .sc-cta-block{width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;}
 .sc-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;
   width:100%;max-width:300px;padding:17px 32px;border-radius:40px;
@@ -343,7 +379,6 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
 .sc-cta:hover svg{transform:translateX(3px);}
 .sc-note{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
   color:rgba(255,255,255,.2);text-align:center;line-height:1.7;}
-
 .sc-steps{width:100%;max-width:300px;}
 .sc-step{display:flex;align-items:center;gap:11px;padding:9px 0;
   border-bottom:1px solid rgba(255,255,255,.04);}
@@ -396,7 +431,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 .social-link.ph:hover{border-color:rgba(218,73,39,.42);color:#da4927;}
 .social-link.yt:hover{border-color:rgba(255,0,0,.38);color:#ff4040;}
 .social-link.x:hover{border-color:rgba(255,255,255,.28);color:#fff;}
-.social-link.ig:hover{border-color:rgba(225,48,108,.38);color:#e1306c;}
+.social-link.li:hover{border-color:rgba(10,102,194,.5);color:#0a66c2;}
 .foot-copy{margin-top:28px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.1);letter-spacing:1.5px;}
 
 /* ── UNLOCK OVERLAY ── */
@@ -529,6 +564,88 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
 
+  <!-- ── WHY WE BUILT ACI ── -->
+  <section id="why-section" class="section" style="padding-top:100px;">
+    <div class="section-inner">
+      <div class="sec-eye reveal">The Problem We Solved</div>
+      <h2 class="sec-title reveal">Why Every Existing<br>Tool Falls Short</h2>
+
+      <p class="why-prose reveal">Jupyter Notebook became the standard in ML development for a reason. It was simple, cell-based, and visual enough to let researchers move fast without losing track of their reasoning. For years, it seemed good enough. Then the landscape shifted &mdash; and it exposed a gap the field had been quietly ignoring.</p>
+
+      <div class="problem-vs reveal">
+        <div class="pvs-card bad">
+          <div class="pvs-label red">The Autonomy Problem</div>
+          <div class="pvs-item bad">Tools like Cursor and Claude Code generate code you didn't write and may not fully understand</div>
+          <div class="pvs-item bad">Black-box ML implementations corrupt experiments silently &mdash; one wrong loss function, discovered hours later</div>
+          <div class="pvs-item bad">You ship fast, but you can't explain what your model is actually doing</div>
+          <div class="pvs-item bad">Trust breaks down at exactly the moment reliability matters most</div>
+        </div>
+        <div class="pvs-card good">
+          <div class="pvs-label gold">The ACI Approach</div>
+          <div class="pvs-item good">Every implementation is verified PyTorch &mdash; no generated code, no black-box outputs</div>
+          <div class="pvs-item good">You always know what your code does, because you built it from curated, validated components</div>
+          <div class="pvs-item good">Intelligent scaffolding that accelerates your work without removing your understanding</div>
+          <div class="pvs-item good">Speed and reliability in the same environment &mdash; not a tradeoff between them</div>
+        </div>
+      </div>
+
+      <p class="why-prose reveal" style="margin-top:8px;">The rigid notebook, on the other hand, puts all the burden on the engineer. Every reusable function gets rewritten project to project. Every experiment starts from a blank cell. There is no institutional memory, no shared infrastructure, no way to build on what your team has already tested and verified. At a high level of ML research, that overhead compounds &mdash; and it costs you in places that are hard to measure until you're already behind.</p>
+
+      <p class="why-prose reveal" style="margin-bottom:36px;">That is the gap. Fully autonomous on one end, too rigid on the other. No tool was designed for the engineer who wants to move with intention &mdash; fast, structured, and completely in control of every line. That is why we built ACI.</p>
+
+      <div class="sec-eye reveal" style="margin-bottom:20px;">The Four Layers</div>
+
+      <div class="why-grid">
+        <div class="why-block reveal">
+          <div class="why-block-head">
+            <div class="why-block-num">F0</div>
+            <div class="why-block-titles">
+              <div class="why-block-layer">Layer Zero</div>
+              <div class="why-block-name">Template Recommendation Engine</div>
+            </div>
+          </div>
+          <div class="why-block-body">Most projects start the same way: blank file, vague objective, and 20 minutes spent recreating a folder structure you've built a dozen times before. The Template Recommendation Engine eliminates that. Based on your stated project objective, ACI surfaces proven, verified project structures assembled by ML practitioners &mdash; not generated by an AI. No hallucinated imports, no assumed dependencies. Just a proven starting point that reflects how real research projects are actually organized. You're not starting from zero. You're starting from something that works.</div>
+        </div>
+        <div class="why-block reveal d1">
+          <div class="why-block-head">
+            <div class="why-block-num">F1</div>
+            <div class="why-block-titles">
+              <div class="why-block-layer">Layer One</div>
+              <div class="why-block-name">Helper Function Recommendation Engine</div>
+            </div>
+          </div>
+          <div class="why-block-body">As you build, ACI's recommendation engine reads your project context in real time and surfaces relevant, reusable PyTorch helper functions from a curated community library. These are not AI-generated snippets &mdash; every function in the library has been reviewed, tested, and verified by the community. Dropout wrappers, custom schedulers, batch normalization utilities, training loop scaffolding &mdash; surfaced at the moment you need them, ready to drop in. No copy-paste archaeology through Stack Overflow. No re-implementing something that already exists and works. The collective knowledge of the ML engineering community, made available inside your workflow.</div>
+        </div>
+        <div class="why-block reveal d2">
+          <div class="why-block-head">
+            <div class="why-block-num">F2</div>
+            <div class="why-block-titles">
+              <div class="why-block-layer">Layer Two</div>
+              <div class="why-block-name">Block-Based Coding System</div>
+            </div>
+          </div>
+          <div class="why-block-body">Visually assemble your ML pipeline using logic blocks that compile directly into real, executable PyTorch code. Drag training loops, data loaders, loss functions, model architectures, and evaluation hooks into place. Connect them. Rearrange them. The output is not pseudocode or a diagram &mdash; it is production-ready Python that you can inspect, verify, and carry into the notebook at any point. Designed for engineers who think architecturally before they think syntactically. Designed for the moments when seeing the pipeline matters more than writing it line by line.</div>
+        </div>
+        <div class="why-block reveal d3">
+          <div class="why-block-head">
+            <div class="why-block-num">F3</div>
+            <div class="why-block-titles">
+              <div class="why-block-layer">Layer Three</div>
+              <div class="why-block-name">Regular PyTorch Cell Notebook</div>
+            </div>
+          </div>
+          <div class="why-block-body">When you need full, unmediated control, ACI steps back entirely. The notebook cell environment gives you everything Jupyter does &mdash; raw Python execution, inline outputs, iterative experimentation &mdash; plus complete awareness of your project context from the layers above. Your variables, your helper functions, your template structure are all accessible. Write exactly what you mean. Run it. See the result. The tool does not get in your way. Built for the engineers who have always known that sometimes the most powerful interface is a blank cell and a cursor.</div>
+        </div>
+      </div>
+
+      <div class="why-callout reveal">
+        <div class="why-callout-text">All four layers are <strong>interconnected</strong>. Switch from Blocks to Script mid-project and your variables, imports, and context carry over. Move from a template into the notebook without losing state. Your helper functions are available everywhere. The environment adapts to how you think &mdash; not the other way around. Add <strong>live collaboration</strong> built from the ground up for the research lab model, where multiple engineers work in the same project simultaneously, and you have a tool that finally matches how serious ML work actually gets done.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
+
   <!-- ── BETA INFO ── -->
   <section id="beta-section" class="section" style="padding-top:80px;">
     <div class="section-inner">
@@ -545,7 +662,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
         <div class="demo-vline"></div>
         <div>
           <div class="demo-title">AIMLSE Demo Day</div>
-          <div class="demo-sub">Selected testers receive full access details upon acceptance. Schedule a call to learn more before applying.</div>
+          <div class="demo-sub">Selected testers receive full access details upon acceptance. Schedule a call with our CEO to learn more before applying.</div>
         </div>
       </div>
 
@@ -570,8 +687,6 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       <div class="flat-card reveal">
         <div class="flat-title">Not Included in Phase 1</div>
         <div class="tags">
-          <div class="tag off">Claude / Gemini / ChatGPT API</div>
-          <div class="tag off">GPU Tokens</div>
           <div class="tag off">Advanced AI Assistant</div>
           <div class="tag off">App Store Publishing</div>
         </div>
@@ -584,8 +699,11 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
           <div class="reward">Exclusive Beta Tester Badge</div>
           <div class="reward">Beta Tester Certificate</div>
           <div class="reward">Priority access to future features</div>
+          <div class="reward">Access to the <b>Premium Discord Server</b> &mdash; direct channel with the AIMLSE team and fellow beta engineers</div>
           <div class="reward gold span2"><b>Top 3 Performers</b> &mdash; Lifetime 30% discount + Highest Developer plan + Top Beta Tester Certificate</div>
-          <div class="reward span2"><span style="color:rgba(255,255,255,.6);font-weight:500;">Top 30 Performers</span> &mdash; Free Creative Plan for 6 months</div>
+          <div class="reward span2" style="background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border-color:rgba(201,168,76,.22);">
+            <span style="flex:1;"><b>Every Beta Tester</b> &mdash; Free Creative Plan for 6 months upon launch. Creative Plan normally $25/month &mdash; that's <b>$150 in free access</b>, just for participating.</span>
+          </div>
         </div>
       </div>
 
@@ -603,7 +721,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     <div class="section-inner">
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Now Scheduling</div>
       <h2 class="apply-title reveal">Book an Information<br><em>Meeting</em></h2>
-      <p class="apply-sub reveal">Schedule a 1-on-1 call with our team to learn everything about AIMLSE, the ACI, and the beta program before you apply.</p>
+      <p class="apply-sub reveal">Schedule a 1-on-1 call with our CEO to learn everything about AIMLSE, the ACI, and the beta program before you apply.</p>
       <div class="apply-pills reveal">
         <div class="apply-pill">~15 minutes</div>
         <div class="apply-pill">Via Zoom</div>
@@ -629,8 +747,8 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
             <!-- LEFT: info panel -->
             <div class="sc-info">
               <div>
-                <div class="sc-headline">Meet the<br><em>AIMLSE Team</em></div>
-                <p class="sc-desc" style="margin-top:12px;">Get a personal walkthrough of the Adaptive Coding Interface, ask questions about the beta program, and understand what makes AIMLSE different — before you commit.</p>
+                <div class="sc-headline">Meet the<br><em>CEO</em></div>
+                <p class="sc-desc" style="margin-top:12px;">Get a personal walkthrough of the Adaptive Coding Interface directly from the founder. Ask anything about the beta program, the vision behind AIMLSE, and what makes the ACI different from every tool you've used before &mdash; before you commit.</p>
               </div>
 
               <div class="sc-details">
@@ -667,7 +785,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
                   </div>
                   <div class="sc-detail-text">
                     <div class="sc-detail-label">Host</div>
-                    <div class="sc-detail-val">Sourish Mishra &middot; AIMLSE</div>
+                    <div class="sc-detail-val">Sourish Mishra &middot; CEO, AIMLSE</div>
                   </div>
                 </div>
               </div>
@@ -735,9 +853,9 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         X
       </a>
-      <a href="https://www.instagram.com/aimlse_origina" target="_blank" rel="noopener noreferrer" class="social-link ig" aria-label="Instagram">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        Instagram
+      <a href="https://www.linkedin.com/company/aimlse/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-link li" aria-label="LinkedIn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
       </a>
     </div>
     <div class="foot-copy">&copy; 2026 AIMLSE &mdash; ADAPTIVE INTELLIGENCE PLATFORM</div>
