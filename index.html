@@ -510,7 +510,8 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       <span class="hero-date-text">JUNE 10 &nbsp;&middot;&nbsp; 4:00 PM CST</span>
       <div class="hero-date-line r"></div>
     </div>
-    <p class="hero-sub h-fade d4">Beta testers get full access the moment the clock hits zero. 150 spots. No extensions.</p>
+    <!-- FIX 1: Removed "150 spots. No extensions." -->
+    <p class="hero-sub h-fade d4">Beta testers get full access the moment the clock hits zero.</p>
 
     <div class="countdown">
       <div class="cd-unit">
@@ -534,9 +535,10 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       </div>
     </div>
 
+    <!-- FIX 2: 20 → 16 spots remaining -->
     <div class="spots-pill">
       <div class="live-dot"></div>
-      <div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>20</b> spots available</div>
+      <div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>16</b> spots remaining</div>
     </div>
     <div class="scroll-hint h-fade d6" onclick="document.getElementById('aci-section').scrollIntoView({behavior:'smooth'})">
       <span>Explore</span>
@@ -722,11 +724,12 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Now Scheduling</div>
       <h2 class="apply-title reveal">Book an Information<br><em>Meeting</em></h2>
       <p class="apply-sub reveal">Schedule a 1-on-1 call with our CEO to learn everything about AIMLSE, the ACI, and the beta program before you apply.</p>
+      <!-- FIX 3: 20 → 16 spots remaining -->
       <div class="apply-pills reveal">
         <div class="apply-pill">~15 minutes</div>
         <div class="apply-pill">Via Zoom</div>
         <div class="apply-pill">PyTorch experience preferred</div>
-        <div class="apply-pill"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;"></span><b style="color:var(--g1);">20</b> spots remaining</div>
+        <div class="apply-pill"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;"></span><b style="color:var(--g1);">16</b> spots remaining</div>
       </div>
 
       <div class="scheduler-outer reveal">
@@ -801,6 +804,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       </div>
 
       <!-- info strip -->
+      <!-- FIX 4: 20 spots open → 16 spots remaining -->
       <div class="info-strip reveal">
         <div class="info-strip-item">
           <div class="info-strip-icon">
@@ -826,7 +830,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
           </div>
           <div>
             <div class="info-strip-label">Spots Available</div>
-            <div class="info-strip-val">20 spots open</div>
+            <div class="info-strip-val">16 spots remaining</div>
           </div>
         </div>
       </div>
