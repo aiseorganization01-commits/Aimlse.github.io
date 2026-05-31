@@ -11,35 +11,26 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --g:#c9a84c;--g1:#e8c96a;--g2:#9e7a22;--g3:#f5dea0;
-  --bg:#04040a;--bg2:#07070e;
-  --border:rgba(201,168,76,.13);
-  --border-h:rgba(201,168,76,.42);
-  --r-xl:28px;--r-lg:20px;--r-md:14px;--r-sm:8px;
+  --bg:#04040a;--border:rgba(201,168,76,.13);--border-h:rgba(201,168,76,.42);
+  --r-xl:28px;--r-lg:20px;--r-md:14px;--r-sm:8px;--sidebar-w:272px;
 }
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
-/* ── AMBIENT ── */
+/* ── AMBIENT + GRAIN ── */
 #amb{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 65%,rgba(201,168,76,.07) 0%,transparent 60%),
+  background:radial-gradient(ellipse 70% 50% at 50% 65%,rgba(201,168,76,.07) 0%,transparent 60%),
     radial-gradient(ellipse 45% 38% at 8% 6%,rgba(201,168,76,.045) 0%,transparent 55%),
-    radial-gradient(ellipse 38% 42% at 94% 92%,rgba(158,122,34,.04) 0%,transparent 55%),
-    radial-gradient(ellipse 30% 28% at 80% 10%,rgba(201,168,76,.025) 0%,transparent 50%);
+    radial-gradient(ellipse 38% 42% at 94% 92%,rgba(158,122,34,.04) 0%,transparent 55%);
   animation:ambDrift 24s ease-in-out infinite;}
 @keyframes ambDrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(10px,-14px) scale(1.01)}66%{transform:translate(-6px,8px) scale(.99)}}
-
-/* ── GRAIN ── */
 #grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");}
-
-/* ── LINES ── */
 .top-stripe{position:fixed;top:0;left:0;right:0;height:1px;z-index:300;
   background:linear-gradient(90deg,transparent,var(--g2) 22%,var(--g1) 50%,var(--g2) 78%,transparent);opacity:.7;}
 .vert-line{position:fixed;top:0;bottom:0;width:1px;z-index:0;pointer-events:none;
   background:linear-gradient(to bottom,transparent,rgba(201,168,76,.06) 20%,rgba(201,168,76,.06) 80%,transparent);}
-.vert-line.l{left:clamp(24px,5vw,80px);}
-.vert-line.r{right:clamp(24px,5vw,80px);}
+.vert-line.l{left:clamp(24px,5vw,80px);}.vert-line.r{right:clamp(24px,5vw,80px);}
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
@@ -47,199 +38,136 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
   background:rgba(4,4,10,.88);backdrop-filter:blur(32px) saturate(1.4);
   border-bottom:1px solid rgba(201,168,76,.07);}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;
-  letter-spacing:6px;color:var(--g);user-select:none;text-transform:uppercase;
-  position:relative;}
+  letter-spacing:6px;color:var(--g);user-select:none;text-transform:uppercase;cursor:pointer;position:relative;}
 .nav-logo::after{content:'';position:absolute;bottom:-3px;left:0;width:100%;height:1px;
   background:linear-gradient(90deg,var(--g),transparent);opacity:.4;}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
-.nav-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;
-  text-transform:uppercase;color:rgba(201,168,76,.55);padding:6px 16px;
-  border:1px solid var(--border);border-radius:40px;background:rgba(201,168,76,.04);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.nav-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(201,168,76,.55);padding:6px 16px;border:1px solid var(--border);border-radius:40px;background:rgba(201,168,76,.04);}
+.nav-docs{display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.65);padding:6px 15px;
+  border:1px solid rgba(201,168,76,.2);border-radius:40px;background:rgba(201,168,76,.05);
+  cursor:pointer;transition:all .26s;position:relative;overflow:hidden;}
+.nav-docs::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.12),transparent);opacity:0;transition:opacity .26s;}
+.nav-docs:hover,.nav-docs.active{color:var(--g1);border-color:rgba(201,168,76,.42);box-shadow:0 0 20px rgba(201,168,76,.12);}
+.nav-docs:hover::before,.nav-docs.active::before{opacity:1;}
+.nav-docs.active{background:rgba(201,168,76,.1);}
 .nav-cta{font-size:13px;font-weight:600;padding:10px 26px;
   background:linear-gradient(135deg,var(--g2) 0%,var(--g1) 60%,var(--g3) 100%);
   border:none;border-radius:40px;color:#050505;cursor:pointer;transition:all .28s;
   letter-spacing:.3px;box-shadow:0 0 0 1px rgba(201,168,76,.2);}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,168,76,.35),0 0 0 1px rgba(201,168,76,.3);}
-.wrap{position:relative;z-index:2;}
+.menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:8px 10px;color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;}
+.menu-btn:hover{border-color:var(--border-h);color:var(--g);}
+@media(max-width:820px){.menu-btn{display:flex;align-items:center;}}
 
-/* ── HERO ── */
+/* ── VIEW TOGGLE ── */
+#view-docs{display:none;}
+
+/* ══════════ LANDING STYLES ══════════ */
+.wrap{position:relative;z-index:2;}
 #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;padding:110px 24px 80px;position:relative;z-index:2;}
 #hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:700px;height:700px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 70%);
-  pointer-events:none;}
-
+  background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 70%);pointer-events:none;}
 .mystery-logo{margin-bottom:44px;}
 .mystery-box{position:relative;display:inline-flex;align-items:center;justify-content:center;
-  padding:14px 36px;overflow:hidden;border:1px solid rgba(201,168,76,.25);
-  border-radius:var(--r-md);background:rgba(201,168,76,.04);}
-.mystery-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.7),transparent);}
-.mystery-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent);}
-.mystery-text{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;
-  letter-spacing:8px;color:var(--g);filter:blur(9px);user-select:none;position:relative;z-index:1;}
-.mystery-frost{position:absolute;inset:0;border-radius:var(--r-md);
-  backdrop-filter:blur(8px);background:rgba(4,4,10,.5);}
-.mystery-tag{margin-top:11px;font-family:'DM Mono',monospace;font-size:9px;
-  letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,168,76,.32);}
-
-.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4.5px;
-  text-transform:uppercase;color:var(--g);margin-bottom:20px;opacity:.85;}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,9.5vw,96px);
-  font-weight:400;line-height:.97;margin-bottom:18px;color:#fff;letter-spacing:-1px;}
+  padding:14px 36px;overflow:hidden;border:1px solid rgba(201,168,76,.25);border-radius:var(--r-md);background:rgba(201,168,76,.04);}
+.mystery-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.7),transparent);}
+.mystery-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent);}
+.mystery-text{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;letter-spacing:8px;color:var(--g);filter:blur(9px);user-select:none;position:relative;z-index:1;}
+.mystery-frost{position:absolute;inset:0;border-radius:var(--r-md);backdrop-filter:blur(8px);background:rgba(4,4,10,.5);}
+.mystery-tag{margin-top:11px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,168,76,.32);}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4.5px;text-transform:uppercase;color:var(--g);margin-bottom:20px;opacity:.85;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,9.5vw,96px);font-weight:400;line-height:.97;margin-bottom:18px;color:#fff;letter-spacing:-1px;}
 .hero-title em{font-style:italic;color:var(--g1);opacity:.8;}
 .hero-date{display:inline-flex;align-items:center;gap:16px;margin-bottom:18px;}
 .hero-date-line{width:42px;height:1px;background:linear-gradient(90deg,transparent,var(--g));}
 .hero-date-line.r{background:linear-gradient(90deg,var(--g),transparent);}
 .hero-date-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--g);}
-.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.35);
-  max-width:380px;line-height:1.9;margin-bottom:54px;}
-
-/* ── COUNTDOWN ── */
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.35);max-width:380px;line-height:1.9;margin-bottom:54px;}
 .countdown{display:flex;align-items:flex-start;gap:clamp(8px,2vw,24px);margin-bottom:46px;}
 .cd-unit{display:flex;flex-direction:column;align-items:center;gap:11px;}
 .cd-box{position:relative;width:clamp(78px,11vw,118px);height:clamp(86px,12.5vw,130px);
-  background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.18);
-  border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-  box-shadow:0 4px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04),0 0 60px rgba(201,168,76,.03);}
-.cd-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.6),transparent);}
-.cd-box::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;
-  background:rgba(0,0,0,.55);pointer-events:none;}
-.cd-box-inner-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);
-  width:40px;height:40px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,168,76,.12),transparent);pointer-events:none;}
-.cd-num{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7.5vw,68px);
-  font-weight:500;color:var(--g1);line-height:1;position:relative;z-index:1;
-  display:block;transition:transform .12s ease,opacity .12s ease;}
+  background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.18);border-radius:var(--r-lg);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  box-shadow:0 4px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);}
+.cd-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.6),transparent);}
+.cd-box::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,0,0,.55);pointer-events:none;}
+.cd-box-inner-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.12),transparent);pointer-events:none;}
+.cd-num{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7.5vw,68px);font-weight:500;color:var(--g1);line-height:1;position:relative;z-index:1;display:block;transition:transform .12s ease,opacity .12s ease;}
 .cd-num.tick{transform:translateY(-6px) scale(.9);opacity:.2;}
-.cd-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3.5px;
-  text-transform:uppercase;color:rgba(201,168,76,.38);}
-.cd-sep{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5.5vw,54px);
-  font-weight:300;color:rgba(201,168,76,.22);line-height:1;margin-top:clamp(22px,3.2vw,34px);}
-
-.spots-pill{display:inline-flex;align-items:center;gap:11px;padding:11px 24px;
-  border-radius:40px;border:1px solid rgba(201,168,76,.18);
-  background:rgba(201,168,76,.045);margin-bottom:38px;}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;
-  box-shadow:0 0 10px #4ade80,0 0 20px rgba(74,222,128,.3);animation:livePulse 2s ease-in-out infinite;}
+.cd-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,168,76,.38);}
+.cd-sep{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5.5vw,54px);font-weight:300;color:rgba(201,168,76,.22);line-height:1;margin-top:clamp(22px,3.2vw,34px);}
+.spots-pill{display:inline-flex;align-items:center;gap:11px;padding:11px 24px;border-radius:40px;border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.045);margin-bottom:38px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80,0 0 20px rgba(74,222,128,.3);animation:livePulse 2s ease-in-out infinite;}
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.6)}}
 .spots-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.42);}
 .spots-text b{color:var(--g1);font-weight:500;}
-.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:9px;
-  cursor:pointer;opacity:.3;animation:cuePulse 2.8s ease-in-out infinite;}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;opacity:.3;animation:cuePulse 2.8s ease-in-out infinite;}
 .scroll-hint span{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;}
 .scroll-bar{width:1px;height:46px;background:linear-gradient(to bottom,var(--g),transparent);}
 @keyframes cuePulse{0%,100%{opacity:.3;transform:translateY(0)}55%{opacity:.65;transform:translateY(5px)}}
-
-/* ── DIVIDER ── */
 .section-divider{position:relative;height:1px;max-width:980px;margin:0 auto;
   background:linear-gradient(90deg,transparent,rgba(201,168,76,.12) 30%,rgba(201,168,76,.25) 50%,rgba(201,168,76,.12) 70%,transparent);}
-.section-divider::before{content:'◆';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  font-size:8px;color:rgba(201,168,76,.35);background:var(--bg);padding:0 12px;}
-
-/* ── SECTIONS ── */
-.section{position:relative;z-index:2;padding:110px 0;}
+.section-divider::before{content:'◆';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:8px;color:rgba(201,168,76,.35);background:var(--bg);padding:0 12px;}
+.lp-section{position:relative;z-index:2;padding:110px 0;}
 .section-inner{max-width:980px;margin:0 auto;padding:0 28px;}
-.sec-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4.5px;
-  text-transform:uppercase;color:var(--g);opacity:.75;margin-bottom:14px;
-  display:flex;align-items:center;gap:12px;}
-.sec-eye::after{content:'';flex:1;max-width:80px;height:1px;
-  background:linear-gradient(90deg,rgba(201,168,76,.28),transparent);}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5.5vw,58px);
-  font-weight:400;color:#fff;line-height:1.04;margin-bottom:14px;letter-spacing:-.4px;}
-.sec-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.38);
-  max-width:540px;line-height:1.9;margin-bottom:52px;}
-
-/* ── ACI GRID ── */
+.sec-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4.5px;text-transform:uppercase;color:var(--g);opacity:.75;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.sec-eye::after{content:'';flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,rgba(201,168,76,.28),transparent);}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5.5vw,58px);font-weight:400;color:#fff;line-height:1.04;margin-bottom:14px;letter-spacing:-.4px;}
+.sec-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.38);max-width:540px;line-height:1.9;margin-bottom:52px;}
 .aci-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
 @media(max-width:720px){.aci-grid{grid-template-columns:repeat(2,1fr);}}
-.aci-card{background:rgba(255,255,255,.025);border:1px solid var(--border);
-  border-radius:var(--r-xl);padding:48px 22px 38px;text-align:center;
-  position:relative;overflow:hidden;
+.aci-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r-xl);padding:48px 22px 38px;text-align:center;position:relative;overflow:hidden;
   box-shadow:0 4px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
   transition:transform .42s cubic-bezier(.4,0,.2,1),border-color .42s,box-shadow .42s;}
-.aci-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--g),transparent);
-  transform:translateX(-110%);transition:transform .8s ease;}
-.aci-card::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:60px;
-  background:radial-gradient(ellipse at 50% 100%,rgba(201,168,76,.04),transparent);pointer-events:none;}
+.aci-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);transform:translateX(-110%);transition:transform .8s ease;}
 .aci-card:hover::before{transform:translateX(110%);}
-.aci-card:hover{transform:translateY(-12px);border-color:var(--border-h);
-  box-shadow:0 28px 70px rgba(0,0,0,.5),0 0 40px rgba(201,168,76,.1),inset 0 1px 0 rgba(255,255,255,.06);}
-.aci-num{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:500;
-  color:var(--g1);margin-bottom:8px;letter-spacing:2px;line-height:1;
-  text-shadow:0 0 40px rgba(201,168,76,.3);}
-.aci-name{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px;letter-spacing:.2px;}
+.aci-card:hover{transform:translateY(-12px);border-color:var(--border-h);box-shadow:0 28px 70px rgba(0,0,0,.5),0 0 40px rgba(201,168,76,.1);}
+.aci-num{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:500;color:var(--g1);margin-bottom:8px;letter-spacing:2px;line-height:1;text-shadow:0 0 40px rgba(201,168,76,.3);}
+.aci-name{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px;}
 .aci-rule{width:28px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.55),transparent);margin:12px auto;}
 .aci-desc{font-size:12px;color:rgba(255,255,255,.3);font-weight:300;line-height:1.65;}
-.aci-caption{text-align:center;font-family:'Cormorant Garamond',serif;font-size:21px;
-  font-style:italic;font-weight:300;color:rgba(201,168,76,.45);letter-spacing:.4px;}
-
-/* ── WHY ACI SECTION ── */
+.aci-caption{text-align:center;font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;font-weight:300;color:rgba(201,168,76,.45);}
 .why-prose{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.95;max-width:760px;margin-bottom:14px;}
 .why-prose strong{color:rgba(255,255,255,.8);font-weight:500;}
-.why-prose em{font-style:italic;color:var(--g1);}
-.why-block{background:rgba(255,255,255,.018);border:1px solid var(--border);border-radius:var(--r-xl);
-  padding:32px 36px;margin-bottom:12px;position:relative;overflow:hidden;
-  box-shadow:0 2px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.03);
-  transition:border-color .32s,transform .32s,box-shadow .32s;}
-.why-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent);}
-.why-block:hover{border-color:var(--border-h);transform:translateY(-4px);
-  box-shadow:0 16px 50px rgba(0,0,0,.35),0 0 28px rgba(201,168,76,.06);}
+.why-block{background:rgba(255,255,255,.018);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 36px;margin-bottom:12px;position:relative;overflow:hidden;
+  box-shadow:0 2px 20px rgba(0,0,0,.25);transition:border-color .32s,transform .32s,box-shadow .32s;}
+.why-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent);}
+.why-block:hover{border-color:var(--border-h);transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,.35),0 0 28px rgba(201,168,76,.06);}
 .why-block-head{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
-.why-block-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;
-  color:var(--g1);line-height:1;text-shadow:0 0 30px rgba(201,168,76,.25);flex-shrink:0;}
-.why-block-titles{}
-.why-block-layer{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;
-  text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
+.why-block-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;color:var(--g1);line-height:1;flex-shrink:0;}
+.why-block-layer{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
 .why-block-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#fff;}
 .why-block-body{font-size:13px;color:rgba(255,255,255,.36);font-weight:300;line-height:1.9;}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 @media(max-width:680px){.why-grid{grid-template-columns:1fr;}}
-.why-callout{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));
-  border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);
-  padding:32px 36px;margin-top:12px;position:relative;overflow:hidden;}
-.why-callout::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.55),transparent);}
-.why-callout-text{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.4vw,22px);
-  font-weight:400;font-style:italic;color:rgba(255,255,255,.65);line-height:1.6;}
+.why-callout{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);padding:32px 36px;margin-top:12px;position:relative;overflow:hidden;}
+.why-callout::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.55),transparent);}
+.why-callout-text{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.4vw,22px);font-weight:400;font-style:italic;color:rgba(255,255,255,.65);line-height:1.6;}
 .why-callout-text strong{font-style:normal;color:var(--g1);font-weight:500;}
 .problem-vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 28px;}
 @media(max-width:620px){.problem-vs{grid-template-columns:1fr;}}
 .pvs-card{border-radius:var(--r-xl);padding:28px 26px;position:relative;overflow:hidden;}
 .pvs-card.bad{background:rgba(220,60,60,.03);border:1px solid rgba(220,60,60,.12);}
-.pvs-card.bad::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(220,60,60,.25),transparent);}
+.pvs-card.bad::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(220,60,60,.25),transparent);}
 .pvs-card.good{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);}
-.pvs-card.good::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.45),transparent);}
-.pvs-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;
-  text-transform:uppercase;margin-bottom:14px;}
-.pvs-label.red{color:rgba(220,100,100,.55);}
-.pvs-label.gold{color:rgba(201,168,76,.55);}
-.pvs-item{font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;
-  display:flex;align-items:flex-start;gap:9px;padding:4px 0;}
+.pvs-card.good::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.45),transparent);}
+.pvs-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.pvs-label.red{color:rgba(220,100,100,.55);}.pvs-label.gold{color:rgba(201,168,76,.55);}
+.pvs-item{font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;display:flex;align-items:flex-start;gap:9px;padding:4px 0;}
 .pvs-item::before{font-size:10px;flex-shrink:0;margin-top:2px;}
 .pvs-item.bad::before{content:'✕';color:rgba(220,80,80,.5);}
 .pvs-item.good::before{content:'✓';color:var(--g);}
-
-/* ── BETA INFO ── */
 .demo-card{display:flex;align-items:center;gap:32px;flex-wrap:wrap;
   background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));
-  border:1px solid rgba(201,168,76,.22);border-radius:var(--r-xl);padding:32px 36px;
-  margin-bottom:24px;position:relative;overflow:hidden;
+  border:1px solid rgba(201,168,76,.22);border-radius:var(--r-xl);padding:32px 36px;margin-bottom:24px;position:relative;overflow:hidden;
   box-shadow:0 8px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(201,168,76,.12);}
-.demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.7),transparent);}
-.demo-card::after{content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(201,168,76,.04),transparent);}
-.demo-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--g);margin-bottom:6px;}
+.demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.7),transparent);}
+.demo-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g);margin-bottom:6px;}
 .demo-day{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:500;color:#fff;line-height:1;}
 .demo-time{font-size:13px;color:rgba(255,255,255,.35);margin-top:5px;font-weight:300;}
 .demo-vline{width:1px;height:54px;background:rgba(201,168,76,.18);flex-shrink:0;}
@@ -247,228 +175,209 @@ nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:200;
 .demo-sub{font-size:13px;color:rgba(255,255,255,.33);font-weight:300;line-height:1.7;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 @media(max-width:620px){.grid2{grid-template-columns:1fr;}}
-.glass-card{background:rgba(255,255,255,.025);border:1px solid var(--border);
-  border-radius:var(--r-xl);padding:30px 28px;position:relative;overflow:hidden;
-  box-shadow:0 2px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.03);
-  transition:border-color .32s,transform .32s,box-shadow .32s;}
-.glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.22),transparent);}
-.glass-card:hover{border-color:var(--border-h);transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 30px rgba(201,168,76,.06);}
+.glass-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r-xl);padding:30px 28px;position:relative;overflow:hidden;
+  box-shadow:0 2px 20px rgba(0,0,0,.25);transition:border-color .32s,transform .32s,box-shadow .32s;}
+.glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.22),transparent);}
+.glass-card:hover{border-color:var(--border-h);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 30px rgba(201,168,76,.06);}
 .card-accent{width:24px;height:2px;background:linear-gradient(90deg,var(--g),transparent);margin-bottom:14px;border-radius:2px;}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:#fff;margin-bottom:9px;}
 .card-body{font-size:13px;color:rgba(255,255,255,.36);font-weight:300;line-height:1.85;}
 .card-list{list-style:none;margin-top:12px;}
-.card-list li{font-size:12px;color:rgba(255,255,255,.36);padding:4px 0;
-  display:flex;align-items:flex-start;gap:9px;line-height:1.55;}
+.card-list li{font-size:12px;color:rgba(255,255,255,.36);padding:4px 0;display:flex;align-items:flex-start;gap:9px;line-height:1.55;}
 .card-list li::before{content:'—';font-size:10px;color:var(--g);flex-shrink:0;margin-top:1px;}
-.flat-card{background:rgba(255,255,255,.025);border:1px solid var(--border);
-  border-radius:var(--r-xl);padding:28px;margin-bottom:14px;position:relative;overflow:hidden;
-  box-shadow:0 2px 18px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.03);}
-.flat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent);}
+.flat-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px;margin-bottom:14px;position:relative;overflow:hidden;}
+.flat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent);}
 .flat-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:16px;}
 .tags{display:flex;flex-wrap:wrap;gap:9px;}
-.tag{font-size:12px;color:rgba(255,255,255,.36);padding:8px 15px;
-  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--r-md);display:flex;align-items:center;gap:7px;}
+.tag{font-size:12px;color:rgba(255,255,255,.36);padding:8px 15px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-md);display:flex;align-items:center;gap:7px;}
 .tag::before{content:'◆';font-size:6px;color:var(--g);}
-.tag.off{border-color:rgba(220,60,60,.2);}
-.tag.off::before{color:rgba(220,100,100,.5);}
+.tag.off{border-color:rgba(220,60,60,.2);}.tag.off::before{color:rgba(220,100,100,.5);}
 .rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:520px){.rewards{grid-template-columns:1fr;}}
-.reward{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);
-  border-radius:var(--r-md);padding:15px 16px;font-size:12px;color:rgba(255,255,255,.44);
-  line-height:1.6;display:flex;align-items:flex-start;gap:9px;}
+.reward{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:var(--r-md);padding:15px 16px;font-size:12px;color:rgba(255,255,255,.44);line-height:1.6;display:flex;align-items:flex-start;gap:9px;}
 .reward::before{content:'✦';font-size:9px;color:var(--g);flex-shrink:0;margin-top:2px;}
 .reward.span2{grid-column:1/-1;}
 .reward.gold{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border-color:rgba(201,168,76,.28);}
 .reward b{color:var(--g1);font-weight:500;}
-.nda-card{background:rgba(220,50,50,.03);border:1px solid rgba(220,60,60,.14);
-  border-radius:var(--r-xl);padding:28px 30px;margin-top:14px;position:relative;overflow:hidden;}
-.nda-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(220,60,60,.3),transparent);}
+.nda-card{background:rgba(220,50,50,.03);border:1px solid rgba(220,60,60,.14);border-radius:var(--r-xl);padding:28px 30px;margin-top:14px;position:relative;overflow:hidden;}
+.nda-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(220,60,60,.3),transparent);}
 .nda-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:8px;}
 .nda-body{font-size:13px;color:rgba(255,255,255,.34);font-weight:300;line-height:1.9;}
 .nda-body strong{color:rgba(255,150,150,.58);font-weight:500;}
-
-/* ── ZOOM SCHEDULER SECTION ── */
-#apply-section{padding-bottom:160px;}
-.apply-badge{display:inline-flex;align-items:center;gap:9px;padding:7px 19px;
-  border-radius:40px;border:1px solid rgba(201,168,76,.22);background:rgba(201,168,76,.055);
-  font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;
-  letter-spacing:3px;color:var(--g);margin-bottom:18px;}
-.badge-pulse{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:livePulse 2s ease-in-out infinite;
-  box-shadow:0 0 8px #4ade80;}
-.apply-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5.5vw,56px);
-  font-weight:400;color:#fff;line-height:1.04;margin-bottom:13px;letter-spacing:-.4px;}
-.apply-title em{font-style:italic;background:linear-gradient(135deg,var(--g2),var(--g1),var(--g3));
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-.apply-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.38);
-  max-width:480px;line-height:1.9;margin-bottom:24px;}
+.apply-badge{display:inline-flex;align-items:center;gap:9px;padding:7px 19px;border-radius:40px;border:1px solid rgba(201,168,76,.22);background:rgba(201,168,76,.055);font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--g);margin-bottom:18px;}
+.badge-pulse{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:livePulse 2s ease-in-out infinite;box-shadow:0 0 8px #4ade80;}
+.apply-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5.5vw,56px);font-weight:400;color:#fff;line-height:1.04;margin-bottom:13px;letter-spacing:-.4px;}
+.apply-title em{font-style:italic;background:linear-gradient(135deg,var(--g2),var(--g1),var(--g3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.apply-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.38);max-width:480px;line-height:1.9;margin-bottom:24px;}
 .apply-pills{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:46px;}
-.apply-pill{font-size:12px;color:rgba(255,255,255,.48);padding:7px 16px;
-  border:1px solid rgba(201,168,76,.16);border-radius:40px;background:rgba(201,168,76,.04);
-  display:flex;align-items:center;gap:7px;}
+.apply-pill{font-size:12px;color:rgba(255,255,255,.48);padding:7px 16px;border:1px solid rgba(201,168,76,.16);border-radius:40px;background:rgba(201,168,76,.04);display:flex;align-items:center;gap:7px;}
 .apply-pill::before{content:'◆';font-size:5px;color:var(--g);}
-
-/* ── SCHEDULER CARD ── */
 .scheduler-outer{position:relative;}
-.scheduler-outer::before{content:'';position:absolute;inset:-1px;border-radius:calc(var(--r-xl) + 1px);
-  background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.06) 40%,rgba(201,168,76,.02) 60%,rgba(201,168,76,.2));
-  z-index:0;pointer-events:none;}
-.scheduler-card{position:relative;z-index:1;
-  background:linear-gradient(160deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
-  border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);overflow:hidden;
-  box-shadow:0 20px 80px rgba(0,0,0,.55),0 0 60px rgba(201,168,76,.06),inset 0 1px 0 rgba(255,255,255,.05);}
-.sc-topbar{display:flex;align-items:center;justify-content:space-between;
-  padding:16px 26px;background:rgba(201,168,76,.055);
-  border-bottom:1px solid rgba(201,168,76,.12);}
-.sc-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(201,168,76,.75);display:flex;align-items:center;gap:9px;}
+.scheduler-outer::before{content:'';position:absolute;inset:-1px;border-radius:calc(var(--r-xl) + 1px);background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.06) 40%,rgba(201,168,76,.02) 60%,rgba(201,168,76,.2));z-index:0;pointer-events:none;}
+.scheduler-card{position:relative;z-index:1;background:linear-gradient(160deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);}
+.sc-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 26px;background:rgba(201,168,76,.055);border-bottom:1px solid rgba(201,168,76,.12);}
+.sc-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.75);display:flex;align-items:center;gap:9px;}
 .sc-label-dot{width:6px;height:6px;border-radius:50%;background:var(--g);opacity:.7;}
-.sc-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
-  color:rgba(255,255,255,.28);display:flex;align-items:center;gap:6px;}
-.sc-badge svg{opacity:.5;}
+.sc-badge{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.28);display:flex;align-items:center;gap:6px;}
 .sc-body{display:grid;grid-template-columns:360px 1fr;min-height:560px;}
 @media(max-width:780px){.sc-body{grid-template-columns:1fr;}}
-.sc-action-embed{padding:0;overflow:hidden;}
-.sc-info{padding:48px 44px;border-right:1px solid rgba(201,168,76,.08);
-  display:flex;flex-direction:column;justify-content:space-between;gap:32px;
-  background:linear-gradient(160deg,rgba(201,168,76,.03),transparent);}
+.sc-info{padding:48px 44px;border-right:1px solid rgba(201,168,76,.08);display:flex;flex-direction:column;justify-content:space-between;gap:32px;background:linear-gradient(160deg,rgba(201,168,76,.03),transparent);}
 @media(max-width:780px){.sc-info{border-right:none;border-bottom:1px solid rgba(201,168,76,.08);}}
-.sc-headline{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;
-  color:#fff;line-height:1.1;margin-bottom:10px;}
+.sc-headline{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:#fff;line-height:1.1;margin-bottom:10px;}
 .sc-headline em{font-style:italic;color:var(--g1);}
 .sc-desc{font-size:13px;color:rgba(255,255,255,.34);font-weight:300;line-height:1.85;}
 .sc-details{display:flex;flex-direction:column;gap:14px;}
-.sc-detail{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;
-  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);
-  border-radius:var(--r-md);}
-.sc-detail-icon{width:32px;height:32px;border-radius:var(--r-sm);flex-shrink:0;
-  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
-  display:flex;align-items:center;justify-content:center;}
+.sc-detail{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:var(--r-md);}
+.sc-detail-icon{width:32px;height:32px;border-radius:var(--r-sm);flex-shrink:0;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;}
 .sc-detail-icon svg{color:var(--g);}
-.sc-detail-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;
-  text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
-.sc-detail-val{font-size:13px;color:rgba(255,255,255,.7);font-weight:400;}
-.sc-action{padding:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
-  background:linear-gradient(160deg,rgba(255,255,255,.015),transparent);}
-.zoom-logo-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:8px;}
-.zoom-logo{display:flex;align-items:center;gap:11px;}
-.zoom-icon{width:46px;height:46px;border-radius:12px;
-  background:linear-gradient(135deg,#2D8CFF,#0E55CC);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(45,140,255,.35);}
-.zoom-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#fff;letter-spacing:.5px;}
-.zoom-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.22);}
-.sc-cta-block{width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.sc-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;max-width:300px;padding:17px 32px;border-radius:40px;
-  background:linear-gradient(135deg,var(--g2) 0%,var(--g) 50%,var(--g1) 100%);
-  border:none;color:#050505;font-family:'DM Sans',sans-serif;font-size:14px;
-  font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-  cursor:pointer;text-decoration:none;
-  position:relative;overflow:hidden;transition:all .32s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 4px 28px rgba(201,168,76,.25),0 0 0 1px rgba(201,168,76,.2);}
-.sc-cta::before{content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s;}
-.sc-cta:hover{transform:translateY(-3px);box-shadow:0 18px 54px rgba(201,168,76,.42),0 0 0 1px rgba(201,168,76,.3);}
-.sc-cta:hover::before{opacity:1;}
-.sc-cta svg{flex-shrink:0;transition:transform .3s;}
-.sc-cta:hover svg{transform:translateX(3px);}
-.sc-note{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
-  color:rgba(255,255,255,.2);text-align:center;line-height:1.7;}
-.sc-steps{width:100%;max-width:300px;}
-.sc-step{display:flex;align-items:center;gap:11px;padding:9px 0;
-  border-bottom:1px solid rgba(255,255,255,.04);}
-.sc-step:last-child{border-bottom:none;}
-.sc-step-num{width:22px;height:22px;border-radius:50%;border:1px solid rgba(201,168,76,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'DM Mono',monospace;font-size:8px;color:var(--g);flex-shrink:0;}
-.sc-step-txt{font-size:12px;color:rgba(255,255,255,.32);font-weight:300;}
-
-/* ── BOTTOM BANNER ── */
-.info-strip{display:flex;align-items:center;gap:0;flex-wrap:nowrap;overflow:hidden;
-  background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);
-  border-radius:var(--r-xl);margin-top:20px;padding:0;}
-.info-strip-item{flex:1;min-width:0;padding:22px 26px;
-  display:flex;align-items:center;gap:13px;border-right:1px solid rgba(201,168,76,.08);}
+.sc-detail-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:3px;}
+.sc-detail-val{font-size:13px;color:rgba(255,255,255,.7);}
+.info-strip{display:flex;align-items:center;flex-wrap:nowrap;overflow:hidden;background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);border-radius:var(--r-xl);margin-top:20px;}
+.info-strip-item{flex:1;min-width:0;padding:22px 26px;display:flex;align-items:center;gap:13px;border-right:1px solid rgba(201,168,76,.08);}
 .info-strip-item:last-child{border-right:none;}
 @media(max-width:640px){.info-strip{flex-wrap:wrap;}.info-strip-item{border-right:none;border-bottom:1px solid rgba(201,168,76,.08);}.info-strip-item:last-child{border-bottom:none;}}
-.info-strip-icon{width:36px;height:36px;border-radius:var(--r-sm);flex-shrink:0;
-  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.14);
-  display:flex;align-items:center;justify-content:center;}
+.info-strip-icon{width:36px;height:36px;border-radius:var(--r-sm);flex-shrink:0;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.14);display:flex;align-items:center;justify-content:center;}
 .info-strip-icon svg{color:var(--g);}
 .info-strip-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.45);margin-bottom:3px;}
-.info-strip-val{font-size:13px;color:rgba(255,255,255,.65);font-weight:400;}
-
-/* ── FOOTER ── */
-footer{position:relative;z-index:2;padding:72px 28px 50px;text-align:center;
-  border-top:1px solid rgba(201,168,76,.07);}
-footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.2) 30%,rgba(201,168,76,.35) 50%,rgba(201,168,76,.2) 70%,transparent);}
-.foot-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;
-  letter-spacing:7px;color:var(--g);margin-bottom:8px;text-transform:uppercase;}
-.foot-title{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.5vw,28px);
-  font-weight:300;font-style:italic;color:rgba(255,255,255,.5);margin-bottom:20px;}
-.foot-email{color:var(--g);text-decoration:none;font-size:14px;transition:color .25s;position:relative;padding-bottom:2px;}
-.foot-email::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--g);transition:width .3s;}
+.info-strip-val{font-size:13px;color:rgba(255,255,255,.65);}
+footer{position:relative;z-index:2;padding:72px 28px 50px;text-align:center;border-top:1px solid rgba(201,168,76,.07);}
+footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.35) 50%,transparent);}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:7px;color:var(--g);margin-bottom:8px;text-transform:uppercase;}
+.foot-title{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.5vw,28px);font-weight:300;font-style:italic;color:rgba(255,255,255,.5);margin-bottom:20px;}
+.foot-email{color:var(--g);text-decoration:none;font-size:14px;transition:color .25s;}
 .foot-email:hover{color:var(--g1);}
-.foot-email:hover::after{width:100%;}
 .foot-divider{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,.18),transparent);margin:30px auto;}
 .social-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,168,76,.3);margin-bottom:18px;}
 .social-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-.social-link{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;
-  border:1px solid rgba(201,168,76,.12);border-radius:40px;background:rgba(201,168,76,.04);
-  color:rgba(255,255,255,.4);text-decoration:none;font-family:'DM Mono',monospace;
-  font-size:10px;letter-spacing:1.5px;transition:all .28s ease;position:relative;overflow:hidden;}
-.social-link::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);opacity:0;transition:opacity .28s;}
-.social-link:hover{border-color:rgba(201,168,76,.38);color:var(--g1);transform:translateY(-3px);box-shadow:0 12px 32px rgba(201,168,76,.1);}
-.social-link:hover::before{opacity:1;}
-.social-link svg{flex-shrink:0;transition:transform .28s;}
-.social-link:hover svg{transform:scale(1.12);}
-.social-link.ph:hover{border-color:rgba(218,73,39,.42);color:#da4927;}
-.social-link.yt:hover{border-color:rgba(255,0,0,.38);color:#ff4040;}
-.social-link.x:hover{border-color:rgba(255,255,255,.28);color:#fff;}
-.social-link.li:hover{border-color:rgba(10,102,194,.5);color:#0a66c2;}
+.social-link{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border:1px solid rgba(201,168,76,.12);border-radius:40px;background:rgba(201,168,76,.04);color:rgba(255,255,255,.4);text-decoration:none;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;transition:all .28s ease;}
+.social-link:hover{border-color:rgba(201,168,76,.38);color:var(--g1);transform:translateY(-3px);}
+.social-link.ph:hover{color:#da4927;}.social-link.yt:hover{color:#ff4040;}.social-link.x:hover{color:#fff;}.social-link.li:hover{color:#0a66c2;}
 .foot-copy{margin-top:28px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.1);letter-spacing:1.5px;}
 
 /* ── UNLOCK OVERLAY ── */
-#unlock{position:fixed;inset:0;z-index:600;background:#04040a;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .7s ease;}
+#unlock{position:fixed;inset:0;z-index:600;background:#04040a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .7s ease;}
 #unlock.show{opacity:1;pointer-events:all;}
-.unlock-glow{position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 65% 55% at 50% 55%,rgba(201,168,76,.12) 0%,transparent 65%);}
-.unlock-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
-  text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:18px;position:relative;z-index:1;}
-.unlock-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,10vw,96px);
-  font-weight:400;line-height:1.0;margin-bottom:16px;color:var(--g1);
-  animation:goldPulse 3s ease-in-out infinite;position:relative;z-index:1;}
+.unlock-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 65% 55% at 50% 55%,rgba(201,168,76,.12) 0%,transparent 65%);}
+.unlock-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:18px;position:relative;z-index:1;}
+.unlock-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,10vw,96px);font-weight:400;line-height:1.0;margin-bottom:16px;color:var(--g1);animation:goldPulse 3s ease-in-out infinite;position:relative;z-index:1;}
 @keyframes goldPulse{0%,100%{opacity:1}50%{opacity:.72}}
 .unlock-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,.34);margin-bottom:46px;position:relative;z-index:1;}
-.enter-btn{position:relative;z-index:1;display:inline-block;text-decoration:none;
-  padding:18px 56px;border-radius:40px;background:linear-gradient(135deg,var(--g2),var(--g1));
-  border:none;color:#050505;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
-  cursor:pointer;transition:all .3s;box-shadow:0 8px 36px rgba(201,168,76,.28);}
+.enter-btn{position:relative;z-index:1;padding:18px 56px;border-radius:40px;background:linear-gradient(135deg,var(--g2),var(--g1));border:none;color:#050505;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 8px 36px rgba(201,168,76,.28);}
 .enter-btn:hover{transform:translateY(-4px);box-shadow:0 22px 60px rgba(201,168,76,.5);}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:599;}
 
-/* ── SCROLL REVEAL ── */
+/* ══════════ DOCS STYLES ══════════ */
+.doc-layout{display:flex;padding-top:64px;min-height:100vh;position:relative;z-index:2;}
+.sidebar{position:fixed;top:64px;left:0;bottom:0;width:var(--sidebar-w);overflow-y:auto;overflow-x:hidden;border-right:1px solid rgba(201,168,76,.07);background:rgba(4,4,10,.6);backdrop-filter:blur(20px);padding:32px 0 60px;z-index:100;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,.15) transparent;transition:transform .32s cubic-bezier(.4,0,.2,1);}
+.sidebar::-webkit-scrollbar{width:3px;}.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.15);border-radius:3px;}
+@media(max-width:820px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}}
+.sb-group{margin-bottom:28px;}
+.sb-group-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.35);padding:0 24px;margin-bottom:10px;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 24px;font-size:13px;color:rgba(255,255,255,.38);cursor:pointer;user-select:none;border-left:2px solid transparent;transition:all .22s;position:relative;}
+.sb-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--g),transparent);opacity:0;transition:opacity .22s;}
+.sb-link:hover{color:rgba(255,255,255,.72);background:rgba(201,168,76,.04);}
+.sb-link.active{color:var(--g1);background:rgba(201,168,76,.06);}
+.sb-link.active::before{opacity:1;}
+.sb-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:40px;margin-left:auto;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80;}
+.doc-main{margin-left:var(--sidebar-w);flex:1;min-width:0;padding:60px clamp(28px,5vw,80px) 120px;max-width:900px;}
+@media(max-width:820px){.doc-main{margin-left:0;padding:40px 24px 100px;}}
+.ds{margin-bottom:80px;padding-top:16px;}
+.de{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);opacity:.8;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.de::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,rgba(201,168,76,.3),transparent);}
+.dh1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,54px);font-weight:400;line-height:1.06;color:#fff;margin-bottom:14px;}
+.dh1 em{font-style:italic;color:var(--g1);}
+.dlead{font-size:16px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.9;max-width:620px;margin-bottom:40px;border-left:2px solid rgba(201,168,76,.25);padding-left:18px;}
+.dh2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.5vw,32px);font-weight:400;color:#fff;margin:48px 0 14px;line-height:1.1;display:flex;align-items:center;gap:14px;}
+.dh2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,76,.15),transparent);}
+.dh3{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:rgba(255,255,255,.85);margin:28px 0 10px;}
+.dp{font-size:14px;font-weight:300;color:rgba(255,255,255,.48);line-height:1.95;margin-bottom:16px;}
+.dp strong{color:rgba(255,255,255,.78);font-weight:500;}
+.dp em{font-style:italic;color:var(--g1);}
+.ddiv{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2) 50%,transparent);margin:64px 0;position:relative;}
+.ddiv::before{content:'◆';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:7px;color:rgba(201,168,76,.3);background:var(--bg);padding:0 10px;}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:28px 0;}
+@media(max-width:560px){.lgrid{grid-template-columns:1fr;}}
+.lcard{background:rgba(255,255,255,.024);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 28px;position:relative;overflow:hidden;transition:transform .38s cubic-bezier(.4,0,.2,1),border-color .38s,box-shadow .38s;}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent);transform:translateX(-110%);transition:transform .7s ease;}
+.lcard:hover::before{transform:translateX(110%);}
+.lcard:hover{transform:translateY(-8px);border-color:var(--border-h);box-shadow:0 24px 60px rgba(0,0,0,.45),0 0 30px rgba(201,168,76,.09);}
+.lnum{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:500;color:var(--g1);line-height:1;margin-bottom:8px;}
+.lname{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px;}
+.lrule{width:22px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent);margin:12px 0;}
+.ldesc{font-size:13px;color:rgba(255,255,255,.32);font-weight:300;line-height:1.75;}
+.cb{position:relative;background:rgba(7,7,14,.85);border:1px solid rgba(201,168,76,.12);border-radius:var(--r-lg);overflow:hidden;margin:20px 0;}
+.cb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.35),transparent);}
+.cbh{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid rgba(201,168,76,.08);background:rgba(201,168,76,.03);}
+.cdot{width:8px;height:8px;border-radius:50%;}.cdot.r{background:#ff5f57;}.cdot.y{background:#febc2e;}.cdot.g{background:#28c840;}
+.clang{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.35);}
+.cb pre{padding:22px 20px;overflow-x:auto;}
+.cb code{font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.85;color:rgba(255,255,255,.7);}
+.kw{color:#c9a84c;}.st{color:#9bbf7a;}.cm{color:rgba(255,255,255,.25);font-style:italic;}
+.fn{color:#7eb8e6;}.nm{color:#d4956a;}.cl{color:#e8c96a;}
+.cpbtn{position:absolute;top:48px;right:14px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.16);border-radius:var(--r-sm);padding:5px 11px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,168,76,.5);cursor:pointer;transition:all .22s;}
+.cpbtn:hover{background:rgba(201,168,76,.15);color:var(--g);}
+.cal{border-radius:var(--r-lg);padding:22px 24px;margin:20px 0;position:relative;overflow:hidden;}
+.cal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.cal.info{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.18);}
+.cal.info::before{background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);}
+.cal.warn{background:rgba(220,120,50,.04);border:1px solid rgba(220,120,50,.18);}
+.cal.warn::before{background:linear-gradient(90deg,transparent,rgba(220,120,50,.4),transparent);}
+.cal.tip{background:rgba(74,222,128,.03);border:1px solid rgba(74,222,128,.14);}
+.cal.tip::before{background:linear-gradient(90deg,transparent,rgba(74,222,128,.35),transparent);}
+.cal-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;}
+.cal.info .cal-lbl{color:var(--g);}.cal.warn .cal-lbl{color:rgba(220,140,60,.7);}.cal.tip .cal-lbl{color:#4ade80;}
+.cal-body{font-size:13px;color:rgba(255,255,255,.45);font-weight:300;line-height:1.85;}
+.cal-body strong{color:rgba(255,255,255,.72);font-weight:500;}
+.dtbl{width:100%;border-collapse:collapse;margin:20px 0;}
+.dtbl th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);padding:10px 16px;border-bottom:1px solid rgba(201,168,76,.1);text-align:left;}
+.dtbl td{padding:12px 16px;font-size:13px;color:rgba(255,255,255,.42);font-weight:300;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.dtbl tr:last-child td{border-bottom:none;}.dtbl tr:hover td{background:rgba(201,168,76,.025);}
+.dtbl td:first-child{color:rgba(255,255,255,.65);font-weight:400;}
+.ck{color:#4ade80;}.cx{color:rgba(220,80,80,.55);}.cp{color:var(--g);}
+.stps{list-style:none;margin:20px 0;}
+.stp{display:flex;gap:18px;margin-bottom:22px;position:relative;}
+.stp::before{content:'';position:absolute;left:15px;top:38px;bottom:-4px;width:1px;background:linear-gradient(to bottom,rgba(201,168,76,.2),transparent);}
+.stp:last-child::before{display:none;}
+.stp-n{width:30px;height:30px;border-radius:50%;flex-shrink:0;border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--g);margin-top:2px;}
+.stp-t{font-size:14px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:6px;}
+.stp-b{font-size:13px;color:rgba(255,255,255,.38);font-weight:300;line-height:1.8;}
+.fpills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.fpill{font-size:12px;color:rgba(255,255,255,.4);padding:7px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-md);display:flex;align-items:center;gap:6px;}
+.fpill::before{content:'◆';font-size:6px;color:var(--g);}
+.faq-item{border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:10px;overflow:hidden;background:rgba(255,255,255,.02);transition:border-color .25s;}
+.faq-item:hover{border-color:rgba(201,168,76,.22);}
+.faq-q{font-size:14px;font-weight:500;color:rgba(255,255,255,.72);padding:18px 22px;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.faq-q:hover{color:#fff;}
+.faq-ico{width:18px;height:18px;border-radius:50%;border:1px solid rgba(201,168,76,.28);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--g);transition:transform .28s,background .28s;}
+.faq-item.open .faq-ico{transform:rotate(45deg);background:rgba(201,168,76,.12);}
+.faq-a{font-size:13px;color:rgba(255,255,255,.38);font-weight:300;line-height:1.85;padding:0 22px;max-height:0;overflow:hidden;transition:max-height .38s ease,padding .38s ease;}
+.faq-item.open .faq-a{max-height:400px;padding:0 22px 20px;}
+code.il{font-family:'DM Mono',monospace;font-size:11.5px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.14);border-radius:5px;padding:1px 7px;color:var(--g1);}
+.bstrip{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.22);border-radius:var(--r-xl);padding:28px 32px;margin:24px 0;position:relative;overflow:hidden;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.bstrip::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.6),transparent);}
+.bdot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 10px #4ade80;animation:livePulse 2s ease-in-out infinite;}
+.bstrip-txt{font-size:14px;color:rgba(255,255,255,.55);font-weight:300;line-height:1.7;flex:1;}
+.bstrip-txt strong{color:var(--g1);font-weight:500;}
+.bcta{font-size:12px;font-weight:600;padding:10px 22px;background:linear-gradient(135deg,var(--g2),var(--g1));border:none;border-radius:40px;color:#050505;cursor:pointer;white-space:nowrap;letter-spacing:.3px;transition:all .28s;box-shadow:0 4px 20px rgba(201,168,76,.2);}
+.bcta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.4);}
+.toc-progress{position:fixed;right:clamp(16px,2vw,32px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:150;}
+@media(max-width:1180px){.toc-progress{display:none;}}
+.toc-dot{width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.18);cursor:pointer;transition:all .25s;position:relative;}
+.toc-dot::before{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:8.5px;white-space:nowrap;color:rgba(255,255,255,0);transition:color .2s;pointer-events:none;}
+.toc-dot:hover::before,.toc-dot.active::before{color:rgba(255,255,255,.35);}
+.toc-dot:hover,.toc-dot.active{background:var(--g);box-shadow:0 0 10px rgba(201,168,76,.4);}
+
+/* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .78s ease,transform .78s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
-.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.17s}
-.reveal.d3{transition-delay:.27s}.reveal.d4{transition-delay:.37s}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.17s}.reveal.d3{transition-delay:.27s}.reveal.d4{transition-delay:.37s}
 .h-fade{animation:hFade .95s ease both;}
-.h-fade.d0{animation-delay:.05s}.h-fade.d1{animation-delay:.18s}
-.h-fade.d2{animation-delay:.32s}.h-fade.d3{animation-delay:.48s}
-.h-fade.d4{animation-delay:.62s}.h-fade.d6{animation-delay:.90s}
+.h-fade.d0{animation-delay:.05s}.h-fade.d1{animation-delay:.18s}.h-fade.d2{animation-delay:.32s}
+.h-fade.d3{animation-delay:.48s}.h-fade.d4{animation-delay:.62s}.h-fade.d6{animation-delay:.90s}
 @keyframes hFade{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
-
 <div id="amb"></div>
 <div id="grain"></div>
 <div class="top-stripe"></div>
@@ -481,26 +390,30 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   <div class="unlock-label">June 10 &middot; 4:00 PM CST</div>
   <div class="unlock-title">Beta Access<br>Is Live</div>
   <div class="unlock-sub">Welcome to the future of AI development.</div>
-  <a href="lp.html" class="enter-btn">Enter AIMLSE &rarr;</a>
+  <button class="enter-btn" onclick="showMain()">Enter AIMLSE &rarr;</button>
 </div>
 
 <nav>
-  <div class="nav-logo">AIMLSE</div>
+  <div class="nav-logo" onclick="showMain()">AIMLSE</div>
   <div class="nav-right">
     <div class="nav-tag">Beta &middot; June 10</div>
-    <button class="nav-cta" onclick="document.getElementById('apply-section').scrollIntoView({behavior:'smooth'})">Schedule a Call</button>
+    <div class="nav-docs" id="navDocs" onclick="toggleView()">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2a1 1 0 0 1 1-1h8l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><polyline points="9,1 9,4 12,4"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="11" x2="9" y2="11"/></svg>
+      Docs
+    </div>
+    <button class="nav-cta" id="navCta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Schedule a Call</button>
+    <button class="menu-btn" id="menuBtn" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </nav>
 
+<!-- ══════════════ LANDING PAGE ══════════════ -->
+<div id="view-main">
 <div class="wrap">
-
-  <!-- ── HERO ── -->
   <section id="hero">
     <div class="mystery-logo h-fade d0">
-      <div class="mystery-box">
-        <span class="mystery-text">AIMLSE</span>
-        <div class="mystery-frost"></div>
-      </div>
+      <div class="mystery-box"><span class="mystery-text">AIMLSE</span><div class="mystery-frost"></div></div>
       <div class="mystery-tag">Identity revealed at launch</div>
     </div>
     <div class="hero-eyebrow h-fade d1">Beta Launch &middot; June 10</div>
@@ -510,46 +423,23 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
       <span class="hero-date-text">JUNE 10 &nbsp;&middot;&nbsp; 4:00 PM CST</span>
       <div class="hero-date-line r"></div>
     </div>
-    <!-- FIX 1: Removed "150 spots. No extensions." -->
     <p class="hero-sub h-fade d4">Beta testers get full access the moment the clock hits zero.</p>
-
     <div class="countdown">
-      <div class="cd-unit">
-        <div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-d">--</span></div>
-        <span class="cd-label">Days</span>
-      </div>
+      <div class="cd-unit"><div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-d">--</span></div><span class="cd-label">Days</span></div>
       <div class="cd-sep">:</div>
-      <div class="cd-unit">
-        <div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-h">--</span></div>
-        <span class="cd-label">Hours</span>
-      </div>
+      <div class="cd-unit"><div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-h">--</span></div><span class="cd-label">Hours</span></div>
       <div class="cd-sep">:</div>
-      <div class="cd-unit">
-        <div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-m">--</span></div>
-        <span class="cd-label">Mins</span>
-      </div>
+      <div class="cd-unit"><div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-m">--</span></div><span class="cd-label">Mins</span></div>
       <div class="cd-sep">:</div>
-      <div class="cd-unit">
-        <div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-s">--</span></div>
-        <span class="cd-label">Secs</span>
-      </div>
+      <div class="cd-unit"><div class="cd-box"><div class="cd-box-inner-glow"></div><span class="cd-num" id="cd-s">--</span></div><span class="cd-label">Secs</span></div>
     </div>
-
-    <!-- FIX 2: 20 → 16 spots remaining -->
-    <div class="spots-pill">
-      <div class="live-dot"></div>
-      <div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>16</b> spots remaining</div>
-    </div>
-    <div class="scroll-hint h-fade d6" onclick="document.getElementById('aci-section').scrollIntoView({behavior:'smooth'})">
-      <span>Explore</span>
-      <div class="scroll-bar"></div>
-    </div>
+    <div class="spots-pill"><div class="live-dot"></div><div class="spots-text">Applications <b>OPEN</b> &nbsp;&middot;&nbsp; <b>16</b> spots remaining</div></div>
+    <div class="scroll-hint h-fade d6" onclick="document.getElementById('aci-section').scrollIntoView({behavior:'smooth'})"><span>Explore</span><div class="scroll-bar"></div></div>
   </section>
 
   <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
 
-  <!-- ── ACI ── -->
-  <section id="aci-section" class="section">
+  <section id="aci-section" class="lp-section">
     <div class="section-inner">
       <div class="sec-eye reveal">Adaptive Coding Interface</div>
       <h2 class="sec-title reveal">Four Ways to Build</h2>
@@ -566,275 +456,101 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
 
-  <!-- ── WHY WE BUILT ACI ── -->
-  <section id="why-section" class="section" style="padding-top:100px;">
+  <section id="why-section" class="lp-section" style="padding-top:100px;">
     <div class="section-inner">
       <div class="sec-eye reveal">The Problem We Solved</div>
       <h2 class="sec-title reveal">Why Every Existing<br>Tool Falls Short</h2>
-
-      <p class="why-prose reveal">Jupyter Notebook became the standard in ML development for a reason. It was simple, cell-based, and visual enough to let researchers move fast without losing track of their reasoning. For years, it seemed good enough. Then the landscape shifted &mdash; and it exposed a gap the field had been quietly ignoring.</p>
-
+      <p class="why-prose reveal">Jupyter Notebook became the standard in ML development for a reason — simple, cell-based, and visual enough to let researchers move fast. Then the landscape shifted and it exposed a gap the field had been quietly ignoring.</p>
       <div class="problem-vs reveal">
-        <div class="pvs-card bad">
-          <div class="pvs-label red">The Autonomy Problem</div>
+        <div class="pvs-card bad"><div class="pvs-label red">The Autonomy Problem</div>
           <div class="pvs-item bad">Tools like Cursor and Claude Code generate code you didn't write and may not fully understand</div>
           <div class="pvs-item bad">Black-box ML implementations corrupt experiments silently &mdash; one wrong loss function, discovered hours later</div>
           <div class="pvs-item bad">You ship fast, but you can't explain what your model is actually doing</div>
           <div class="pvs-item bad">Trust breaks down at exactly the moment reliability matters most</div>
         </div>
-        <div class="pvs-card good">
-          <div class="pvs-label gold">The ACI Approach</div>
+        <div class="pvs-card good"><div class="pvs-label gold">The ACI Approach</div>
           <div class="pvs-item good">Every implementation is verified PyTorch &mdash; no generated code, no black-box outputs</div>
-          <div class="pvs-item good">You always know what your code does, because you built it from curated, validated components</div>
-          <div class="pvs-item good">Intelligent scaffolding that accelerates your work without removing your understanding</div>
-          <div class="pvs-item good">Speed and reliability in the same environment &mdash; not a tradeoff between them</div>
+          <div class="pvs-item good">You always know what your code does, built from curated, validated components</div>
+          <div class="pvs-item good">Intelligent scaffolding that accelerates without removing your understanding</div>
+          <div class="pvs-item good">Speed and reliability in the same environment &mdash; not a tradeoff</div>
         </div>
       </div>
-
-      <p class="why-prose reveal" style="margin-top:8px;">The rigid notebook, on the other hand, puts all the burden on the engineer. Every reusable function gets rewritten project to project. Every experiment starts from a blank cell. There is no institutional memory, no shared infrastructure, no way to build on what your team has already tested and verified. At a high level of ML research, that overhead compounds &mdash; and it costs you in places that are hard to measure until you're already behind.</p>
-
-      <p class="why-prose reveal" style="margin-bottom:36px;">That is the gap. Fully autonomous on one end, too rigid on the other. No tool was designed for the engineer who wants to move with intention &mdash; fast, structured, and completely in control of every line. That is why we built ACI.</p>
-
+      <p class="why-prose reveal" style="margin-bottom:36px;">Fully autonomous on one end, too rigid on the other. No tool was designed for the engineer who wants to move with intention &mdash; fast, structured, and completely in control. That is why we built ACI.</p>
       <div class="sec-eye reveal" style="margin-bottom:20px;">The Four Layers</div>
-
       <div class="why-grid">
-        <div class="why-block reveal">
-          <div class="why-block-head">
-            <div class="why-block-num">F0</div>
-            <div class="why-block-titles">
-              <div class="why-block-layer">Layer Zero</div>
-              <div class="why-block-name">Template Recommendation Engine</div>
-            </div>
-          </div>
-          <div class="why-block-body">Most projects start the same way: blank file, vague objective, and 20 minutes spent recreating a folder structure you've built a dozen times before. The Template Recommendation Engine eliminates that. Based on your stated project objective, ACI surfaces proven, verified project structures assembled by ML practitioners &mdash; not generated by an AI. No hallucinated imports, no assumed dependencies. Just a proven starting point that reflects how real research projects are actually organized. You're not starting from zero. You're starting from something that works.</div>
-        </div>
-        <div class="why-block reveal d1">
-          <div class="why-block-head">
-            <div class="why-block-num">F1</div>
-            <div class="why-block-titles">
-              <div class="why-block-layer">Layer One</div>
-              <div class="why-block-name">Helper Function Recommendation Engine</div>
-            </div>
-          </div>
-          <div class="why-block-body">As you build, ACI's recommendation engine reads your project context in real time and surfaces relevant, reusable PyTorch helper functions from a curated community library. These are not AI-generated snippets &mdash; every function in the library has been reviewed, tested, and verified by the community. Dropout wrappers, custom schedulers, batch normalization utilities, training loop scaffolding &mdash; surfaced at the moment you need them, ready to drop in. No copy-paste archaeology through Stack Overflow. No re-implementing something that already exists and works. The collective knowledge of the ML engineering community, made available inside your workflow.</div>
-        </div>
-        <div class="why-block reveal d2">
-          <div class="why-block-head">
-            <div class="why-block-num">F2</div>
-            <div class="why-block-titles">
-              <div class="why-block-layer">Layer Two</div>
-              <div class="why-block-name">Block-Based Coding System</div>
-            </div>
-          </div>
-          <div class="why-block-body">Visually assemble your ML pipeline using logic blocks that compile directly into real, executable PyTorch code. Drag training loops, data loaders, loss functions, model architectures, and evaluation hooks into place. Connect them. Rearrange them. The output is not pseudocode or a diagram &mdash; it is production-ready Python that you can inspect, verify, and carry into the notebook at any point. Designed for engineers who think architecturally before they think syntactically. Designed for the moments when seeing the pipeline matters more than writing it line by line.</div>
-        </div>
-        <div class="why-block reveal d3">
-          <div class="why-block-head">
-            <div class="why-block-num">F3</div>
-            <div class="why-block-titles">
-              <div class="why-block-layer">Layer Three</div>
-              <div class="why-block-name">Regular PyTorch Cell Notebook</div>
-            </div>
-          </div>
-          <div class="why-block-body">When you need full, unmediated control, ACI steps back entirely. The notebook cell environment gives you everything Jupyter does &mdash; raw Python execution, inline outputs, iterative experimentation &mdash; plus complete awareness of your project context from the layers above. Your variables, your helper functions, your template structure are all accessible. Write exactly what you mean. Run it. See the result. The tool does not get in your way. Built for the engineers who have always known that sometimes the most powerful interface is a blank cell and a cursor.</div>
-        </div>
+        <div class="why-block reveal"><div class="why-block-head"><div class="why-block-num">F0</div><div><div class="why-block-layer">Layer Zero</div><div class="why-block-name">Template Recommendation Engine</div></div></div><div class="why-block-body">ACI surfaces proven, verified project structures assembled by ML practitioners &mdash; not generated by an AI. No hallucinated imports, no assumed dependencies. Just a proven starting point that reflects how real research projects are organised.</div></div>
+        <div class="why-block reveal d1"><div class="why-block-head"><div class="why-block-num">F1</div><div><div class="why-block-layer">Layer One</div><div class="why-block-name">Helper Function Recommendation Engine</div></div></div><div class="why-block-body">Reads your project context in real time and surfaces relevant, reusable PyTorch helpers from a curated community library. Every function has been reviewed, tested, and verified. Dropout wrappers, custom schedulers, batch norm utilities &mdash; surfaced at the moment you need them.</div></div>
+        <div class="why-block reveal d2"><div class="why-block-head"><div class="why-block-num">F2</div><div><div class="why-block-layer">Layer Two</div><div class="why-block-name">Block-Based Coding System</div></div></div><div class="why-block-body">Visually assemble your ML pipeline using logic blocks that compile directly into real, executable PyTorch code. The output is not pseudocode &mdash; it is production-ready Python you can inspect, verify, and carry into the notebook at any point.</div></div>
+        <div class="why-block reveal d3"><div class="why-block-head"><div class="why-block-num">F3</div><div><div class="why-block-layer">Layer Three</div><div class="why-block-name">Regular PyTorch Cell Notebook</div></div></div><div class="why-block-body">Full notebook cell environment: raw Python execution, inline outputs, iterative experimentation &mdash; plus complete awareness of your project context from the layers above. Write exactly what you mean. Run it. See the result.</div></div>
       </div>
-
-      <div class="why-callout reveal">
-        <div class="why-callout-text">All four layers are <strong>interconnected</strong>. Switch from Blocks to Script mid-project and your variables, imports, and context carry over. Move from a template into the notebook without losing state. Your helper functions are available everywhere. The environment adapts to how you think &mdash; not the other way around. Add <strong>live collaboration</strong> built from the ground up for the research lab model, where multiple engineers work in the same project simultaneously, and you have a tool that finally matches how serious ML work actually gets done.</div>
-      </div>
+      <div class="why-callout reveal"><div class="why-callout-text">All four layers are <strong>interconnected</strong>. Switch from Blocks to Script mid-project and your variables, imports, and context carry over. Add <strong>live collaboration</strong> built from the ground up for the research lab model, and you have a tool that finally matches how serious ML work actually gets done.</div></div>
     </div>
   </section>
 
   <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
 
-  <!-- ── BETA INFO ── -->
-  <section id="beta-section" class="section" style="padding-top:80px;">
+  <section id="beta-section" class="lp-section" style="padding-top:80px;">
     <div class="section-inner">
       <div class="sec-eye reveal">Professional Beta &middot; Phase 1</div>
       <h2 class="sec-title reveal">What You're Testing</h2>
       <p class="sec-sub reveal">We're selecting <strong style="color:var(--g1);font-weight:500;">20 developers</strong> and ML engineers to test the AIMLSE ecosystem before public launch.</p>
-
       <div class="demo-card reveal">
-        <div>
-          <div class="demo-eye">Mark Your Calendar</div>
-          <div class="demo-day">June 10</div>
-          <div class="demo-time">4:00 &ndash; 5:00 PM CST</div>
-        </div>
+        <div><div class="demo-eye">Mark Your Calendar</div><div class="demo-day">June 10</div><div class="demo-time">4:00 &ndash; 5:00 PM CST</div></div>
         <div class="demo-vline"></div>
-        <div>
-          <div class="demo-title">AIMLSE Demo Day</div>
-          <div class="demo-sub">Selected testers receive full access details upon acceptance. Schedule a call with our CEO to learn more before applying.</div>
-        </div>
+        <div><div class="demo-title">AIMLSE Demo Day</div><div class="demo-sub">Selected testers receive full access details upon acceptance. Schedule a call with our CEO to learn more before applying.</div></div>
       </div>
-
       <div class="grid2">
-        <div class="glass-card reveal">
-          <div class="card-accent"></div>
-          <div class="card-title">Helper Function Recommendation</div>
-          <div class="card-body">An internal engine that scans your project and recommends relevant, reusable helper functions from the community library automatically.</div>
-        </div>
-        <div class="glass-card reveal">
-          <div class="card-accent"></div>
-          <div class="card-title">Public Library Access</div>
-          <div class="card-body">Contribute to and explore the community-driven project library.</div>
-          <ul class="card-list">
-            <li>Upload projects &amp; helper functions</li>
-            <li>Browse community tools</li>
-            <li>Contribute reusable code</li>
-          </ul>
-        </div>
+        <div class="glass-card reveal"><div class="card-accent"></div><div class="card-title">Helper Function Recommendation</div><div class="card-body">An internal engine that scans your project and recommends relevant, reusable helper functions from the community library automatically.</div></div>
+        <div class="glass-card reveal"><div class="card-accent"></div><div class="card-title">Public Library Access</div><div class="card-body">Contribute to and explore the community-driven project library.</div><ul class="card-list"><li>Upload projects &amp; helper functions</li><li>Browse community tools</li><li>Contribute reusable code</li></ul></div>
       </div>
-
-      <div class="flat-card reveal">
-        <div class="flat-title">Not Included in Phase 1</div>
-        <div class="tags">
-          <div class="tag off">Advanced AI Assistant</div>
-          <div class="tag off">App Store Publishing</div>
-        </div>
-      </div>
-
-      <div class="flat-card reveal">
-        <div class="flat-title">Beta Rewards</div>
+      <div class="flat-card reveal"><div class="flat-title">Not Included in Phase 1</div><div class="tags"><div class="tag off">Advanced AI Assistant</div><div class="tag off">App Store Publishing</div></div></div>
+      <div class="flat-card reveal"><div class="flat-title">Beta Rewards</div>
         <div class="rewards">
-          <div class="reward">Early platform access</div>
-          <div class="reward">Exclusive Beta Tester Badge</div>
-          <div class="reward">Beta Tester Certificate</div>
-          <div class="reward">Priority access to future features</div>
-          <div class="reward">Access to the <b>Premium Discord Server</b> &mdash; direct channel with the AIMLSE team and fellow beta engineers</div>
+          <div class="reward">Early platform access</div><div class="reward">Exclusive Beta Tester Badge</div>
+          <div class="reward">Beta Tester Certificate</div><div class="reward">Priority access to future features</div>
+          <div class="reward">Access to the <b>Premium Discord Server</b></div>
           <div class="reward gold span2"><b>Top 3 Performers</b> &mdash; Lifetime 30% discount + Highest Developer plan + Top Beta Tester Certificate</div>
-          <div class="reward span2" style="background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border-color:rgba(201,168,76,.22);">
-            <span style="flex:1;"><b>Every Beta Tester</b> &mdash; Free Creative Plan for 6 months upon launch. Creative Plan normally $25/month &mdash; that's <b>$150 in free access</b>, just for participating.</span>
-          </div>
+          <div class="reward span2" style="background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border-color:rgba(201,168,76,.22);"><span style="flex:1;"><b>Every Beta Tester</b> &mdash; Free Creative Plan for 6 months upon launch &mdash; <b>$150 in free access</b></span></div>
         </div>
       </div>
-
-      <div class="nda-card reveal">
-        <div class="nda-title">Non-Disclosure Agreement</div>
-        <div class="nda-body">All selected testers agree to an <strong>NDA</strong> sent upon selection. You are <strong>strictly prohibited from sharing any platform information on social media or with any third party.</strong> Violations result in immediate removal.</div>
-      </div>
+      <div class="nda-card reveal"><div class="nda-title">Non-Disclosure Agreement</div><div class="nda-body">All selected testers agree to an <strong>NDA</strong> sent upon selection. You are <strong>strictly prohibited from sharing any platform information on social media or with any third party.</strong></div></div>
     </div>
   </section>
 
   <div class="section-divider" style="position:relative;z-index:2;padding:0 28px;"></div>
 
-  <!-- ── SCHEDULE SECTION ── -->
-  <section id="apply-section" class="section" style="padding-top:80px;">
+  <section id="apply-section" class="lp-section" style="padding-top:80px;padding-bottom:160px;">
     <div class="section-inner">
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Now Scheduling</div>
       <h2 class="apply-title reveal">Book an Information<br><em>Meeting</em></h2>
       <p class="apply-sub reveal">Schedule a 1-on-1 call with our CEO to learn everything about AIMLSE, the ACI, and the beta program before you apply.</p>
-      <!-- FIX 3: 20 → 16 spots remaining -->
       <div class="apply-pills reveal">
-        <div class="apply-pill">~15 minutes</div>
-        <div class="apply-pill">Via Zoom</div>
+        <div class="apply-pill">~15 minutes</div><div class="apply-pill">Via Zoom</div>
         <div class="apply-pill">PyTorch experience preferred</div>
         <div class="apply-pill"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;"></span><b style="color:var(--g1);">16</b> spots remaining</div>
       </div>
-
       <div class="scheduler-outer reveal">
         <div class="scheduler-card">
-
-          <div class="sc-topbar">
-            <div class="sc-label">
-              <div class="sc-label-dot"></div>
-              AIMLSE &nbsp;·&nbsp; Information Meeting
-            </div>
-            <div class="sc-badge">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              Powered by Zoom Scheduler
-            </div>
-          </div>
-
+          <div class="sc-topbar"><div class="sc-label"><div class="sc-label-dot"></div>AIMLSE &nbsp;·&nbsp; Information Meeting</div><div class="sc-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Powered by Zoom Scheduler</div></div>
           <div class="sc-body">
-            <!-- LEFT: info panel -->
             <div class="sc-info">
-              <div>
-                <div class="sc-headline">Meet the<br><em>CEO</em></div>
-                <p class="sc-desc" style="margin-top:12px;">Get a personal walkthrough of the Adaptive Coding Interface directly from the founder. Ask anything about the beta program, the vision behind AIMLSE, and what makes the ACI different from every tool you've used before &mdash; before you commit.</p>
-              </div>
-
+              <div><div class="sc-headline">Meet the<br><em>CEO</em></div><p class="sc-desc" style="margin-top:12px;">Get a personal walkthrough of the Adaptive Coding Interface directly from the founder. Ask anything about the beta program, the vision, and what makes the ACI different &mdash; before you commit.</p></div>
               <div class="sc-details">
-                <div class="sc-detail">
-                  <div class="sc-detail-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                  </div>
-                  <div class="sc-detail-text">
-                    <div class="sc-detail-label">Duration</div>
-                    <div class="sc-detail-val">~15 minutes</div>
-                  </div>
-                </div>
-                <div class="sc-detail">
-                  <div class="sc-detail-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23,7 16,12 23,17 23,7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                  </div>
-                  <div class="sc-detail-text">
-                    <div class="sc-detail-label">Platform</div>
-                    <div class="sc-detail-val">Zoom (link sent on booking)</div>
-                  </div>
-                </div>
-                <div class="sc-detail">
-                  <div class="sc-detail-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  </div>
-                  <div class="sc-detail-text">
-                    <div class="sc-detail-label">Availability</div>
-                    <div class="sc-detail-val">Pick any open slot</div>
-                  </div>
-                </div>
-                <div class="sc-detail">
-                  <div class="sc-detail-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  </div>
-                  <div class="sc-detail-text">
-                    <div class="sc-detail-label">Host</div>
-                    <div class="sc-detail-val">Sourish Mishra &middot; CEO, AIMLSE</div>
-                  </div>
-                </div>
+                <div class="sc-detail"><div class="sc-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div><div class="sc-detail-label">Duration</div><div class="sc-detail-val">~15 minutes</div></div></div>
+                <div class="sc-detail"><div class="sc-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23,7 16,12 23,17 23,7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><div><div class="sc-detail-label">Platform</div><div class="sc-detail-val">Zoom (link sent on booking)</div></div></div>
+                <div class="sc-detail"><div class="sc-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="sc-detail-label">Availability</div><div class="sc-detail-val">Pick any open slot</div></div></div>
+                <div class="sc-detail"><div class="sc-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="sc-detail-label">Host</div><div class="sc-detail-val">Sourish Mishra &middot; CEO, AIMLSE</div></div></div>
               </div>
             </div>
-
-            <!-- RIGHT: embedded Zoom scheduler -->
-            <div class="sc-action sc-action-embed">
-              <iframe src="https://scheduler.zoom.us/aimlse-team/aimlse-information?embed=true" frameborder="0" style="width:100%;height:560px;border:none;display:block;"></iframe>
-            </div>
+            <div style="overflow:hidden;"><iframe src="https://scheduler.zoom.us/aimlse-team/aimlse-information?embed=true" frameborder="0" style="width:100%;height:560px;border:none;display:block;"></iframe></div>
           </div>
-
         </div>
       </div>
-
-      <!-- info strip -->
-      <!-- FIX 4: 20 spots open → 16 spots remaining -->
       <div class="info-strip reveal">
-        <div class="info-strip-item">
-          <div class="info-strip-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div>
-            <div class="info-strip-label">Questions?</div>
-            <div class="info-strip-val">info@aimlse.org</div>
-          </div>
-        </div>
-        <div class="info-strip-item">
-          <div class="info-strip-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-          </div>
-          <div>
-            <div class="info-strip-label">Beta Launch</div>
-            <div class="info-strip-val">June 10, 4:00 PM CST</div>
-          </div>
-        </div>
-        <div class="info-strip-item">
-          <div class="info-strip-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div>
-            <div class="info-strip-label">Spots Available</div>
-            <div class="info-strip-val">16 spots remaining</div>
-          </div>
-        </div>
+        <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="info-strip-label">Questions?</div><div class="info-strip-val">info@aimlse.org</div></div></div>
+        <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div><div class="info-strip-label">Beta Launch</div><div class="info-strip-val">June 10, 4:00 PM CST</div></div></div>
+        <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="info-strip-label">Spots Available</div><div class="info-strip-val">16 spots remaining</div></div></div>
       </div>
-
     </div>
   </section>
 
@@ -845,72 +561,406 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     <div class="foot-divider"></div>
     <div class="social-label">Follow the Journey</div>
     <div class="social-row">
-      <a href="https://www.producthunt.com/products/adaptive-coding-interface-beta-1" target="_blank" rel="noopener noreferrer" class="social-link ph" aria-label="Product Hunt">
-        <svg width="15" height="15" viewBox="0 0 26 26" fill="currentColor"><path d="M13 0C5.82 0 0 5.82 0 13s5.82 13 13 13 13-5.82 13-13S20.18 0 13 0zm1.23 15.18H10.5V19H8V7h6.23c2.56 0 4.64 2.07 4.64 4.09 0 2.02-2.08 4.09-4.64 4.09zm0-6.18H10.5v4.18h3.73c1.16 0 2.14-.96 2.14-2.09 0-1.13-.98-2.09-2.14-2.09z"/></svg>
-        Product Hunt
-      </a>
-      <a href="https://www.youtube.com/@AIMLSE" target="_blank" rel="noopener noreferrer" class="social-link yt" aria-label="YouTube">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        YouTube
-      </a>
-      <a href="https://x.com/Aimlse_Org" target="_blank" rel="noopener noreferrer" class="social-link x" aria-label="X">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        X
-      </a>
-      <a href="https://www.linkedin.com/company/aimlse/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-link li" aria-label="LinkedIn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
+      <a href="https://www.producthunt.com/products/adaptive-coding-interface-beta-1" target="_blank" rel="noopener" class="social-link ph"><svg width="15" height="15" viewBox="0 0 26 26" fill="currentColor"><path d="M13 0C5.82 0 0 5.82 0 13s5.82 13 13 13 13-5.82 13-13S20.18 0 13 0zm1.23 15.18H10.5V19H8V7h6.23c2.56 0 4.64 2.07 4.64 4.09 0 2.02-2.08 4.09-4.64 4.09zm0-6.18H10.5v4.18h3.73c1.16 0 2.14-.96 2.14-2.09 0-1.13-.98-2.09-2.14-2.09z"/></svg>Product Hunt</a>
+      <a href="https://www.youtube.com/@AIMLSE" target="_blank" rel="noopener" class="social-link yt"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>YouTube</a>
+      <a href="https://x.com/Aimlse_Org" target="_blank" rel="noopener" class="social-link x"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
+      <a href="https://www.linkedin.com/company/aimlse/?viewAsMember=true" target="_blank" rel="noopener" class="social-link li"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
     </div>
     <div class="foot-copy">&copy; 2026 AIMLSE &mdash; ADAPTIVE INTELLIGENCE PLATFORM</div>
   </footer>
+</div>
+</div><!-- #view-main -->
 
-</div><!-- .wrap -->
+<!-- ══════════════ DOCS VIEW ══════════════ -->
+<div id="view-docs">
+  <nav class="sidebar" id="sidebar">
+    <div class="sb-group"><div class="sb-group-label">Getting Started</div>
+      <div class="sb-link active" data-t="d-overview">Overview</div>
+      <div class="sb-link" data-t="d-quickstart">Quickstart</div>
+      <div class="sb-link" data-t="d-requirements">Requirements</div>
+    </div>
+    <div class="sb-group"><div class="sb-group-label">Adaptive Coding Interface</div>
+      <div class="sb-link" data-t="d-aci">What is the ACI?</div>
+      <div class="sb-link" data-t="d-f0">F0 — Templates</div>
+      <div class="sb-link" data-t="d-f1">F1 — Library</div>
+      <div class="sb-link" data-t="d-f2">F2 — Blocks</div>
+      <div class="sb-link" data-t="d-f3">F3 — Script</div>
+      <div class="sb-link" data-t="d-interop">Interoperability</div>
+    </div>
+    <div class="sb-group"><div class="sb-group-label">Platform Features</div>
+      <div class="sb-link" data-t="d-collab">Live Collaboration</div>
+      <div class="sb-link" data-t="d-pytorch">PyTorch Integration</div>
+    </div>
+    <div class="sb-group"><div class="sb-group-label">Beta Program</div>
+      <div class="sb-link" data-t="d-beta">Beta Access <span class="sb-badge">Live</span></div>
+      <div class="sb-link" data-t="d-phases">Phase Roadmap</div>
+      <div class="sb-link" data-t="d-faq">FAQ</div>
+    </div>
+  </nav>
+
+  <div class="toc-progress" id="tocP">
+    <div class="toc-dot active" data-t="d-overview" data-label="Overview"></div>
+    <div class="toc-dot" data-t="d-quickstart" data-label="Quickstart"></div>
+    <div class="toc-dot" data-t="d-requirements" data-label="Requirements"></div>
+    <div class="toc-dot" data-t="d-aci" data-label="ACI"></div>
+    <div class="toc-dot" data-t="d-f0" data-label="F0 Templates"></div>
+    <div class="toc-dot" data-t="d-f1" data-label="F1 Library"></div>
+    <div class="toc-dot" data-t="d-f2" data-label="F2 Blocks"></div>
+    <div class="toc-dot" data-t="d-f3" data-label="F3 Script"></div>
+    <div class="toc-dot" data-t="d-interop" data-label="Interop"></div>
+    <div class="toc-dot" data-t="d-collab" data-label="Collaboration"></div>
+    <div class="toc-dot" data-t="d-beta" data-label="Beta Access"></div>
+    <div class="toc-dot" data-t="d-faq" data-label="FAQ"></div>
+  </div>
+
+  <main class="doc-main">
+
+    <section class="ds" id="d-overview">
+      <div class="de">Getting Started</div>
+      <h1 class="dh1">AIMLSE <em>Documentation</em></h1>
+      <p class="dlead">Everything you need to build, experiment, and collaborate inside the Adaptive Coding Interface — from first template to production-ready PyTorch.</p>
+      <div class="bstrip"><div class="bdot"></div><div class="bstrip-txt">Beta launches <strong>June 10, 4:00 PM CST.</strong> Only <strong>16 spots</strong> remain.</div><button class="bcta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Schedule a Call →</button></div>
+      <h2 class="dh2">What is AIMLSE?</h2>
+      <p class="dp">AIMLSE is an AI/ML development platform built around one principle: move fast <em>and</em> stay in control. Its centrepiece is the <strong>Adaptive Coding Interface (ACI)</strong> — a four-layer environment that adapts to how you naturally think, from high-level template selection down to raw Python execution.</p>
+      <div class="lgrid">
+        <div class="lcard"><div class="lnum">F0</div><div class="lname">Templates</div><div class="lrule"></div><div class="ldesc">Verified project structures curated by ML practitioners. Start from a proven foundation, not a blank file.</div></div>
+        <div class="lcard"><div class="lnum">F1</div><div class="lname">Library</div><div class="lrule"></div><div class="ldesc">Community helper functions, reviewed and tested. Surfaced in real time as you build.</div></div>
+        <div class="lcard"><div class="lnum">F2</div><div class="lname">Blocks</div><div class="lrule"></div><div class="ldesc">Drag-and-drop logic that compiles to real, executable PyTorch code. Think architecturally.</div></div>
+        <div class="lcard"><div class="lnum">F3</div><div class="lname">Script</div><div class="lrule"></div><div class="ldesc">Full Jupyter-style notebook control with complete project context from all layers above.</div></div>
+      </div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-quickstart">
+      <div class="de">Getting Started</div>
+      <h2 class="dh2">Quickstart</h2>
+      <p class="dp">Once accepted into the beta, getting your first project running takes under five minutes.</p>
+      <ol class="stps">
+        <li class="stp"><div class="stp-n">1</div><div><div class="stp-t">Accept your beta invitation</div><div class="stp-b">After your information call, accepted testers receive an invite link via email. Click it to activate your account and agree to the NDA.</div></div></li>
+        <li class="stp"><div class="stp-n">2</div><div><div class="stp-t">Create your first project</div><div class="stp-b">Hit <code class="il">+ New Project</code> and enter a brief objective. The Template Recommendation Engine (F0) surfaces three to five verified project structures matched to your goal.</div></div></li>
+        <li class="stp"><div class="stp-n">3</div><div><div class="stp-t">Select a template</div><div class="stp-b">The environment initialises with a pre-organised folder structure, base imports, and scaffolding — all verified PyTorch, no hallucinated dependencies.</div></div></li>
+        <li class="stp"><div class="stp-n">4</div><div><div class="stp-t">Build using whichever layer suits you</div><div class="stp-b">Switch between F1, F2, and F3 at any point. Your context — variables, imports, helper functions — follows you across all layers.</div></div></li>
+        <li class="stp"><div class="stp-n">5</div><div><div class="stp-t">Contribute back to the library</div><div class="stp-b">If you write a helper function worth sharing, submit it to the community library for review and attribution.</div></div></li>
+      </ol>
+      <div class="cb"><div class="cbh"><div class="cdot r"></div><div class="cdot y"></div><div class="cdot g"></div><span class="clang">Python — F3 Script Layer</span></div>
+      <button class="cpbtn" onclick="cpCode(this)">Copy</button>
+      <pre><code><span class="cm"># Training loop scaffold from a verified F0 template</span>
+<span class="kw">import</span> torch
+<span class="kw">from</span> aimlse.helpers <span class="kw">import</span> EarlyStopping, MetricTracker
+
+tracker = <span class="fn">MetricTracker</span>(metrics=[<span class="st">'loss'</span>, <span class="st">'accuracy'</span>])
+stopper = <span class="fn">EarlyStopping</span>(patience=<span class="nm">5</span>, delta=<span class="nm">1e-4</span>)
+
+<span class="kw">def</span> <span class="fn">train_epoch</span>(model, loader, optimizer, criterion, device):
+    model.<span class="fn">train</span>()
+    <span class="kw">for</span> data, target <span class="kw">in</span> loader:
+        data, target = data.<span class="fn">to</span>(device), target.<span class="fn">to</span>(device)
+        optimizer.<span class="fn">zero_grad</span>()
+        loss = <span class="fn">criterion</span>(<span class="fn">model</span>(data), target)
+        loss.<span class="fn">backward</span>()
+        optimizer.<span class="fn">step</span>()
+        tracker.<span class="fn">update</span>(<span class="st">'loss'</span>, loss.<span class="fn">item</span>())
+    <span class="kw">return</span> tracker.<span class="fn">epoch_summary</span>()</code></pre></div>
+      <div class="cal info"><div class="cal-lbl">Note</div><div class="cal-body">All code is <strong>verified PyTorch</strong> — nothing generated by an AI model. Every helper in the library has been reviewed and tested before inclusion.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-requirements">
+      <div class="de">Getting Started</div>
+      <h2 class="dh2">Requirements &amp; Access</h2>
+      <p class="dp">AIMLSE is currently invite-only during Phase 1 beta. Access is granted after a brief information call and selection by the team.</p>
+      <h3 class="dh3">Preferred Background</h3>
+      <div class="fpills"><div class="fpill">PyTorch experience</div><div class="fpill">ML / Deep Learning fundamentals</div><div class="fpill">Python proficiency</div><div class="fpill">Research or production ML context</div></div>
+      <h3 class="dh3">System Requirements</h3>
+      <table class="dtbl"><thead><tr><th>Requirement</th><th>Minimum</th><th>Recommended</th></tr></thead><tbody>
+        <tr><td>Browser</td><td>Chrome 110+, Firefox 112+, Safari 16.4+</td><td>Chrome 120+</td></tr>
+        <tr><td>Python</td><td>3.9+</td><td>3.11+</td></tr>
+        <tr><td>PyTorch</td><td>2.0+</td><td>2.2+ (latest stable)</td></tr>
+        <tr><td>GPU (optional)</td><td>CUDA 11.8+</td><td>CUDA 12.1+</td></tr>
+      </tbody></table>
+      <div class="cal warn"><div class="cal-lbl">Beta Period</div><div class="cal-body">Cloud execution is not yet available in Phase 1. F3 executes against your <strong>local kernel</strong>. Cloud compute is planned for a future phase.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-aci">
+      <div class="de">Adaptive Coding Interface</div>
+      <h2 class="dh2">What is the ACI?</h2>
+      <p class="dp">A unified workspace where four distinct interaction layers coexist in a single project. You decide which layer to use at any moment, and context follows you every time you switch.</p>
+      <table class="dtbl"><thead><tr><th>Tool</th><th>Code Ownership</th><th>Shared Infrastructure</th><th>Raw Control</th></tr></thead><tbody>
+        <tr><td>Cursor / Claude Code</td><td><span class="cx">✕</span> AI-generated</td><td><span class="cx">✕</span></td><td><span class="cp">◑</span></td></tr>
+        <tr><td>Jupyter Notebook</td><td><span class="ck">✓</span> You write it</td><td><span class="cx">✕</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>AIMLSE ACI</td><td><span class="ck">✓</span> Verified components</td><td><span class="ck">✓</span> Community library</td><td><span class="ck">✓</span> F3 notebook</td></tr>
+      </tbody></table>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-f0">
+      <div class="de">Layer Zero</div>
+      <h2 class="dh2">F0 — Template Recommendation Engine</h2>
+      <p class="dp">Describe your project objective. The engine surfaces verified project structures assembled by experienced ML practitioners — not generated by an AI. Templates include pre-organised folder structures, base PyTorch imports, and scaffolding.</p>
+      <div class="cb"><div class="cbh"><div class="cdot r"></div><div class="cdot y"></div><div class="cdot g"></div><span class="clang">Template Structure — Image Classification</span></div>
+      <pre><code>my-classification-project/
+├── <span class="fn">data/</span>
+│   ├── raw/  └── processed/
+├── <span class="fn">models/</span>
+│   └── backbone.py        <span class="cm"># Verified ResNet/ViT scaffold</span>
+├── <span class="fn">training/</span>
+│   ├── train.py           <span class="cm"># Training loop (from F1 library)</span>
+│   └── losses.py
+├── <span class="fn">utils/</span>
+│   ├── metrics.py         <span class="cm"># MetricTracker helper</span>
+│   └── early_stopping.py
+└── config.yaml</code></pre></div>
+      <div class="cal tip"><div class="cal-lbl">Best Practice</div><div class="cal-body">Start with F0 even if you plan to write most of your code manually in F3. A well-chosen template gives collaborators a consistent structure they'll immediately recognise.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-f1">
+      <div class="de">Layer One</div>
+      <h2 class="dh2">F1 — Helper Function Recommendation Engine</h2>
+      <p class="dp">The engine reads your context in real time and surfaces relevant, reusable PyTorch helpers from the community library. Every function has been <strong>reviewed, tested, and verified</strong> before inclusion.</p>
+      <div class="fpills"><div class="fpill">Dropout wrappers</div><div class="fpill">Custom LR schedulers</div><div class="fpill">Batch normalisation</div><div class="fpill">Training loop scaffolding</div><div class="fpill">Metric tracking</div><div class="fpill">Early stopping</div><div class="fpill">Checkpoint management</div></div>
+      <div class="cb"><div class="cbh"><div class="cdot r"></div><div class="cdot y"></div><div class="cdot g"></div><span class="clang">Python — F1 Library Usage</span></div>
+      <button class="cpbtn" onclick="cpCode(this)">Copy</button>
+      <pre><code><span class="kw">from</span> aimlse.helpers <span class="kw">import</span> (
+    <span class="cl">WarmupCosineScheduler</span>,
+    <span class="cl">LabelSmoothingLoss</span>,
+    <span class="cl">GradientClipper</span>,
+    <span class="cl">CheckpointManager</span>
+)
+
+scheduler = <span class="fn">WarmupCosineScheduler</span>(optimizer, warmup_steps=<span class="nm">500</span>, total_steps=<span class="nm">10000</span>)
+loss_fn   = <span class="cl">LabelSmoothingLoss</span>(smoothing=<span class="nm">0.1</span>)
+clipper   = <span class="cl">GradientClipper</span>(max_norm=<span class="nm">1.0</span>)
+ckpt      = <span class="cl">CheckpointManager</span>(path=<span class="st">'./checkpoints'</span>)</code></pre></div>
+      <div class="cal info"><div class="cal-lbl">Phase 1 Status</div><div class="cal-body">Public library browsing and contribution submission are <strong>included in Phase 1</strong>. The advanced AI assistant for code generation is <strong>not</strong> in Phase 1.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-f2">
+      <div class="de">Layer Two</div>
+      <h2 class="dh2">F2 — Block-Based Coding System</h2>
+      <p class="dp">Visually assemble your ML pipeline before writing a single line. Drag blocks for training loops, data loaders, model architectures, loss functions, and evaluation hooks into place — the system compiles the result into real, executable PyTorch.</p>
+      <table class="dtbl"><thead><tr><th>Block Type</th><th>Compiles To</th><th>Key Parameters</th></tr></thead><tbody>
+        <tr><td>Training Loop</td><td>Full <code class="il">train_epoch</code> function</td><td>Batch size, gradient clipping</td></tr>
+        <tr><td>Data Loader</td><td><code class="il">DataLoader</code> with transforms</td><td>Split ratios, augmentation</td></tr>
+        <tr><td>Model Architecture</td><td>nn.Module subclass</td><td>Layers, activations, dropout</td></tr>
+        <tr><td>Loss Function</td><td>Loss criterion + wrappers</td><td>Reduction, label smoothing</td></tr>
+        <tr><td>Optimiser</td><td>Optimiser + scheduler</td><td>Algorithm, LR, warmup</td></tr>
+      </tbody></table>
+      <div class="cal info"><div class="cal-lbl">Important</div><div class="cal-body">F2 output is <strong>production-ready Python</strong>. You can inspect, modify, and carry it directly into F3. Every block compiles to the same code you'd have written by hand — just faster.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-f3">
+      <div class="de">Layer Three</div>
+      <h2 class="dh2">F3 — Script / Notebook Layer</h2>
+      <p class="dp">Full notebook environment: raw Python execution, inline outputs, iterative experimentation — plus complete awareness of your project context from every layer above.</p>
+      <p class="dp"><strong>What's different from Jupyter:</strong> your F0 template's imports are pre-loaded, F1 helpers are immediately available via <code class="il">from aimlse.helpers import ...</code>, F2 block variables carry over into the kernel, and collaborators see your changes in real time.</p>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-interop">
+      <div class="de">Adaptive Coding Interface</div>
+      <h2 class="dh2">Layer Interoperability</h2>
+      <p class="dp">The four layers are designed to be used together fluidly. Move between them at any point — context follows you every time.</p>
+      <div class="cal info"><div class="cal-lbl">Core Principle</div><div class="cal-body">Switch from <strong>Blocks to Script</strong> mid-project and your variables, imports, and context carry over. Move from a <strong>template into the notebook</strong> without losing state. <em>The environment adapts to how you think — not the other way around.</em></div></div>
+      <p class="dp" style="margin-top:20px;"><strong>New-to-familiar:</strong> F0 template → F1 utilities → F2 pipeline sketch → F3 iteration. Recommended for new projects.</p>
+      <p class="dp"><strong>Architect-first:</strong> Jump to F2, assemble visually, export to F3 for execution and debugging.</p>
+      <p class="dp"><strong>Expert mode:</strong> Open F3 directly. Template structure and library imports already present; use F1 recommendations as a sidebar reference.</p>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-collab">
+      <div class="de">Platform Features</div>
+      <h2 class="dh2">Live Collaboration</h2>
+      <p class="dp">Real-time collaboration built for the research lab model — multiple engineers on the same experiment simultaneously, not asynchronously through version control.</p>
+      <div class="fpills"><div class="fpill">Per-cell presence indicators</div><div class="fpill">Real-time cursor tracking</div><div class="fpill">Simultaneous block editing</div><div class="fpill">Shared kernel state in F3</div><div class="fpill">Role-based access controls</div></div>
+      <div class="cal warn"><div class="cal-lbl">Beta Note</div><div class="cal-body">Collaboration is available in Phase 1 but still being stress-tested with larger teams. Report sync issues in the <strong>Premium Discord Server</strong> — part of your beta access.</div></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-pytorch">
+      <div class="de">Platform Features</div>
+      <h2 class="dh2">PyTorch Integration</h2>
+      <p class="dp">AIMLSE is built exclusively around PyTorch — a deliberate commitment to one ecosystem that enables deep, verified integration at every layer. All platform components target <strong>PyTorch 2.0+</strong>.</p>
+      <p class="dp">Supporting multiple frameworks would make it impossible to guarantee every library component is correct. AIMLSE chose depth over breadth.</p>
+      <div class="cb"><div class="cbh"><div class="cdot r"></div><div class="cdot y"></div><div class="cdot g"></div><span class="clang">Python — Verified Library Pattern</span></div>
+      <button class="cpbtn" onclick="cpCode(this)">Copy</button>
+      <pre><code><span class="kw">class</span> <span class="cl">LabelSmoothingLoss</span>(nn.Module):
+    <span class="st">"""Verified: PyTorch 2.0+, tested on CUDA 11.8 and 12.1."""</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, smoothing: <span class="cl">float</span> = <span class="nm">0.1</span>):
+        <span class="fn">super</span>().__init__()
+        self.smoothing = smoothing
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, pred, target):
+        n = pred.<span class="fn">size</span>(<span class="nm">-1</span>)
+        log_p = nn.functional.<span class="fn">log_softmax</span>(pred, dim=<span class="nm">-1</span>)
+        <span class="kw">with</span> torch.<span class="fn">no_grad</span>():
+            t = <span class="fn">torch.full_like</span>(log_p, self.smoothing / (n - <span class="nm">1</span>))
+            t.<span class="fn">scatter_</span>(<span class="nm">-1</span>, target.<span class="fn">unsqueeze</span>(<span class="nm">-1</span>), <span class="nm">1.0</span> - self.smoothing)
+        <span class="kw">return</span> (-t * log_p).<span class="fn">sum</span>(dim=<span class="nm">-1</span>).<span class="fn">mean</span>()</code></pre></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-beta">
+      <div class="de">Beta Program</div>
+      <h2 class="dh2">Beta Access</h2>
+      <p class="dp">Phase 1 beta opens <strong>June 10, 2026 at 4:00 PM CST</strong>. Twenty engineers receive full platform access at launch — 16 spots remain.</p>
+      <table class="dtbl"><thead><tr><th>Reward</th><th>All Testers</th><th>Top 3 Performers</th></tr></thead><tbody>
+        <tr><td>Early platform access</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Beta Tester Badge + Certificate</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Priority access to future features</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Premium Discord access</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Free Creative Plan — 6 months ($150 value)</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Lifetime 30% discount</td><td><span class="cx">✕</span></td><td><span class="ck">✓</span></td></tr>
+        <tr><td>Highest Developer plan + Top Beta Certificate</td><td><span class="cx">✕</span></td><td><span class="ck">✓</span></td></tr>
+      </tbody></table>
+      <div class="cal warn"><div class="cal-lbl">NDA Required</div><div class="cal-body">All selected testers sign an NDA upon acceptance. <strong>Strictly prohibited from sharing any platform information</strong> on social media or with any third party.</div></div>
+      <div class="bstrip"><div class="bdot"></div><div class="bstrip-txt">Ready to apply? Schedule a <strong>15-minute call</strong> with the CEO before committing.</div><button class="bcta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Book a Call →</button></div>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-phases">
+      <div class="de">Beta Program</div>
+      <h2 class="dh2">Phase Roadmap</h2>
+      <table class="dtbl"><thead><tr><th>Feature</th><th>Phase 1 (Current)</th><th>Future Phases</th></tr></thead><tbody>
+        <tr><td>F0–F3 ACI Layers</td><td><span class="ck">✓ Included</span></td><td>—</td></tr>
+        <tr><td>Public Community Library</td><td><span class="ck">✓ Included</span></td><td>—</td></tr>
+        <tr><td>Live Collaboration</td><td><span class="ck">✓ Included</span></td><td>—</td></tr>
+        <tr><td>Advanced AI Assistant</td><td><span class="cx">✕ Not in Phase 1</span></td><td><span class="cp">Planned</span></td></tr>
+        <tr><td>App Store Publishing</td><td><span class="cx">✕ Not in Phase 1</span></td><td><span class="cp">Planned</span></td></tr>
+        <tr><td>Cloud Compute</td><td><span class="cx">✕ Not in Phase 1</span></td><td><span class="cp">Planned</span></td></tr>
+      </tbody></table>
+    </section>
+
+    <div class="ddiv"></div>
+
+    <section class="ds" id="d-faq">
+      <div class="de">Beta Program</div>
+      <h2 class="dh2">Frequently Asked Questions</h2>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does the ACI generate code using an AI model?<span class="faq-ico">+</span></div><div class="faq-a">No. Templates, helper functions, and block outputs are all <strong>human-authored and community-verified</strong>. The recommendation engines surface existing, validated components — they do not generate new code at runtime.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use frameworks other than PyTorch?<span class="faq-ico">+</span></div><div class="faq-a">Not in the current version. AIMLSE is intentionally PyTorch-only. The verification model depends on a single, well-understood framework. Multi-framework support is not on the public roadmap.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there cloud execution in Phase 1?<span class="faq-ico">+</span></div><div class="faq-a">No. F3 executes against your <strong>local Python kernel</strong>. Cloud compute is planned for a future phase and beta testers will receive early access when it ships.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What does the NDA cover?<span class="faq-ico">+</span></div><div class="faq-a">The NDA prohibits sharing any platform information — screenshots, feature descriptions, pricing — on social media or with third parties. The agreement is sent upon selection and must be signed before access. Questions: <strong>info@aimlse.org</strong>.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do the Top 3 Performers rewards work?<span class="faq-ico">+</span></div><div class="faq-a">Performance is assessed across library contributions, issue reports, feedback sessions, and depth of feature testing. Full criteria are shared upon acceptance.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I contact the team?<span class="faq-ico">+</span></div><div class="faq-a">Email <strong>info@aimlse.org</strong> for general inquiries. Beta testers have direct access via the <strong>Premium Discord Server</strong> — channels for bug reports, feature requests, and one-on-one support.</div></div>
+    </section>
+
+  </main>
+</div><!-- #view-docs -->
 
 <script>
-// ── COUNTDOWN — June 10 2026 4:00 PM CDT = 21:00 UTC ──
-var LAUNCH = new Date('2026-06-10T21:00:00Z');
-var cdLaunched = false;
-function cdPad(n){return('0'+Math.max(0,Math.floor(n))).slice(-2);}
-function cdTick(){
-  var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),
-      m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
-  if(!d)return;
-  var diff=LAUNCH.getTime()-Date.now();
-  if(diff<=0){d.textContent=h.textContent=m.textContent=s.textContent='00';
-    if(!cdLaunched){cdLaunched=true;triggerLaunch();}return;}
-  var ts=Math.floor(diff/1000),newS=cdPad(ts%60);
-  if(s.textContent!==newS){s.classList.add('tick');setTimeout(function(){s.classList.remove('tick');},130);}
-  d.textContent=cdPad(Math.floor(ts/86400));
-  h.textContent=cdPad(Math.floor((ts%86400)/3600));
-  m.textContent=cdPad(Math.floor((ts%3600)/60));
-  s.textContent=newS;
+/* ══ VIEW SWITCHING ══ */
+var isDoc = false;
+function showMain(){
+  isDoc = false;
+  document.getElementById('view-main').style.display = '';
+  document.getElementById('view-docs').style.display = 'none';
+  var nd = document.getElementById('navDocs');
+  nd.classList.remove('active');
+  nd.innerHTML = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2a1 1 0 0 1 1-1h8l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><polyline points="9,1 9,4 12,4"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="11" x2="9" y2="11"/></svg>Docs';
+  document.getElementById('navCta').style.display = '';
+  document.getElementById('menuBtn').style.display = 'none';
+  window.scrollTo(0,0);
+  setTimeout(initReveal, 50);
 }
-cdTick();setInterval(cdTick,1000);
+function showDocs(){
+  isDoc = true;
+  document.getElementById('view-main').style.display = 'none';
+  document.getElementById('view-docs').style.display = 'block';
+  var nd = document.getElementById('navDocs');
+  nd.classList.add('active');
+  nd.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back';
+  document.getElementById('navCta').style.display = 'none';
+  document.getElementById('menuBtn').style.display = 'flex';
+  window.scrollTo(0,0);
+}
+function toggleView(){ isDoc ? showMain() : showDocs(); }
 
-// ── SCROLL REVEAL ──
-document.addEventListener('DOMContentLoaded',function(){
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-    },{threshold:0.04,rootMargin:'0px 0px -30px 0px'});
-    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
-  }
-  setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});},2200);
+/* ══ COUNTDOWN (always ticking) ══ */
+var LAUNCH = new Date('2026-06-10T21:00:00Z'), launched = false;
+function pad(n){return('0'+Math.max(0,Math.floor(n))).slice(-2);}
+function tick(){
+  var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
+  if(!d)return;
+  var diff=LAUNCH-Date.now();
+  if(diff<=0){d.textContent=h.textContent=m.textContent=s.textContent='00';if(!launched){launched=true;boom();}return;}
+  var ts=Math.floor(diff/1000),ns=pad(ts%60);
+  if(s.textContent!==ns){s.classList.add('tick');setTimeout(()=>s.classList.remove('tick'),130);}
+  d.textContent=pad(Math.floor(ts/86400));
+  h.textContent=pad(Math.floor((ts%86400)/3600));
+  m.textContent=pad(Math.floor((ts%3600)/60));
+  s.textContent=ns;
+}
+tick();setInterval(tick,1000);
+
+/* ══ LANDING REVEAL ══ */
+function initReveal(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('#view-main .reveal').forEach(el=>el.classList.add('in'));return;}
+  var io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.04,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('#view-main .reveal').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('#view-main .reveal:not(.in)').forEach(el=>el.classList.add('in')),2200);
+}
+document.addEventListener('DOMContentLoaded', initReveal);
+
+/* ══ CONFETTI ══ */
+var pts=[],spT=0,cnv=document.getElementById('confetti'),ctx=cnv.getContext('2d');
+function rsz(){cnv.width=innerWidth;cnv.height=innerHeight;}rsz();window.addEventListener('resize',rsz);
+var PAL=['#c9a84c','#e8c96a','#9e7a22','#f4d03f','#fff8dc','#fff','#d4ac0d','#ffeaa0'];
+function mkP(){return{x:Math.random()*cnv.width,y:-20-Math.random()*40,w:Math.random()*10+4,h:Math.random()*14+5,vx:(Math.random()-.5)*3.8,vy:Math.random()*3.4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.15,color:PAL[Math.floor(Math.random()*PAL.length)],alpha:1,shape:['rect','circle','ribbon'][Math.floor(Math.random()*3)]};}
+function dpP(p){ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();}else if(p.shape==='ribbon'){ctx.beginPath();ctx.moveTo(-p.w/2,-p.h/2);ctx.lineTo(p.w/2,-p.h/4);ctx.lineTo(p.w/2,p.h/2);ctx.lineTo(-p.w/2,p.h/4);ctx.closePath();ctx.fill();}else{ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}ctx.restore();}
+function animC(){ctx.clearRect(0,0,cnv.width,cnv.height);if(spT<170){var n=spT<75?22:7;for(var i=0;i<n;i++)pts.push(mkP());spT++;}pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.058;p.vx*=.997;p.rot+=p.vr;if(p.y>cnv.height*.68)p.alpha-=.02;dpP(p);});pts=pts.filter(p=>p.alpha>0);if(pts.length||spT<170)requestAnimationFrame(animC);}
+function boom(){spT=0;pts=[];animC();setTimeout(()=>document.getElementById('unlock').classList.add('show'),900);}
+
+/* ══ DOCS SCROLLSPY ══ */
+var DS=['d-overview','d-quickstart','d-requirements','d-aci','d-f0','d-f1','d-f2','d-f3','d-interop','d-collab','d-pytorch','d-beta','d-phases','d-faq'];
+function spy(){
+  if(!isDoc)return;
+  var y=window.scrollY+120,cur='d-overview';
+  DS.forEach(id=>{var el=document.getElementById(id);if(el&&el.offsetTop<=y)cur=id;});
+  document.querySelectorAll('.sb-link').forEach(a=>a.classList.toggle('active',a.dataset.t===cur));
+  document.querySelectorAll('.toc-dot').forEach(d=>d.classList.toggle('active',d.dataset.t===cur));
+}
+window.addEventListener('scroll',spy,{passive:true});
+
+/* ══ SIDEBAR / TOC CLICKS ══ */
+document.querySelectorAll('.sb-link').forEach(a=>{
+  a.addEventListener('click',()=>{
+    var el=document.getElementById(a.dataset.t);
+    if(el)el.scrollIntoView({behavior:'smooth'});
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+document.querySelectorAll('.toc-dot').forEach(d=>{
+  d.addEventListener('click',()=>{var el=document.getElementById(d.dataset.t);if(el)el.scrollIntoView({behavior:'smooth'});});
+});
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+document.addEventListener('click',e=>{
+  var sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+  if(sb.classList.contains('open')&&!sb.contains(e.target)&&e.target!==mb)sb.classList.remove('open');
 });
 
-// ── CONFETTI + LAUNCH ──
-var parts=[],spawnT=0;
-var canvas=document.getElementById('confetti'),ctx=canvas.getContext('2d');
-function rsz(){canvas.width=innerWidth;canvas.height=innerHeight;}rsz();
-window.addEventListener('resize',rsz);
-var PAL=['#c9a84c','#e8c96a','#9e7a22','#f4d03f','#fff8dc','#ffffff','#d4ac0d','#ffeaa0'];
-function mkP(){return{x:Math.random()*canvas.width,y:-20-Math.random()*40,w:Math.random()*10+4,h:Math.random()*14+5,vx:(Math.random()-.5)*3.8,vy:Math.random()*3.4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.15,color:PAL[Math.floor(Math.random()*PAL.length)],alpha:1,shape:['rect','circle','ribbon'][Math.floor(Math.random()*3)]};}
-function drawP(p){ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();}else if(p.shape==='ribbon'){ctx.beginPath();ctx.moveTo(-p.w/2,-p.h/2);ctx.lineTo(p.w/2,-p.h/4);ctx.lineTo(p.w/2,p.h/2);ctx.lineTo(-p.w/2,p.h/4);ctx.closePath();ctx.fill();}else{ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}ctx.restore();}
-function animConf(){ctx.clearRect(0,0,canvas.width,canvas.height);if(spawnT<170){var n=spawnT<75?22:7;for(var i=0;i<n;i++)parts.push(mkP());spawnT++;}parts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.058;p.vx*=.997;p.rot+=p.vr;if(p.y>canvas.height*.68)p.alpha-=.02;drawP(p);});parts=parts.filter(function(p){return p.alpha>0;});if(parts.length||spawnT<170)requestAnimationFrame(animConf);else ctx.clearRect(0,0,canvas.width,canvas.height);}
-function triggerLaunch(){spawnT=0;parts=[];animConf();setTimeout(function(){document.getElementById('unlock').classList.add('show');},900);setTimeout(function(){window.location.href='lp.html';},3200);}
+/* ══ FAQ ══ */
+function toggleFaq(item){var o=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!o)item.classList.add('open');}
+
+/* ══ COPY CODE ══ */
+function cpCode(btn){
+  var code=btn.closest('.cb').querySelector('code');
+  navigator.clipboard.writeText(code.innerText||code.textContent).then(()=>{var o=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=o,1800);}).catch(()=>{});
+}
 </script>
 </body>
 </html>
