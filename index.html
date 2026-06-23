@@ -33,7 +33,7 @@
       <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2a1 1 0 0 1 1-1h8l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><polyline points="9,1 9,4 12,4"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="11" x2="9" y2="11"/></svg>
       Docs
     </div>
-    <button class="nav-cta" id="navCta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Apply Now</button>
+  
     <button class="menu-btn" id="menuBtn" style="display:none;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -180,13 +180,12 @@
   <section id="apply-section" class="lp-section" style="padding-top:80px;padding-bottom:160px;">
     <div class="section-inner">
       <div class="apply-badge reveal"><span class="badge-pulse"></span>Applications Closed</div>
-        <div class="apply-pill"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;"></span><b style="color:var(--g1);">0</b> spots remaining</div>
       </div>
 
       <div class="info-strip reveal">
         <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="info-strip-label">Questions?</div><div class="info-strip-val">info@aimlse.org</div></div></div>
         <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div><div class="info-strip-label">Beta Launch</div><div class="info-strip-val">July 11 &middot; 4:00 PM CST</div></div></div>
-        <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="info-strip-label">Spots Available</div><div class="info-strip-val">0 spots remaining</div></div></div>
+        <div class="info-strip-item"><div class="info-strip-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="info-strip-label">Applications Closed</div><div class="info-strip-val">0 spots remaining</div></div></div>
       </div>
     </div>
   </section>
@@ -256,7 +255,6 @@
       <div class="de">Getting Started</div>
       <h1 class="dh1">AIMLSE <em>Documentation</em></h1>
       <p class="dlead">Everything you need to build, experiment, and collaborate inside the Adaptive Coding Interface — from first template to production-ready PyTorch.</p>
-      <div class="bstrip"><div class="bdot"></div><div class="bstrip-txt">Beta launches <strong>July 11</strong> Only <strong>16 spots</strong> remain.</div><button class="bcta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Apply Now →</button></div>
       <h2 class="dh2">What is AIMLSE?</h2>
       <p class="dp">AIMLSE is an AI/ML development platform built around one principle: move fast <em>and</em> stay in control. Its centrepiece is the <strong>Adaptive Coding Interface (ACI)</strong> — a four-layer environment that adapts to how you naturally think, from high-level template selection down to raw Python execution.</p>
       <div class="lgrid">
@@ -422,7 +420,7 @@ ckpt      = <span class="cl">CheckpointManager</span>(path=<span class="st">'./c
       <h2 class="dh2">Live Collaboration</h2>
       <p class="dp">Real-time collaboration built for the research lab model — multiple engineers on the same experiment simultaneously, not asynchronously through version control.</p>
       <div class="fpills"><div class="fpill">Per-cell presence indicators</div><div class="fpill">Real-time cursor tracking</div><div class="fpill">Simultaneous block editing</div><div class="fpill">Shared kernel state in F3</div><div class="fpill">Role-based access controls</div></div>
-      <div class="cal warn"><div class="cal-lbl">Beta Note</div><div class="cal-body">Collaboration is available in Phase 1 but still being stress-tested with larger teams. Report sync issues in the <strong>Premium Discord Server</strong> — part of your beta access.</div></div>
+      <div class="cal warn"><div class="cal-lbl">Beta Note</div><div class="cal-body">Collaboration is available in Phase 1 but still being stress-tested with larger teams. Report sync issues in the <strong> discord server</strong> — part of your beta access.</div></div>
     </section>
 
     <div class="ddiv"></div>
@@ -454,7 +452,7 @@ ckpt      = <span class="cl">CheckpointManager</span>(path=<span class="st">'./c
     <section class="ds" id="d-beta">
       <div class="de">Beta Program</div>
       <h2 class="dh2">Beta Access</h2>
-      <p class="dp">Phase 1 beta opens <strong>July 11 at 4:00 PM CST</strong>. Twenty engineers receive full platform access at launch — 16 spots remain.</p>
+      <p class="dp">Phase 1 beta opens <strong>July 11 at 4:00 PM CST</strong>. Twenty engineers receive full platform access at launch.</p>
       <table class="dtbl"><thead><tr><th>Reward</th><th>All Testers</th><th>Top 3 Performers</th></tr></thead><tbody>
         <tr><td>Early platform access</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
         <tr><td>Beta Tester Badge + Certificate</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
@@ -465,7 +463,6 @@ ckpt      = <span class="cl">CheckpointManager</span>(path=<span class="st">'./c
         <tr><td>Highest Developer plan + Top Beta Certificate</td><td><span class="cx">✕</span></td><td><span class="ck">✓</span></td></tr>
       </tbody></table>
       <div class="cal warn"><div class="cal-lbl">NDA Required</div><div class="cal-body">All selected testers sign an NDA upon acceptance. <strong>Strictly prohibited from sharing any platform information</strong> on social media or with any third party.</div></div>
-      <div class="bstrip"><div class="bdot"></div><div class="bstrip-txt">Ready to apply? Fill out the <strong>beta application form</strong> on the main page.</div><button class="bcta" onclick="showMain();setTimeout(()=>document.getElementById('apply-section').scrollIntoView({behavior:'smooth'}),60)">Apply Now →</button></div>
     </section>
 
     <div class="ddiv"></div>
