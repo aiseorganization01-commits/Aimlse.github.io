@@ -26,7 +26,7 @@ function showDocs(){
 function toggleView(){ isDoc ? showMain() : showDocs(); }
 
 /* ══ COUNTDOWN ══ */
-var LAUNCH = new Date('2026-06-20T21:00:00Z'), launched = false;
+var LAUNCH = new Date('2026-07-11T22:00:00Z'), launched = false;
 function pad(n){return('0'+Math.max(0,Math.floor(n))).slice(-2);}
 function tick(){
   var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
